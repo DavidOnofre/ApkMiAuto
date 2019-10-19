@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Pattern p = Pattern.compile("[0-9][0-9][0-9][0-9][0-9]");
                 if(p.matcher(txtContrasena.getText().toString()).matches() == false) {
-                    impContrasena.setError("Longitud de contraseñnia 5 dígitos");
+                    impContrasena.setError("Longitud de contrasena 5 dígitos");
                     pass = false;
                 }else {
                     pass = true;
