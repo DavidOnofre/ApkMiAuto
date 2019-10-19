@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "655018290353",
+    "firebase_url": "https://miauto-ef21e.firebaseio.com",
+    "project_id": "miauto-ef21e",
+    "storage_bucket": "miauto-ef21e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655018290353:android:5405cd3ade6570d9",
+        "android_client_info": {
+          "package_name": "com.java.micarro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655018290353-6bh68ddu91jte09hav3hs3vr1b946jm8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.java.micarro",
+            "certificate_hash": "4bd628480884c0a076929f1d692802503f1f8122"
+          }
+        },
+        {
+          "client_id": "655018290353-33kvo41kuts9b912npuhcs4kcpqmqui8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs5Cynw2p6Q968scCvRm9wQcWhnwWaUy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655018290353-33kvo41kuts9b912npuhcs4kcpqmqui8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
