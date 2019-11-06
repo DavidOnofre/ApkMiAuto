@@ -12,7 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IngresarPersona"></activity>
+        <activity
+            android:name=".MenuLateralActivity"
+            android:label="@string/title_activity_menu_lateral"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".IngresarPersona" />
         <activity android:name=".IngresarAuto" />
         <activity android:name=".Principal" />
         <activity

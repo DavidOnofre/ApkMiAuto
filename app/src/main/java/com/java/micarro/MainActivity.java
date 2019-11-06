@@ -50,8 +50,14 @@ public class MainActivity extends AppCompatActivity {
                    String clave = txtContrasena.getText().toString();
 
                    if(usuario.equals("admin") && clave.equals("74123")){
-                       Intent i = new Intent(getApplicationContext(), Principal.class);
+
+                     // Intent i = new Intent(getApplicationContext(), Principal.class);
+                     // startActivity(i);
+
+                       Intent i = new Intent(getApplicationContext(), MenuLateralActivity.class);
                        startActivity(i);
+
+
                    }else {
                        Toast.makeText(getApplicationContext(),"Usuario o Contraseña Incorrectos",Toast.LENGTH_SHORT).show();
                    }
