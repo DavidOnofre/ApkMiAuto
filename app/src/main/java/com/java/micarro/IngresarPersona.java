@@ -1,18 +1,17 @@
 package com.java.micarro;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +33,6 @@ public class IngresarPersona extends AppCompatActivity {
     EditText telefonoBack;
     ListView personasBack;
 
-
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
@@ -43,7 +41,7 @@ public class IngresarPersona extends AppCompatActivity {
 
     Persona personaSeleccionada;
 
-    @Override
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresar_persona);
