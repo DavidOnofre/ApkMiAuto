@@ -62,8 +62,8 @@ public class HomeFragment extends Fragment {
         identificacionBack = root.findViewById(R.id.txt_identificacionFrond2);
         nombreBack = root.findViewById(R.id.txt_nombreFrond2);
         apellidoBack = root.findViewById(R.id.txt_apellidoFrond2);
-        correoBack = root.findViewById(R.id.txt_correoFrond2);
-        telefonoBack = root.findViewById(R.id.txt_telefonoFrond2);
+        //correoBack = root.findViewById(R.id.txt_correoFrond2);
+        //telefonoBack = root.findViewById(R.id.txt_telefonoFrond2);
 
        // personasBack = root.findViewById(R.id.lv_personasFrond2);
 

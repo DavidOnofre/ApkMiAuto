@@ -21,7 +21,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Identificación">
+        android:hint="Placa">
 
         <EditText
             android:id="@+id/txt_identificacionFrond2"
@@ -36,7 +36,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre">
+        android:hint="Modelo">
 
         <EditText
             android:id="@+id/txt_nombreFrond2"
@@ -52,7 +52,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Apellido">
+        android:hint="Kilometraje">
 
         <EditText
             android:id="@+id/txt_apellidoFrond2"
@@ -64,36 +64,11 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <com.google.android.material.textfield.TextInputLayout
+    <Button
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Correo">
+        android:text="Actualizar kilometraje" />
 
-        <EditText
-            android:id="@+id/txt_correoFrond2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:paddingTop="12dp"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Telefono">
-
-        <EditText
-            android:id="@+id/txt_telefonoFrond2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:paddingTop="12dp"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>
