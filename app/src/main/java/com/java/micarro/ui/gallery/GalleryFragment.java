@@ -66,11 +66,14 @@ public class GalleryFragment extends Fragment {
                 listaPersona.clear();
                 for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()){
                     Persona p = objDataSnapshot.getValue(Persona.class);
-                    listaPersona.add(p);
 
-                    arrayAdapterPersona = new ArrayAdapter<Persona>(getActivity(), android.R.layout.simple_list_item_1, listaPersona);
-                    personasBack.setAdapter(arrayAdapterPersona);
+                    if("1245879654".equals(p.getUid())){
+                        listaPersona.add(p);
+                    }
                 }
+
+                arrayAdapterPersona = new ArrayAdapter<Persona>(getActivity(), android.R.layout.simple_list_item_1, listaPersona);
+                personasBack.setAdapter(arrayAdapterPersona);
             }
 
             @Override

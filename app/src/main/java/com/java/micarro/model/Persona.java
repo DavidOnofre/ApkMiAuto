@@ -7,8 +7,17 @@ public class Persona {
     private String Apellido;
     private String Correo;
     private String Telefono;
+    private Auto auto;
 
     public Persona() {
+    }
+
+    public Auto getAuto() {
+        return auto;
+    }
+
+    public void setAuto(Auto auto) {
+        this.auto = auto;
     }
 
     public String getUid() {
