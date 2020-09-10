@@ -20,24 +20,6 @@
         android:textAlignment="center"
         android:textSize="20sp" />
 
-    
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/impUsuario">
-
-        <EditText
-        android:id="@+id/txtUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:hint="Usuario"
-        android:inputType="textEmailAddress" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -67,8 +49,8 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="274dp"
-        android:layout_height="198dp"
+        android:layout_width="369dp"
+        android:layout_height="375dp"
         android:layout_gravity="center"
         app:srcCompat="@mipmap/escudo" />
 

@@ -2,6 +2,7 @@ package com.java.micarro;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,10 +36,20 @@ public class MenuLateralActivity extends AppCompatActivity {
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//pasar
+        String clave = recibirClave();
+        Bundle bundle = new Bundle();
+        bundle.putString("dato01", clave);
+        navController.navigate(R.id.nav_gallery, bundle);
+//pasar
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
 
-
+    private String recibirClave() {
+        Bundle extras = getIntent().getExtras();
+        return extras.getString("dato01");
     }
 
     @Override
@@ -52,9 +63,4 @@ public class MenuLateralActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
-
-
-
-
-
 }

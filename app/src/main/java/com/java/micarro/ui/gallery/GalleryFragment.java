@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,14 +31,14 @@ import java.util.List;
 public class GalleryFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
-
-    ListView personasBack;
-
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-
+    private ListView personasBack;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     private List<Persona> listaPersona = new ArrayList<Persona>();
-    ArrayAdapter<Persona> arrayAdapterPersona;
+    private ArrayAdapter<Persona> arrayAdapterPersona;
+
+    private EditText txtContrasena;
+    private TextInputLayout impContrasena;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
@@ -61,13 +62,17 @@ public class GalleryFragment extends Fragment {
 
     private void listarDatos() {
         databaseReference.child("Persona").addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaPersona.clear();
                 for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()){
                     Persona p = objDataSnapshot.getValue(Persona.class);
 
-                    if("1245879654".equals(p.getUid())){
+                    //String clave = recibirClave();
+                    String clave = "1719382986";
+
+                    if(clave.equals(p.getUid())){
                         listaPersona.add(p);
                     }
                 }
@@ -88,4 +93,9 @@ public class GalleryFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
+
+    private String recibirClave() {
+       return  getArguments().getString("dato01");
+    }
+
 }
