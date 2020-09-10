@@ -70,7 +70,7 @@ public class GalleryFragment extends Fragment {
                     Persona p = objDataSnapshot.getValue(Persona.class);
 
                     //String clave = recibirClave();
-                    String clave = "1716985469";
+                    String clave = "1721843447";
 
                     if(clave.equals(p.getUid())){
                         listaPersona.add(p);
