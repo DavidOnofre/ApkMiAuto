@@ -29,7 +29,7 @@ public class IngresarPersona extends AppCompatActivity {
     EditText identificacionBack;
     EditText nombreBack;
     EditText apellidoBack;
-    EditText correoBack ;
+    EditText correoBack;
     EditText telefonoBack;
     ListView personasBack;
 
@@ -41,7 +41,7 @@ public class IngresarPersona extends AppCompatActivity {
 
     Persona personaSeleccionada;
 
-   @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresar_persona);
@@ -78,7 +78,7 @@ public class IngresarPersona extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaPersona.clear();
-                for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()) {
                     Persona p = objDataSnapshot.getValue(Persona.class);
                     listaPersona.add(p);
 
@@ -115,13 +115,12 @@ public class IngresarPersona extends AppCompatActivity {
         String correo = correoBack.getText().toString();
         String telefono = telefonoBack.getText().toString();
 
-        switch (item.getItemId()){
-            case R.id.icon_add:{
+        switch (item.getItemId()) {
+            case R.id.icon_add: {
 
-                if(nombre.equals("") || apellido.equals("") || correo.equals("") || telefono.equals("")){
+                if (nombre.equals("") || apellido.equals("") || correo.equals("") || telefono.equals("")) {
                     validacion();
-                }
-                else {
+                } else {
                     Persona p = new Persona();
                     p.setUid(identificacion);
                     p.setNombre(nombre);
@@ -131,13 +130,13 @@ public class IngresarPersona extends AppCompatActivity {
 
                     databaseReference.child("Persona").child(p.getUid()).setValue(p);
 
-                    Toast.makeText(getApplicationContext(),"Agregado",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Agregado", Toast.LENGTH_SHORT).show();
                     limpiarCajas();
 
                 }
                 break;
             }
-            case R.id.icon_save:{
+            case R.id.icon_save: {
 
                 Persona p = new Persona();
                 p.setUid(personaSeleccionada.getUid());
@@ -148,21 +147,22 @@ public class IngresarPersona extends AppCompatActivity {
 
                 databaseReference.child("Persona").child(p.getUid()).setValue(p);
 
-                Toast.makeText(getApplicationContext(),"Actualizado",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Actualizado", Toast.LENGTH_SHORT).show();
                 limpiarCajas();
                 break;
             }
-            case R.id.icon_delete:{
+            case R.id.icon_delete: {
 
                 Persona p = new Persona();
                 p.setUid(personaSeleccionada.getUid());
                 databaseReference.child("Persona").child(p.getUid()).removeValue();
 
-                Toast.makeText(getApplicationContext(),"Eliminado",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Eliminado", Toast.LENGTH_SHORT).show();
                 limpiarCajas();
                 break;
             }
-            default:break;
+            default:
+                break;
         }
         return true;
     }
@@ -182,16 +182,15 @@ public class IngresarPersona extends AppCompatActivity {
         String correo = correoBack.getText().toString();
         String telefono = telefonoBack.getText().toString();
 
-        if(identificacion.equals("") ){
+        if (identificacion.equals("")) {
             identificacionBack.setError("Required");
-        }
-        else if(nombre.equals("") ){
+        } else if (nombre.equals("")) {
             nombreBack.setError("Required");
-        }else if (apellido.equals("")){
+        } else if (apellido.equals("")) {
             apellidoBack.setError("Required");
-        }else if (correo.equals("")){
+        } else if (correo.equals("")) {
             correoBack.setError("Required");
-        }else if (telefono.equals("")){
+        } else if (telefono.equals("")) {
             telefonoBack.setError("Required");
         }
     }

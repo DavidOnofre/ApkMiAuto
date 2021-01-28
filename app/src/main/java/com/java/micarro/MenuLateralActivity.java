@@ -1,8 +1,9 @@
 package com.java.micarro;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,9 +17,13 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MenuLateralActivity extends AppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
+    public static final String DATO_01 = "dato01";
+    public static final String SHARED_LOGIN_DATA = "shared_login_data";
 
-    @Override
+    private AppBarConfiguration mAppBarConfiguration;
+    private String uid = "";
+
+    @Override //se va a ejecutar cada vez que se carga nuestra actividad en nuestro apk.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_lateral);
@@ -36,20 +41,11 @@ public class MenuLateralActivity extends AppCompatActivity {
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//pasar
-        String clave = recibirClave();
-        Bundle bundle = new Bundle();
-        bundle.putString("dato01", clave);
-        navController.navigate(R.id.nav_gallery, bundle);
-//pasar
+
+        uid = obtenerUid();
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
-
-    private String recibirClave() {
-        Bundle extras = getIntent().getExtras();
-        return extras.getString("dato01");
     }
 
     @Override
@@ -63,4 +59,17 @@ public class MenuLateralActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
+
+    /**
+     * Método usado para recuperar el uid del usuario logeado.
+     *
+     * @return uid.
+     */
+    private String obtenerUid() {
+        String salida = "";
+        SharedPreferences prefs = getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
+        salida = prefs.getString(DATO_01, "");
+        return salida;
+    }
+
 }
