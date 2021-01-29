@@ -138,6 +138,7 @@ public class IngresarPersona extends AppCompatActivity {
             }
             case R.id.icon_save: {
 
+
                 Persona p = new Persona();
                 p.setUid(personaSeleccionada.getUid());
                 p.setNombre(nombreBack.getText().toString().trim());

@@ -62,6 +62,6 @@ public class Persona {
 
     @Override
     public String toString() {
-        return Nombre;
+        return auto.getPlaca() + " | " + auto.getModelo() +" | " + auto.getKilometraje() + " | " + auto.getMarca();
     }
 }

@@ -3,27 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/icon_add"
-        android:orderInCategory="150"
-        android:icon="@drawable/ic_add"
-        android:title="Agregar"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/icon_save"
+        android:id="@+id/icon_save3"
         android:icon="@drawable/ic_save"
-        android:title="Modificar"
-        app:showAsAction="never"
-        />
+        android:title="Agregar"
+        app:showAsAction="never" />
 
     <item
-        android:id="@+id/icon_delete"
+        android:id="@+id/icon_edit3"
+        android:icon="@drawable/ic_add"
+        android:orderInCategory="150"
+        android:title="Editar"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/icon_delete3"
         android:icon="@drawable/ic_delete"
         android:title="Eliminar"
-        app:showAsAction="never"
-        />
-
-
+        app:showAsAction="never" />
 
 </menu>

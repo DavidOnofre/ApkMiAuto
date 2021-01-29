@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,19 +32,25 @@ import java.util.List;
 
 public class GalleryFragment extends Fragment {
 
+    public static final String SHARED_LOGIN_DATA = "shared_login_data";
+    public static final String DATO_01 = "dato01";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
     private GalleryViewModel galleryViewModel;
 
-    public static final String SHARED_LOGIN_DATA = "shared_login_data";
-    public static final String DATO_01 = "dato01";
-
     private ListView personasBack;
     private List<Persona> listaPersona = new ArrayList<Persona>();
     private ArrayAdapter<Persona> arrayAdapterPersona;
+
     private String uid = "";
+
+    private EditText textPlaca;
+    private EditText textModelo;
+    private EditText textMarca;
+
+    private Persona personaSeleccionada;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
@@ -58,12 +66,26 @@ public class GalleryFragment extends Fragment {
 
         personasBack = root.findViewById(R.id.lv_personasFrond2);
 
-        inicializarFireBase();
         uid = obtenerUid();
+        inicializarFireBase();
         cargarDatosCliente(uid);
+        inicializarVariables(root);
+
+        personasBack.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                personaSeleccionada = (Persona) parent.getItemAtPosition(position);
+
+                textPlaca.setText(personaSeleccionada.getAuto().getPlaca());
+                textModelo.setText(personaSeleccionada.getAuto().getModelo());
+                textMarca.setText(personaSeleccionada.getAuto().getMarca());
+            }
+        });
 
         return root;
     }
+
 
     /**
      * Método usado para cargar datos solo del usuario logeado.
@@ -75,6 +97,7 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaPersona.clear();
+
                 for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()) {
                     Persona p = objDataSnapshot.getValue(Persona.class);
 
@@ -82,7 +105,6 @@ public class GalleryFragment extends Fragment {
                         listaPersona.add(p);
                     }
                 }
-
                 arrayAdapterPersona = new ArrayAdapter<Persona>(getActivity(), android.R.layout.simple_list_item_1, listaPersona);
                 personasBack.setAdapter(arrayAdapterPersona);
             }
@@ -114,5 +136,21 @@ public class GalleryFragment extends Fragment {
         return salida;
     }
 
+    /**
+     * Método usado para inicializar variables.
+     */
+    private void inicializarVariables(View root) {
+        textPlaca = root.findViewById(R.id.txt_placa4);
+        textModelo = root.findViewById(R.id.txt_modelo4);
+        textMarca = root.findViewById(R.id.txt_marca4);
+    }
 
+    /**
+     * Método usado para limpiar cajas del formulario.
+     */
+    private void limpiarCajas() {
+        textPlaca.setText("");
+        textModelo.setText("");
+        textMarca.setText("");
+    }
 }

@@ -67,7 +67,7 @@
         android:hint="Llantas">
 
         <EditText
-            android:id="@+id/txt_apellidoFrond3"
+            android:id="@+id/txt_llantasFrond3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
