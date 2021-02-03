@@ -86,7 +86,6 @@ public class GalleryFragment extends Fragment {
         return root;
     }
 
-
     /**
      * Método usado para cargar datos solo del usuario logeado.
      */

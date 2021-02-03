@@ -31,6 +31,9 @@ public class HomeFragment extends Fragment {
 
     public static final String SHARED_LOGIN_DATA = "shared_login_data";
     public static final String DATO_01 = "dato01";
+    public static final String CADENA_VACIA = "";
+    public static final String PERSONA = "Persona";
+    public static final String MODIFICADO = "Modificado";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -76,7 +79,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
         return root;
     }
 
@@ -86,7 +88,7 @@ public class HomeFragment extends Fragment {
     private void actualizarKilometraje() {
         final String uid = obtenerUid();
         final String kilometraje = editTextKilometraje.getText().toString();
-        databaseReference.child("Persona").addValueEventListener(new ValueEventListener() {
+        databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()) {
@@ -98,8 +100,8 @@ public class HomeFragment extends Fragment {
                         auto.setKilometraje(kilometraje);
                         persona.setAuto(auto);
 
-                        databaseReference.child("Persona").child(persona.getUid()).setValue(persona);
-                        Toast.makeText(getActivity().getApplicationContext(), "Modificado", Toast.LENGTH_SHORT).show();
+                        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
+                        Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();
                         limpiarCajas();
 
                     }
@@ -116,7 +118,7 @@ public class HomeFragment extends Fragment {
      * Método usado para limpiar cajas del formulario.
      */
     private void limpiarCajas() {
-        editTextKilometraje.setText("");
+        editTextKilometraje.setText(CADENA_VACIA);
     }
 
     /**
@@ -125,9 +127,9 @@ public class HomeFragment extends Fragment {
      * @return uid.
      */
     private String obtenerUid() {
-        String salida = "";
+        String salida = CADENA_VACIA;
         SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(DATO_01, "");
+        salida = prefs.getString(DATO_01, CADENA_VACIA);
         return salida;
     }
 
@@ -157,7 +159,7 @@ public class HomeFragment extends Fragment {
         final String usuarioLogeado = uid;
         final View r = root;
 
-        databaseReference.child("Persona").addValueEventListener(new ValueEventListener() {
+        databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
