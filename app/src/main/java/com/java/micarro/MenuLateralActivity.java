@@ -1,7 +1,5 @@
 package com.java.micarro;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -21,9 +19,8 @@ public class MenuLateralActivity extends AppCompatActivity {
     public static final String SHARED_LOGIN_DATA = "shared_login_data";
 
     private AppBarConfiguration mAppBarConfiguration;
-    private String uid = "";
 
-    @Override //se va a ejecutar cada vez que se carga nuestra actividad en nuestro apk.
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_lateral);
@@ -41,9 +38,6 @@ public class MenuLateralActivity extends AppCompatActivity {
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
-        uid = obtenerUid();
-
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
@@ -59,17 +53,4 @@ public class MenuLateralActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
-
-    /**
-     * Método usado para recuperar el uid del usuario logeado.
-     *
-     * @return uid.
-     */
-    private String obtenerUid() {
-        String salida = "";
-        SharedPreferences prefs = getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(DATO_01, "");
-        return salida;
-    }
-
 }

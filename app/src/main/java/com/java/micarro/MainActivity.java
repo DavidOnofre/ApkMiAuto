@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String SHARED_LOGIN_DATA = "shared_login_data";
     public static final String DATO_01 = "dato01";
+    public static final String CONTRASENA_10_DIGITOS = "Longitud de contraseña 10 dígitos";
+    public static final String CONTRASENA_INCORRECTA = "Usuario o Contraseña Incorrectos.";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Pattern p = Pattern.compile("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]");
                 if (p.matcher(txtContrasena.getText().toString()).matches() == false) {
-                    impContrasena.setError("Longitud de contraseña 10 dígitos");
+                    impContrasena.setError(CONTRASENA_10_DIGITOS);
                     banderaLongitudContrasena = false;
                 } else {
                     banderaLongitudContrasena = true;
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(i);
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "Usuario o Contraseña Incorrectos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), CONTRASENA_INCORRECTA, Toast.LENGTH_SHORT).show();
                     }
                 }
             }

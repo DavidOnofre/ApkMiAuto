@@ -1,13 +1,12 @@
 package com.java.micarro;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.java.micarro.R;
 
 public class Principal extends AppCompatActivity {
 
@@ -19,8 +18,8 @@ public class Principal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        fab1 = (FloatingActionButton)findViewById(R.id.fabBtn1);
-        fab2 = (FloatingActionButton)findViewById(R.id.fabBtn2);
+        fab1 = (FloatingActionButton) findViewById(R.id.fabBtn1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fabBtn2);
 
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
