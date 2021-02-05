@@ -17,6 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,13 +31,16 @@ import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
 
-public class HomeFragment extends Fragment {
+import java.util.ArrayList;
+
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
     public static final String SHARED_LOGIN_DATA = "shared_login_data";
     public static final String DATO_01 = "dato01";
     public static final String CADENA_VACIA = "";
     public static final String PERSONA = "Persona";
     public static final String MODIFICADO = "Modificado";
+    public static final String MENSAJE_INGRESE_NUMEROS = "Por favor ingresar valores numéricos";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -50,6 +57,10 @@ public class HomeFragment extends Fragment {
     private EditText editTextKilometraje;
 
     private Button buttonActualizarKilometraje;
+
+    private Persona p;
+
+    private HorizontalBarChart horizontalBarChart;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,24 +81,60 @@ public class HomeFragment extends Fragment {
         cargarCliente(uid, root);
         inicializarVariables(root);
 
-        buttonActualizarKilometraje = (Button) root.findViewById(R.id.button_actualizar_kilomtraje);
-        buttonActualizarKilometraje.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                actualizarKilometraje();
+        visualizarDatosVehiculoPrincipal();
 
-            }
-        });
+        buttonActualizarKilometraje = (Button) root.findViewById(R.id.button_actualizar_kilomtraje);
+        buttonActualizarKilometraje.setOnClickListener(this);
+
+        //gráfico de barras.
+        horizontalBarChart = (HorizontalBarChart) root.findViewById(R.id.graficaHorizontal);
+        dibujarGraficoHorizontal(12,50);
 
         return root;
     }
 
     /**
+     * Método para digubar gráfico horizontal
+     * @param count
+     * @param range
+     */
+    private void dibujarGraficoHorizontal(int count, int range) {
+        ArrayList<BarEntry> yVals = new ArrayList<>();
+        float barWidth = 9f;
+        float spaceForBar = 10F;
+
+        for (int i = 0; i < count; i++) {
+            float val = (float) (Math.random() * range);
+            yVals.add(new BarEntry(i * spaceForBar, val));
+        }
+
+        BarDataSet set1;
+        set1 = new BarDataSet(yVals, "Data Set1");
+
+        BarData data = new BarData(set1);
+        data.setBarWidth(barWidth);
+
+        horizontalBarChart.setData(data);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        String kilometrajeIngresado = editTextKilometraje.getText().toString();
+        if (esNumero(kilometrajeIngresado)) {
+            actualizarKilometraje(kilometrajeIngresado);
+        }
+
+        dibujarGraficoHorizontal(12,50);
+
+    }
+
+    /**
      * Método usado para actualizar kilometraje de un vehículo.
      */
-    private void actualizarKilometraje() {
+    private void visualizarDatosVehiculoPrincipal() {
         final String uid = obtenerUid();
-        final String kilometraje = editTextKilometraje.getText().toString();
+
         databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -95,15 +142,7 @@ public class HomeFragment extends Fragment {
                     Persona persona = objDataSnapshot.getValue(Persona.class);
 
                     if (uid.equals(persona.getUid())) {
-
-                        Auto auto = persona.getAuto();
-                        auto.setKilometraje(kilometraje);
-                        persona.setAuto(auto);
-
-                        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
-                        Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();
-                        limpiarCajas();
-
+                        p = persona;
                     }
                 }
             }
@@ -147,6 +186,7 @@ public class HomeFragment extends Fragment {
      */
     private void inicializarVariables(View root) {
         editTextKilometraje = root.findViewById(R.id.txt_kilometraje3);
+        p = new Persona();
     }
 
     /**
@@ -189,4 +229,42 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Método usado para actualizar kilometraje
+     *
+     * @param kilometrajeIngresado kilometraje a sumar al kilometraje actual.
+     */
+    private void actualizarKilometraje(String kilometrajeIngresado) {
+        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
+
+        Auto auto = p.getAuto();
+        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+        int kilometrajeActualizado = kilometrajeActual + kilometrajeCajaTexto;
+
+        auto.setKilometraje(String.valueOf(kilometrajeActualizado));
+        p.setAuto(auto);
+
+        databaseReference.child(PERSONA).child(p.getUid()).setValue(p);
+        Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();
+        limpiarCajas();
+    }
+
+    /**
+     * Método usado para validar que el kilometraje ingresado sea un número.
+     *
+     * @param cadena a validar si es número
+     * @return Bandera que indica que la validación es exitosa.
+     */
+    public boolean esNumero(String cadena) {
+        boolean resultado;
+        try {
+            Integer.parseInt(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            Toast.makeText(getActivity().getApplicationContext(), MENSAJE_INGRESE_NUMEROS, Toast.LENGTH_SHORT).show();
+            resultado = false;
+            limpiarCajas();
+        }
+        return resultado;
+    }
 }

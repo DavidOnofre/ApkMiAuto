@@ -67,7 +67,10 @@
             android:paddingTop="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
+    <!-- Creación de gráfico de barras. horizontal -->
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/graficaHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
