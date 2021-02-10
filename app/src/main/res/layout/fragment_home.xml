@@ -67,6 +67,15 @@
             android:paddingTop="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:text="Consumibles"
+        android:textAlignment="center"
+        android:textSize="30dp" />
+
     <!-- Creación de gráfico de barras. horizontal -->
     <com.github.mikephil.charting.charts.HorizontalBarChart
         android:id="@+id/graficaHorizontal"

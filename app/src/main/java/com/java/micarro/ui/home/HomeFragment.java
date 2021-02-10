@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Button buttonActualizarKilometraje;
 
-    private Persona p;
+    private Persona persona;
 
     private HorizontalBarChart horizontalBarChart;
 
@@ -86,47 +86,68 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         buttonActualizarKilometraje = (Button) root.findViewById(R.id.button_actualizar_kilomtraje);
         buttonActualizarKilometraje.setOnClickListener(this);
 
-        //gráfico de barras.
         horizontalBarChart = (HorizontalBarChart) root.findViewById(R.id.graficaHorizontal);
-        dibujarGraficoHorizontal(12,50);
 
         return root;
     }
 
     /**
-     * Método para digubar gráfico horizontal
-     * @param count
-     * @param range
+     * Método para digubar gráfico horizontal.
+     *
+     * @param kilometraje ingresado en la caja de texto, valor que se actualizara en las barras.
      */
-    private void dibujarGraficoHorizontal(int count, int range) {
-        ArrayList<BarEntry> yVals = new ArrayList<>();
-        float barWidth = 9f;
-        float spaceForBar = 10F;
+    private void dibujarGraficoHorizontal(String kilometraje) {
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        float anchoBarras = 0.5f;
 
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * range);
-            yVals.add(new BarEntry(i * spaceForBar, val));
-        }
+        CargarValoresBarras(kilometraje, barEntries);
 
-        BarDataSet set1;
-        set1 = new BarDataSet(yVals, "Data Set1");
+        BarDataSet barDataSet;
+        barDataSet = new BarDataSet(barEntries, "Consumo");
 
-        BarData data = new BarData(set1);
-        data.setBarWidth(barWidth);
+        BarData data = new BarData(barDataSet);
+        data.setBarWidth(anchoBarras);
 
         horizontalBarChart.setData(data);
+    }
+
+    /**
+     * Método usado para cargar barras en gráfico de barras.
+     * @param kilometraje kilometraje de la caja de texto
+     * @param barEntries barras a dibujar.
+     */
+    private void CargarValoresBarras(String kilometraje, ArrayList<BarEntry> barEntries) {
+
+        int kilometrajeCajaTexto = Integer.parseInt(kilometraje);
+        Auto auto = persona.getAuto();
+        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+        int kilometrajeActualizado = kilometrajeActual + kilometrajeCajaTexto;
+
+        BarEntry barAceite = new BarEntry(4, kilometrajeActualizado + 1);
+        barEntries.add(barAceite);
+
+        BarEntry barGasolina = new BarEntry(3, kilometrajeActualizado + 2);
+        barEntries.add(barGasolina);
+
+        BarEntry barLlantas = new BarEntry(2, kilometrajeActualizado + 3);
+        barEntries.add(barLlantas);
+
+        BarEntry barBateria = new BarEntry(1, kilometrajeActualizado + 4);
+        barEntries.add(barBateria);
+
+        BarEntry barElecticidad = new BarEntry(0, kilometrajeActualizado + 6);
+        barEntries.add(barElecticidad);
     }
 
     @Override
     public void onClick(View v) {
 
         String kilometrajeIngresado = editTextKilometraje.getText().toString();
+
         if (esNumero(kilometrajeIngresado)) {
             actualizarKilometraje(kilometrajeIngresado);
+            dibujarGraficoHorizontal(kilometrajeIngresado);
         }
-
-        dibujarGraficoHorizontal(12,50);
-
     }
 
     /**
@@ -142,7 +163,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     Persona persona = objDataSnapshot.getValue(Persona.class);
 
                     if (uid.equals(persona.getUid())) {
-                        p = persona;
+                        HomeFragment.this.persona = persona;
                     }
                 }
             }
@@ -186,7 +207,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      */
     private void inicializarVariables(View root) {
         editTextKilometraje = root.findViewById(R.id.txt_kilometraje3);
-        p = new Persona();
+        persona = new Persona();
     }
 
     /**
@@ -237,14 +258,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void actualizarKilometraje(String kilometrajeIngresado) {
         int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
 
-        Auto auto = p.getAuto();
+        Auto auto = persona.getAuto();
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
         int kilometrajeActualizado = kilometrajeActual + kilometrajeCajaTexto;
 
         auto.setKilometraje(String.valueOf(kilometrajeActualizado));
-        p.setAuto(auto);
+        persona.setAuto(auto);
 
-        databaseReference.child(PERSONA).child(p.getUid()).setValue(p);
+        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();
         limpiarCajas();
     }
