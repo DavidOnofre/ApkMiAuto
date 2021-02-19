@@ -18,9 +18,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -104,17 +108,38 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         BarDataSet barDataSet;
         barDataSet = new BarDataSet(barEntries, "Consumo");
-
         BarData data = new BarData(barDataSet);
         data.setBarWidth(anchoBarras);
+
+        //arregloEtiquetas
+        ArrayList<String> listaEtiquetas = new ArrayList<>();
+        String[] arregloEtiquetas = {"Electicidad", "Bateria", "Llantas", "Gasolina", "Aceite"};
+        for (int i = 0; arregloEtiquetas.length > i; i++) {
+            String tipo = arregloEtiquetas[i];
+            listaEtiquetas.add(tipo);
+        }
+
+        XAxis xaxis = horizontalBarChart.getXAxis();
+        xaxis.setValueFormatter(new IndexAxisValueFormatter(listaEtiquetas));
+
+        //etiqueta dentro del gráfico.
+        Description description = new Description();
+        description.setText("Gráfico Consumibles");
+        horizontalBarChart.setDescription(description);
+
+        //colores
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        BarData barData = new BarData(barDataSet);
+        horizontalBarChart.setData(barData);
 
         horizontalBarChart.setData(data);
     }
 
     /**
      * Método usado para cargar barras en gráfico de barras.
+     *
      * @param kilometraje kilometraje de la caja de texto
-     * @param barEntries barras a dibujar.
+     * @param barEntries  barras a dibujar.
      */
     private void CargarValoresBarras(String kilometraje, ArrayList<BarEntry> barEntries) {
 
@@ -123,20 +148,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
         int kilometrajeActualizado = kilometrajeActual + kilometrajeCajaTexto;
 
-        BarEntry barAceite = new BarEntry(4, kilometrajeActualizado + 1);
+        BarEntry barAceite = new BarEntry(4, 5000 - kilometrajeActualizado);
         barEntries.add(barAceite);
 
-        BarEntry barGasolina = new BarEntry(3, kilometrajeActualizado + 2);
+        BarEntry barGasolina = new BarEntry(3, 5000 - kilometrajeActualizado);
         barEntries.add(barGasolina);
 
-        BarEntry barLlantas = new BarEntry(2, kilometrajeActualizado + 3);
+        BarEntry barLlantas = new BarEntry(2, 10000 - kilometrajeActualizado);
         barEntries.add(barLlantas);
 
-        BarEntry barBateria = new BarEntry(1, kilometrajeActualizado + 4);
+        BarEntry barBateria = new BarEntry(1, 15000 - kilometrajeActualizado);
         barEntries.add(barBateria);
 
-        BarEntry barElecticidad = new BarEntry(0, kilometrajeActualizado + 6);
+        BarEntry barElecticidad = new BarEntry(0, 10000 - kilometrajeActualizado);
         barEntries.add(barElecticidad);
+
+
     }
 
     @Override
