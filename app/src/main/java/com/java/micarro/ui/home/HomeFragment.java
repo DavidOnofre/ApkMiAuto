@@ -2,6 +2,7 @@ package com.java.micarro.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,6 +45,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public static final String PERSONA = "Persona";
     public static final String MODIFICADO = "Modificado";
     public static final String MENSAJE_INGRESE_NUMEROS = "Por favor ingresar valores numéricos";
+    public static final String CONSUMO = "Consumo";
+
+    public static final String ACEITE = "A";
+    public static final String GASOLINA = "G";
+    public static final String LLANTAS = "L";
+    public static final String BATERIA = "B";
+    public static final String ELECTICIDAD = "E";
+
+    private int amarillo = Color.rgb(255, 255, 0);
+    private int verde = Color.rgb(60, 220, 78);
+    private int rojo = Color.rgb(255, 0, 0);
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -96,57 +107,249 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Método para digubar gráfico horizontal.
+     * Método para dibujar gráfico horizontal.
      *
      * @param kilometraje ingresado en la caja de texto, valor que se actualizara en las barras.
      */
     private void dibujarGraficoHorizontal(String kilometraje) {
+
         ArrayList<BarEntry> barEntries = new ArrayList<>();
+        CargarValoresBarras(barEntries);
+        ArrayList<String> etiquetas = cargarEtiquetas();
+        cargarFormatoGraficoBarras(etiquetas);
+        cargarEtiquetaPieGrafico();
+        cargaColoresBarras(barEntries);
+    }
+
+
+    /**
+     * Cargar colores para cada barra graficada.
+     *
+     * @param barEntries
+     */
+    private void cargaColoresBarras(ArrayList<BarEntry> barEntries) {
+
         float anchoBarras = 0.5f;
+        int kilometrajeActual = obtenerKilometrajeActual();
 
-        CargarValoresBarras(kilometraje, barEntries);
-
-        BarDataSet barDataSet;
-        barDataSet = new BarDataSet(barEntries, "Consumo");
+        BarDataSet barDataSet = new BarDataSet(barEntries, CONSUMO);
         BarData data = new BarData(barDataSet);
-        data.setBarWidth(anchoBarras);
 
-        //arregloEtiquetas
-        ArrayList<String> listaEtiquetas = new ArrayList<>();
-        String[] arregloEtiquetas = {"Electicidad", "Bateria", "Llantas", "Gasolina", "Aceite"};
-        for (int i = 0; arregloEtiquetas.length > i; i++) {
-            String tipo = arregloEtiquetas[i];
-            listaEtiquetas.add(tipo);
+        data.setBarWidth(anchoBarras);
+        barDataSet.setColors(cargarColor(kilometrajeActual, ACEITE), cargarColor(kilometrajeActual, GASOLINA), cargarColor(kilometrajeActual, LLANTAS), cargarColor(kilometrajeActual, BATERIA), cargarColor(kilometrajeActual, ELECTICIDAD));
+
+        BarData barData = new BarData(barDataSet);
+        horizontalBarChart.setData(barData);
+        horizontalBarChart.setData(data);
+    }
+
+    private int cargarColor(int kilometraje, String consumible) {
+
+        int salida = 0;
+
+
+        switch (consumible) {
+            case ACEITE:
+                salida = obtenerSalidaAceite(kilometraje);
+                break;
+            case GASOLINA:
+                salida = obtenerSalidaGasolina(kilometraje);
+                break;
+
+            case LLANTAS:
+                salida = obtenerSalidaLlantas(kilometraje);
+                break;
+            case BATERIA:
+                salida = obtenerSalidaBateria(kilometraje);
+                break;
+
+            case ELECTICIDAD:
+                salida = obtenerSalidaElectricidad(kilometraje);
+                break;
+
+            default:
+                salida = 0;
         }
 
+
+        return salida;
+    }
+
+    private int obtenerKilometrajeActual() {
+        Auto auto = persona.getAuto();
+        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+        int kilometrajeActualizado = kilometrajeActual;
+        return kilometrajeActualizado;
+    }
+
+    /**
+     * Método usado para cargar color en gráfico de barras de aceite.
+     *
+     * @param kilometrajeActualizado
+     * @return
+     */
+    private int obtenerSalidaAceite(int kilometrajeActualizado) {
+
+        int salida = 0;
+        int validacion = 5000 - kilometrajeActualizado;
+
+        if (validacion <= 4999 && validacion >= 3000) {
+            salida = verde;
+        }
+        if (validacion <= 2999 && validacion >= 100) {
+            salida = amarillo;
+        }
+        if (validacion <= 99) {
+            salida = rojo;
+        }
+        return salida;
+    }
+
+    /**
+     * Método usado para cargar color en gráfico de barras de gasolina.
+     *
+     * @param kilometrajeActualizado
+     * @return
+     */
+    private int obtenerSalidaGasolina(int kilometrajeActualizado) {
+
+        int salida = 0;
+        int validacion = 5000 - kilometrajeActualizado;
+
+        if (validacion <= 4999 && validacion >= 3000) {
+            salida = verde;
+        }
+        if (validacion <= 2999 && validacion >= 100) {
+            salida = amarillo;
+        }
+        if (validacion <= 99) {
+            salida = rojo;
+        }
+        return salida;
+    }
+
+    /**
+     * Método usado para cargar color en gráfico de barras de llantas.
+     *
+     * @param kilometrajeActualizado
+     * @return
+     */
+    private int obtenerSalidaLlantas(int kilometrajeActualizado) {
+
+        int salida = 0;
+        int validacion = 10000 - kilometrajeActualizado;
+
+        if (validacion <= 9999 && validacion >= 3000) {
+            salida = verde;
+        }
+        if (validacion <= 2999 && validacion >= 100) {
+            salida = amarillo;
+        }
+        if (validacion <= 99) {
+            salida = rojo;
+        }
+        return salida;
+    }
+
+    /**
+     * Método usado para cargar color en gráfico de barras de bateria.
+     *
+     * @param kilometrajeActualizado
+     * @return
+     */
+    private int obtenerSalidaBateria(int kilometrajeActualizado) {
+
+        int salida = 0;
+        int validacion = 15000 - kilometrajeActualizado;
+
+        if (validacion <= 14999 && validacion >= 3000) {
+            salida = verde;
+        }
+        if (validacion <= 2999 && validacion >= 100) {
+            salida = amarillo;
+        }
+        if (validacion <= 99) {
+            salida = rojo;
+        }
+        return salida;
+    }
+
+    /**
+     * Método usado para cargar color en gráfico de barras de electicidad.
+     *
+     * @param kilometrajeActualizado
+     * @return
+     */
+    private int obtenerSalidaElectricidad(int kilometrajeActualizado) {
+
+        int salida = 0;
+        int validacion = 10000 - kilometrajeActualizado;
+
+        if (validacion <= 9999 && validacion >= 3000) {
+            salida = verde;
+        }
+        if (validacion <= 2999 && validacion >= 100) {
+            salida = amarillo;
+        }
+        if (validacion <= 99) {
+            salida = rojo;
+        }
+        return salida;
+    }
+
+    /**
+     * Método usado para cargar etiquetas del gráfico de barras.
+     *
+     * @return arreglo de etiquetas para gráfoco de barras
+     */
+    private ArrayList<String> cargarEtiquetas() {
+
+        ArrayList<String> salida = new ArrayList<>();
+        String[] arregloEtiquetas = {"Electricidad", "Batería", "Llantas", "Gasolina", "Aceite"};
+        for (int i = 0; arregloEtiquetas.length > i; i++) {
+            String tipo = arregloEtiquetas[i];
+            salida.add(tipo);
+        }
+        return salida;
+    }
+
+    /**
+     * Método usado para cargar formato del gráfico de barras.
+     *
+     * @param listaEtiquetas arreglo con etiquetas para cada barra.
+     */
+    private void cargarFormatoGraficoBarras(ArrayList<String> listaEtiquetas) {
         XAxis xaxis = horizontalBarChart.getXAxis();
         xaxis.setValueFormatter(new IndexAxisValueFormatter(listaEtiquetas));
 
-        //etiqueta dentro del gráfico.
+        xaxis.setPosition(XAxis.XAxisPosition.TOP);
+        xaxis.setDrawAxisLine(false);
+        xaxis.setDrawGridLines(false);
+        xaxis.setGranularity(1f);
+        xaxis.setLabelCount(listaEtiquetas.size());
+        xaxis.setLabelRotationAngle(270);
+        horizontalBarChart.animateY(2000);
+    }
+
+    /**
+     * Método usado para poner etiqueta al pie de gráfico.
+     */
+    private void cargarEtiquetaPieGrafico() {
         Description description = new Description();
         description.setText("Gráfico Consumibles");
         horizontalBarChart.setDescription(description);
-
-        //colores
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        BarData barData = new BarData(barDataSet);
-        horizontalBarChart.setData(barData);
-
-        horizontalBarChart.setData(data);
     }
 
     /**
      * Método usado para cargar barras en gráfico de barras.
      *
-     * @param kilometraje kilometraje de la caja de texto
      * @param barEntries  barras a dibujar.
      */
-    private void CargarValoresBarras(String kilometraje, ArrayList<BarEntry> barEntries) {
+    private void CargarValoresBarras(ArrayList<BarEntry> barEntries) {
 
-        int kilometrajeCajaTexto = Integer.parseInt(kilometraje);
         Auto auto = persona.getAuto();
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
-        int kilometrajeActualizado = kilometrajeActual + kilometrajeCajaTexto;
+        int kilometrajeActualizado = kilometrajeActual;
 
         BarEntry barAceite = new BarEntry(4, 5000 - kilometrajeActualizado);
         barEntries.add(barAceite);
@@ -160,10 +363,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         BarEntry barBateria = new BarEntry(1, 15000 - kilometrajeActualizado);
         barEntries.add(barBateria);
 
-        BarEntry barElecticidad = new BarEntry(0, 10000 - kilometrajeActualizado);
-        barEntries.add(barElecticidad);
-
-
+        BarEntry barElectricidad = new BarEntry(0, 10000 - kilometrajeActualizado);
+        barEntries.add(barElectricidad);
     }
 
     @Override
