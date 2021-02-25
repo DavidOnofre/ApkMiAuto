@@ -147,7 +147,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         int salida = 0;
 
-
         switch (consumible) {
             case ACEITE:
                 salida = obtenerSalidaAceite(kilometraje);
