@@ -28,9 +28,15 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
     public static final String SHARED_LOGIN_DATA = "shared_login_data";
-    public static final String DATO_01 = "dato01";
+
+    //constantes de sesión.
+    public static final String IDENTIFICACION_SESION = "identificacionSesion";
+    public static final String ACTUALIZAR_KILOMETRAJE = "actualizarKilometraje";
+    public static final String SI = "SI";
     public static final String CONTRASENA_10_DIGITOS = "Longitud de contraseña 10 dígitos";
     public static final String CONTRASENA_INCORRECTA = "Usuario o Contraseña Incorrectos.";
+
+
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -69,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (banderaLongitudContrasena) {
 
-                    String clave = txtContrasena.getText().toString();
+                    String identificacion = txtContrasena.getText().toString();
 
                     Boolean banderaLogin = false;
                     for (Persona persona : listaPersona) {
-                        if (clave.equals(persona.getUid())) {
+                        if (identificacion.equals(persona.getUid())) {
                             banderaLogin = true;
                         }
                     }
@@ -84,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
                         SharedPreferences prefs = getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString(DATO_01, clave);
+                        editor.putString(IDENTIFICACION_SESION, identificacion);
+                        editor.putString(ACTUALIZAR_KILOMETRAJE, SI);
                         editor.commit();
 
                         startActivity(i);
