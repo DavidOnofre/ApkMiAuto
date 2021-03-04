@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.java.micarro.R;
+import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
 
 import java.util.ArrayList;
@@ -33,22 +34,24 @@ import java.util.List;
 public class GalleryFragment extends Fragment {
 
     public static final String SHARED_LOGIN_DATA = "shared_login_data";
-    public static final String DATO_01 = "dato01";
+    public static final String IDENTIFICACION_SESION = "identificacionSesion";
+    public static final String CADENA_VACIA = "";
+    public static final String PERSONA = "Persona";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
     private GalleryViewModel galleryViewModel;
 
-    private ListView personasBack;
-    private List<Persona> listaPersona = new ArrayList<Persona>();
+    private ListView listViewPersonas;
+    private List<Persona> personas = new ArrayList<Persona>();
+    private List<Auto> autos = new ArrayList<Auto>();
     private ArrayAdapter<Persona> arrayAdapterPersona;
+    private ArrayAdapter<Auto> arrayAdapterAuto;
 
-    private String uid = "";
-
-    private EditText textPlaca;
-    private EditText textModelo;
-    private EditText textMarca;
+    private EditText editTextPlaca;
+    private EditText editTextModelo;
+    private EditText editTextMarca;
 
     private Persona personaSeleccionada;
 
@@ -64,48 +67,52 @@ public class GalleryFragment extends Fragment {
             }
         });
 
-        personasBack = root.findViewById(R.id.lv_personasFrond2);
-
-        uid = obtenerUid();
-        inicializarFireBase();
-        cargarDatosCliente(uid);
         inicializarVariables(root);
-
-        personasBack.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                personaSeleccionada = (Persona) parent.getItemAtPosition(position);
-
-                textPlaca.setText(personaSeleccionada.getAuto().getPlaca());
-                textModelo.setText(personaSeleccionada.getAuto().getModelo());
-                textMarca.setText(personaSeleccionada.getAuto().getMarca());
-            }
-        });
+        inicializarFireBase();
+        cargarDatosPersona(obtenerValorSesion(IDENTIFICACION_SESION));
+        cargarAutoSeleccionado();
 
         return root;
     }
 
     /**
+     * Método usado para cargar datos del auto seleccionado.
+     */
+    private void cargarAutoSeleccionado() {
+        listViewPersonas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                personaSeleccionada = (Persona) parent.getItemAtPosition(position);
+
+                editTextPlaca.setText(personaSeleccionada.getAuto().get(0).getPlaca());
+                editTextModelo.setText(personaSeleccionada.getAuto().get(0).getModelo());
+                editTextMarca.setText(personaSeleccionada.getAuto().get(0).getMarca());
+            }
+        });
+    }
+
+    /**
      * Método usado para cargar datos solo del usuario logeado.
      */
-    private void cargarDatosCliente(String clave) {
+    private void cargarDatosPersona(String clave) {
         final String usuarioLogeado = clave;
-        databaseReference.child("Persona").addValueEventListener(new ValueEventListener() {
+        databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listaPersona.clear();
+                personas.clear();
 
                 for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()) {
                     Persona p = objDataSnapshot.getValue(Persona.class);
 
                     if (usuarioLogeado.equals(p.getUid())) {
-                        listaPersona.add(p);
+                        personas.add(p);
+                        autos = p.getAuto();
                     }
                 }
-                arrayAdapterPersona = new ArrayAdapter<Persona>(getActivity(), android.R.layout.simple_list_item_1, listaPersona);
-                personasBack.setAdapter(arrayAdapterPersona);
+                arrayAdapterAuto = new ArrayAdapter<Auto>(getActivity(), android.R.layout.simple_list_item_1, autos);
+                listViewPersonas.setAdapter(arrayAdapterAuto);
             }
 
             @Override
@@ -124,14 +131,13 @@ public class GalleryFragment extends Fragment {
     }
 
     /**
-     * Método usado para recuperar el uid del usuario logeado.
-     *
-     * @return uid.
+     * Método usado para cargar una cadena de sesión.
+     * @param valorSesion nombre de la variable de sesión que se quiere recuperar.
+     * @return valor de la variable a recuperar de la sesión.
      */
-    private String obtenerUid() {
-        String salida = "";
+    private String obtenerValorSesion(String valorSesion) {
         SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(DATO_01, "");
+        String salida = prefs.getString(valorSesion, CADENA_VACIA);
         return salida;
     }
 
@@ -139,17 +145,18 @@ public class GalleryFragment extends Fragment {
      * Método usado para inicializar variables.
      */
     private void inicializarVariables(View root) {
-        textPlaca = root.findViewById(R.id.txt_placa4);
-        textModelo = root.findViewById(R.id.txt_modelo4);
-        textMarca = root.findViewById(R.id.txt_marca4);
+        editTextPlaca = root.findViewById(R.id.editTextGalleryPlaca);
+        editTextModelo = root.findViewById(R.id.editTextGalleryModelo);
+        editTextMarca = root.findViewById(R.id.editTextGalleryMarca);
+        listViewPersonas = root.findViewById(R.id.listViewGalleryPersonas);
     }
 
     /**
      * Método usado para limpiar cajas del formulario.
      */
     private void limpiarCajas() {
-        textPlaca.setText("");
-        textModelo.setText("");
-        textMarca.setText("");
+        editTextPlaca.setText("");
+        editTextModelo.setText("");
+        editTextMarca.setText("");
     }
 }

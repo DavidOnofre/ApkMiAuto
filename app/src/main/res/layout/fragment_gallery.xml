@@ -21,13 +21,12 @@
         android:hint="Placa">
 
         <EditText
-            android:id="@+id/txt_placa4"
+            android:id="@+id/editTextGalleryPlaca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
             android:paddingTop="12dp" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -36,13 +35,12 @@
         android:hint="Modelo">
 
         <EditText
-            android:id="@+id/txt_modelo4"
+            android:id="@+id/editTextGalleryModelo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
             android:paddingTop="12dp" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -51,16 +49,16 @@
         android:hint="Marca">
 
         <EditText
-            android:id="@+id/txt_marca4"
+            android:id="@+id/editTextGalleryMarca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
             android:paddingTop="12dp" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
 
+    <!-- Lista de autos -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,7 +69,7 @@
         android:textSize="30dp" />
 
     <ListView
-        android:id="@+id/lv_personasFrond2"
+        android:id="@+id/listViewGalleryPersonas"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

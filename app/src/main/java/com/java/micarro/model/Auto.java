@@ -86,4 +86,9 @@ public class Auto {
     public void setKilometrajeLlantas(String kilometrajeLlantas) {
         KilometrajeLlantas = kilometrajeLlantas;
     }
+
+    @Override
+    public String toString() {
+        return getPlaca() + " | " + getModelo() ;
+    }
 }

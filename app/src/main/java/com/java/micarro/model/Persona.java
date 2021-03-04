@@ -1,5 +1,7 @@
 package com.java.micarro.model;
 
+import java.util.List;
+
 public class Persona {
 
     private String uid;
@@ -7,16 +9,17 @@ public class Persona {
     private String Apellido;
     private String Correo;
     private String Telefono;
-    private Auto auto;
+    //private Auto auto;
+    private List<Auto> auto;
 
     public Persona() {
     }
 
-    public Auto getAuto() {
+    public List<Auto> getAuto() {
         return auto;
     }
 
-    public void setAuto(Auto auto) {
+    public void setAuto(List<Auto> auto) {
         this.auto = auto;
     }
 
@@ -62,6 +65,6 @@ public class Persona {
 
     @Override
     public String toString() {
-        return auto.getPlaca() + " | " + auto.getModelo() +" | " + auto.getKilometraje() + " | " + auto.getMarca();
+        return auto.get(0).getPlaca() + " | " + auto.get(0).getModelo() +" | " + auto.get(0).getKilometraje() + " | " + auto.get(0).getMarca();
     }
 }

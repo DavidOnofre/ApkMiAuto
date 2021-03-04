@@ -36,6 +36,7 @@ import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -190,7 +191,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if (banderaActualizarKilometraje.equals(NO)) {
             salida = Integer.parseInt(obtenerValorSesion(KILOMETRAJE_ACTUAL));
         } else {
-            Auto auto = persona.getAuto();
+            Auto auto = persona.getAuto().get(0);
             salida = obtenerKilometrajeBaseDatos();
         }
 
@@ -203,7 +204,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * @return
      */
     private int obtenerKilometrajeBaseDatos() {
-        Auto auto = persona.getAuto();
+        Auto auto = persona.getAuto().get(0);
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
         int kilometrajeActualizado = kilometrajeActual;
         return kilometrajeActualizado;
@@ -516,10 +517,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     if (identificacion.equals(per.getUid())) {
 
-                        textViewPlaca.setText(per.getAuto().getPlaca());
-                        textViewMarca.setText(per.getAuto().getMarca());
-                        textViewModelo.setText(per.getAuto().getModelo());
-                        textViewKilometraje.setText(per.getAuto().getKilometraje());
+                        textViewPlaca.setText(per.getAuto().get(0).getPlaca());
+                        textViewMarca.setText(per.getAuto().get(0).getMarca());
+                        textViewModelo.setText(per.getAuto().get(0).getModelo());
+                        textViewKilometraje.setText(per.getAuto().get(0).getKilometraje());
                     }
                 }
             }
@@ -538,7 +539,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void actualizarKilometraje(String kilometrajeIngresado) {
 
         int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
-        Auto auto = persona.getAuto();
+        Auto auto = persona.getAuto().get(0);
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
         String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
 
@@ -546,7 +547,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         textViewRecorrido.setText("Recorrido: " + recorrido);
 
         auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
-        persona.setAuto(auto);
+
+        List<Auto> autos= new ArrayList<>(); //kodigo
+        autos.add(auto);                     //kodigo
+
+
+        Auto auto2 = new Auto();
+        auto2.setMarca("Toyota");
+        auto2.setModelo("Hilux");
+        auto2.setKilometraje("200");
+        auto2.setPlaca("pbb8569");
+        autos.add(auto2);               //kodigo
+        persona.setAuto(autos);
 
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();

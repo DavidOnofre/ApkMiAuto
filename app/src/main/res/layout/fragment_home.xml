@@ -21,31 +21,32 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:paddingTop="12dp" />
+        android:textStyle="bold|italic"
+        android:paddingTop="14dp" />
 
     <TextView
         android:id="@+id/txt_marca2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingTop="12dp" />
+        android:textStyle="bold|italic"
+        android:paddingTop="14dp" />
 
     <TextView
         android:id="@+id/txt_modelo2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingTop="12dp" />
+        android:textStyle="bold|italic"
+        android:paddingTop="14dp" />
 
     <TextView
         android:id="@+id/txt_kilometraje2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingTop="12dp" />
+        android:textStyle="bold|italic"
+        android:paddingTop="14dp" />
 
     <Button
         android:id="@+id/button_actualizar_kilomtraje"

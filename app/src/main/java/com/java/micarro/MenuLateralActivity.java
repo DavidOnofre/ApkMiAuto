@@ -117,7 +117,7 @@ public class MenuLateralActivity extends AppCompatActivity {
                         textViewUsuarioLogeado.setText("Bienvenido: " + persona.getNombre() + " " + persona.getApellido());
 
                         textViewAutoLogeado = findViewById(R.id.textViewAutoLogeado);
-                        textViewAutoLogeado.setText(persona.getAuto().getMarca() + " : " + persona.getAuto().getPlaca());
+                        textViewAutoLogeado.setText(persona.getAuto().get(0).getMarca() + " : " + persona.getAuto().get(0).getPlaca());
                     }
                 }
             }
