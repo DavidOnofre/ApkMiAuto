@@ -6,7 +6,11 @@ public class Auto {
     private String Marca;
     private String Modelo;
     private String Kilometraje;
-
+    private String KilometrajeAceite;
+    private String KilometrajeBateria;
+    private String KilometrajeElectricidad;
+    private String KilometrajeGasolina;
+    private String KilometrajeLlantas;
 
     public Auto() {
     }
@@ -41,5 +45,45 @@ public class Auto {
 
     public void setKilometraje(String kilometraje) {
         Kilometraje = kilometraje;
+    }
+
+    public String getKilometrajeAceite() {
+        return KilometrajeAceite;
+    }
+
+    public void setKilometrajeAceite(String kilometrajeAceite) {
+        KilometrajeAceite = kilometrajeAceite;
+    }
+
+    public String getKilometrajeBateria() {
+        return KilometrajeBateria;
+    }
+
+    public void setKilometrajeBateria(String kilometrajeBateria) {
+        KilometrajeBateria = kilometrajeBateria;
+    }
+
+    public String getKilometrajeElectricidad() {
+        return KilometrajeElectricidad;
+    }
+
+    public void setKilometrajeElectricidad(String kilometrajeElectricidad) {
+        KilometrajeElectricidad = kilometrajeElectricidad;
+    }
+
+    public String getKilometrajeGasolina() {
+        return KilometrajeGasolina;
+    }
+
+    public void setKilometrajeGasolina(String kilometrajeGasolina) {
+        KilometrajeGasolina = kilometrajeGasolina;
+    }
+
+    public String getKilometrajeLlantas() {
+        return KilometrajeLlantas;
+    }
+
+    public void setKilometrajeLlantas(String kilometrajeLlantas) {
+        KilometrajeLlantas = kilometrajeLlantas;
     }
 }

@@ -50,13 +50,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public static final String MENSAJE_INGRESE_NUMEROS = "Por favor ingresar valores numéricos";
     public static final String CONSUMO = "Consumo";
 
-    public static final String ACEITE = "A";
-    public static final String GASOLINA = "G";
-    public static final String LLANTAS = "L";
-    public static final String BATERIA = "B";
-    public static final String ELECTICIDAD = "E";
+    public static final String ACEITE_BANDERA = "A";
+    public static final String GASOLINA_BANDERA = "G";
+    public static final String LLANTAS_BANDERA = "L";
+    public static final String BATERIA_BANDERA = "B";
+    public static final String ELECTRICIDAD_BANDERA = "E";
+
     public static final String KILOMETRAJE_ACTUAL = "KilometrajeActual";
     public static final String GRAFICO_CONSUMIBLES = "Gráfico Consumibles";
+
+    public static final String ELECTRICIDAD = "Electricidad";
+    public static final String ACEITE = "Aceite";
+    public static final String GASOLINA = "Gasolina";
+    public static final String LLANTAS = "Llantas";
+    public static final String BATERIA = "Batería";
+    public static final String RECORRIDO = "RECORRIDO";
 
     private int amarillo = Color.rgb(255, 255, 0);
     private int verde = Color.rgb(60, 220, 78);
@@ -74,15 +82,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView textViewMarca;
     private TextView textViewModelo;
     private TextView textViewKilometraje;
+    private TextView textViewRecorrido;
 
     private EditText editTextKilometraje;
-
     private Button buttonActualizarKilometraje;
-
     private Persona persona;
-
     private HorizontalBarChart horizontalBarChart;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -97,26 +102,45 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        identificacion = obtenerIdentificacion();
+        identificacion = obtenerValorSesion(IDENTIFICACION_SESION);
         inicializarFireBase();
-
         inicializarVariables(root);
         cargarEntidadGlobalPersona(); // vuelve a consultar a la bdd
-        cargarEtiquetasAuto(identificacion, root); // consulta a la bdd
+        cargarEtiquetasAuto(identificacion); // consulta a la bdd
 
-        banderaActualizarKilometraje = obtenerBanderaActualizarKilometra();
+        banderaActualizarKilometraje = obtenerValorSesion(ACTUALIZAR_KILOMETRAJE);
+        habilitarActualizarKilometraje();
 
+        return root;
+    }
+
+    /**
+     * Método usado para habilitar o desabilitar la actualización del kilometraje.
+     */
+    private void habilitarActualizarKilometraje() {
         if (banderaActualizarKilometraje.equals(SI)) {
             actualizarKilometrajeFrond(true);
             buttonActualizarKilometraje.setOnClickListener(this);
         }
 
         if (banderaActualizarKilometraje.equals(NO)) {
+            textViewRecorrido.setText("Recorrido: " + obtenerValorSesion(RECORRIDO));
+
             //gráfico desde el kilometraje de sesion
             dibujarGraficoHorizontal();
         }
+    }
 
-        return root;
+    /**
+     * Método usado para cargar una cadena de sesión.
+     * @param valorSesion nombre de la variable de sesión que se quiere recuperar.
+     * @return valor de la variable a recuperar de la sesión.
+     */
+    private String obtenerValorSesion(String valorSesion) {
+        String salida = CADENA_VACIA;
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
+        salida = prefs.getString(valorSesion, CADENA_VACIA);
+        return  salida;
     }
 
 
@@ -148,7 +172,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         BarData data = new BarData(barDataSet);
 
         data.setBarWidth(anchoBarras);
-        barDataSet.setColors(cargarColor(kilometrajeActual, ACEITE), cargarColor(kilometrajeActual, GASOLINA), cargarColor(kilometrajeActual, LLANTAS), cargarColor(kilometrajeActual, BATERIA), cargarColor(kilometrajeActual, ELECTICIDAD));
+        barDataSet.setColors(cargarColor(kilometrajeActual, ACEITE_BANDERA), cargarColor(kilometrajeActual, GASOLINA_BANDERA), cargarColor(kilometrajeActual, LLANTAS_BANDERA), cargarColor(kilometrajeActual, BATERIA_BANDERA), cargarColor(kilometrajeActual, ELECTRICIDAD_BANDERA));
 
         BarData barData = new BarData(barDataSet);
         horizontalBarChart.setData(barData);
@@ -157,31 +181,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Método usado para cargar kilometraje.
+     *
      * @return
      */
     private int obtenerKilometraje() {
         int salida;
 
         if (banderaActualizarKilometraje.equals(NO)) {
-            salida = obtenerKilometrajeSesion();
+            salida = Integer.parseInt(obtenerValorSesion(KILOMETRAJE_ACTUAL));
         } else {
             Auto auto = persona.getAuto();
             salida = obtenerKilometrajeBaseDatos();
         }
 
         return salida;
-    }
-
-    /**
-     * Método usado para obtener el kilometraje de la sesión.
-     * @return
-     */
-    private int obtenerKilometrajeSesion() {
-        String salida = CADENA_VACIA;
-        SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(KILOMETRAJE_ACTUAL, CADENA_VACIA);
-
-        return Integer.parseInt(salida);
     }
 
     /**
@@ -208,21 +221,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
 
         switch (consumible) {
-            case ACEITE:
+            case ACEITE_BANDERA:
                 salida = obtenerSalidaAceite(kilometraje);
                 break;
-            case GASOLINA:
+            case GASOLINA_BANDERA:
                 salida = obtenerSalidaGasolina(kilometraje);
                 break;
 
-            case LLANTAS:
+            case LLANTAS_BANDERA:
                 salida = obtenerSalidaLlantas(kilometraje);
                 break;
-            case BATERIA:
+            case BATERIA_BANDERA:
                 salida = obtenerSalidaBateria(kilometraje);
                 break;
 
-            case ELECTICIDAD:
+            case ELECTRICIDAD_BANDERA:
                 salida = obtenerSalidaElectricidad(kilometraje);
                 break;
 
@@ -357,7 +370,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> cargarEtiquetas() {
 
         ArrayList<String> salida = new ArrayList<>();
-        String[] arregloEtiquetas = {"Electricidad", "Batería", "Llantas", "Gasolina", "Aceite"};
+        String[] arregloEtiquetas = {ELECTRICIDAD, BATERIA, LLANTAS, GASOLINA, ACEITE};
         for (int i = 0; arregloEtiquetas.length > i; i++) {
             String tipo = arregloEtiquetas[i];
             salida.add(tipo);
@@ -431,7 +444,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * Método usado para cargar variable global persona.
      */
     private void cargarEntidadGlobalPersona() {
-        final String identificacion = obtenerIdentificacion();
+        final String identificacion =   obtenerValorSesion(IDENTIFICACION_SESION);
 
         databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
             @Override
@@ -460,30 +473,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Método usado para recuperar el uid del usuario logeado.
-     *
-     * @return uid.
-     */
-    private String obtenerIdentificacion() {
-        String salida = CADENA_VACIA;
-        SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(IDENTIFICACION_SESION, CADENA_VACIA);
-        return salida;
-    }
-
-    /**
-     * Método usado para validar si hay que actualizar o no el kilometraje, se permite una actualización por sesión.
-     *
-     * @return
-     */
-    private String obtenerBanderaActualizarKilometra() {
-        String salida = CADENA_VACIA;
-        SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(ACTUALIZAR_KILOMETRAJE, CADENA_VACIA);
-        return salida;
-    }
-
-    /**
      * Método usado para instanciar api firebase.
      */
     private void inicializarFireBase() {
@@ -500,6 +489,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         persona = new Persona();
         buttonActualizarKilometraje = (Button) root.findViewById(R.id.button_actualizar_kilomtraje);
         horizontalBarChart = (HorizontalBarChart) root.findViewById(R.id.graficaHorizontal);
+
+        textViewPlaca = root.findViewById(R.id.txt_placa2);
+        textViewMarca = root.findViewById(R.id.txt_marca2);
+        textViewModelo = root.findViewById(R.id.txt_modelo2);
+        textViewKilometraje = root.findViewById(R.id.txt_kilometraje2);
+        textViewRecorrido = root.findViewById(R.id.textViewRecorrido);
     }
 
     /**
@@ -508,10 +503,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * @param identificacionSesion identificador del cliente.
      * @return persona en sesión.
      */
-    private void cargarEtiquetasAuto(String identificacionSesion, View root) {
+    private void cargarEtiquetasAuto(String identificacionSesion) {
 
         final String identificacion = identificacionSesion;
-        final View r = root;
 
         databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
 
@@ -522,16 +516,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     if (identificacion.equals(per.getUid())) {
 
-                        textViewPlaca = r.findViewById(R.id.txt_placa2);
                         textViewPlaca.setText(per.getAuto().getPlaca());
-
-                        textViewMarca = r.findViewById(R.id.txt_marca2);
                         textViewMarca.setText(per.getAuto().getMarca());
-
-                        textViewModelo = r.findViewById(R.id.txt_modelo2);
                         textViewModelo.setText(per.getAuto().getModelo());
-
-                        textViewKilometraje = r.findViewById(R.id.txt_kilometraje2);
                         textViewKilometraje.setText(per.getAuto().getKilometraje());
                     }
                 }
@@ -549,37 +536,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * @param kilometrajeIngresado kilometraje a sumar al kilometraje actual.
      */
     private void actualizarKilometraje(String kilometrajeIngresado) {
-        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
 
+        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
         Auto auto = persona.getAuto();
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
-        int kilometrajeActualizado = kilometrajeActual + kilometrajeCajaTexto;
+        String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
 
-        auto.setKilometraje(String.valueOf(kilometrajeActualizado));
+        // mostrar el kilometraje que se a recorrido
+        textViewRecorrido.setText("Recorrido: " + recorrido);
+
+        auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
         persona.setAuto(auto);
 
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();
 
-        grabarKilometrajeActualSesion(kilometrajeActualizado);
+        grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
         actualizarKilometrajeFrond(false);
         limpiarCajas();
     }
 
     /**
      * Método usado para grabar en sesión el kilometraje
+     *
      * @param kilometrajeActualizado
      */
-    private void grabarKilometrajeActualSesion(int kilometrajeActualizado) {
+    private void grabarKilometrajeActualSesion(int kilometrajeActualizado, String recorrido) {
         SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(KILOMETRAJE_ACTUAL, String.valueOf(kilometrajeActualizado));
         editor.putString(ACTUALIZAR_KILOMETRAJE, NO);
+        editor.putString(RECORRIDO, recorrido);
         editor.commit();
     }
 
     /**
      * Método usado para activar/desactivar botón actualizar y entrada de texto.
+     *
      * @param actualizar boolena que indica si se activa o desactiva la entrada.
      */
     private void actualizarKilometrajeFrond(boolean actualizar) {
