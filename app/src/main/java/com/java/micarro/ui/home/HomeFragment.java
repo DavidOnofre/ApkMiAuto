@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public static final String LLANTAS = "Llantas";
     public static final String BATERIA = "Batería";
     public static final String RECORRIDO = "RECORRIDO";
+    public static final String RECORRIDO_FROND = "Recorrido: ";
 
     private int amarillo = Color.rgb(255, 255, 0);
     private int verde = Color.rgb(60, 220, 78);
@@ -228,23 +229,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case GASOLINA_BANDERA:
                 salida = obtenerSalidaGasolina(kilometraje);
                 break;
-
             case LLANTAS_BANDERA:
                 salida = obtenerSalidaLlantas(kilometraje);
                 break;
             case BATERIA_BANDERA:
                 salida = obtenerSalidaBateria(kilometraje);
                 break;
-
             case ELECTRICIDAD_BANDERA:
                 salida = obtenerSalidaElectricidad(kilometraje);
                 break;
-
             default:
                 salida = 0;
         }
-
-
         return salida;
     }
 
@@ -544,21 +540,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
 
         // mostrar el kilometraje que se a recorrido
-        textViewRecorrido.setText("Recorrido: " + recorrido);
+        textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
 
         auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
-
-        List<Auto> autos= new ArrayList<>(); //kodigo
-        autos.add(auto);                     //kodigo
-
-
-        Auto auto2 = new Auto();
-        auto2.setMarca("Toyota");
-        auto2.setModelo("Hilux");
-        auto2.setKilometraje("200");
-        auto2.setPlaca("pbb8569");
-        autos.add(auto2);               //kodigo
-        persona.setAuto(autos);
 
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,23 +41,25 @@ public class GalleryFragment extends Fragment {
     public static final String IDENTIFICACION_SESION = "identificacionSesion";
     public static final String CADENA_VACIA = "";
     public static final String PERSONA = "Persona";
+    public static final String REQUIRED = "Required";
+    public static final String AGREGADO = "Agregado";
+    public static final String ACTUALIZADO = "Actualizado";
+    public static final String ELIMINADO = "Eliminado";
+    public static final String CERO = "0";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-
     private GalleryViewModel galleryViewModel;
-
-    private ListView listViewPersonas;
-    private List<Persona> personas = new ArrayList<Persona>();
+    private ListView listViewAutos;
+    private Persona persona = new Persona();
     private List<Auto> autos = new ArrayList<Auto>();
-    private ArrayAdapter<Persona> arrayAdapterPersona;
     private ArrayAdapter<Auto> arrayAdapterAuto;
 
     private EditText editTextPlaca;
     private EditText editTextModelo;
     private EditText editTextMarca;
 
-    private Persona personaSeleccionada;
+    private Auto autoSeleccionado;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
@@ -71,29 +77,137 @@ public class GalleryFragment extends Fragment {
         inicializarFireBase();
         cargarDatosPersona(obtenerValorSesion(IDENTIFICACION_SESION));
         cargarAutoSeleccionado();
+        setHasOptionsMenu(true);
 
         return root;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String placa = editTextPlaca.getText().toString();
+        String modelo = editTextModelo.getText().toString();
+        String marca = editTextMarca.getText().toString();
+
+        switch (item.getItemId()) {
+            case R.id.icon_add: {
+                if (placa.equals(CADENA_VACIA) || modelo.equals(CADENA_VACIA) || marca.equals(CADENA_VACIA)) {
+                    validacion();
+                } else {
+
+                    Auto a = new Auto();
+                    a.setPlaca(placa);
+                    a.setModelo(modelo);
+                    a.setMarca(marca);
+                    a.setKilometraje(CERO);
+                    a.setKilometrajeAceite(CERO);
+                    a.setKilometrajeBateria(CERO);
+                    a.setKilometrajeElectricidad(CERO);
+                    a.setKilometrajeGasolina(CERO);
+                    a.setKilometrajeLlantas(CERO);
+
+                    Persona p = persona;
+                    List<Auto> listAuto;
+                    listAuto = p.getAuto();
+                    listAuto.add(a);
+                    p.setAuto(listAuto);
+
+                    databaseReference.child(PERSONA).child(p.getUid()).setValue(p);
+                    Toast.makeText(getActivity().getApplicationContext(), AGREGADO, Toast.LENGTH_SHORT).show();
+                    limpiarCajas();
+                }
+                break;
+            }
+
+            case R.id.icon_save: {
+
+                Auto a = new Auto();
+                a.setPlaca(editTextPlaca.getText().toString().trim());
+                a.setMarca(editTextMarca.getText().toString().trim());
+                a.setModelo(editTextModelo.getText().toString().trim());
+                a.setKilometraje(autoSeleccionado.getKilometraje());
+                a.setKilometrajeAceite(autoSeleccionado.getKilometrajeAceite());
+                a.setKilometrajeBateria(autoSeleccionado.getKilometrajeBateria());
+                a.setKilometrajeElectricidad(autoSeleccionado.getKilometrajeElectricidad());
+                a.setKilometrajeGasolina(autoSeleccionado.getKilometrajeGasolina());
+                a.setKilometrajeLlantas(autoSeleccionado.getKilometrajeLlantas());
+
+                Persona p = persona;
+                List<Auto> listAuto;
+                listAuto = p.getAuto();
+                int indice = listAuto.indexOf(autoSeleccionado);
+                listAuto.remove(indice);
+                listAuto.add(indice, a);
+                p.setAuto(listAuto);
+
+                databaseReference.child(PERSONA).child(p.getUid()).setValue(p);
+                Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
+                limpiarCajas();
+                break;
+            }
+            case R.id.icon_delete: {
+
+                Persona p = persona;
+                List<Auto> listAuto;
+                listAuto = p.getAuto();
+                int indice = listAuto.indexOf(autoSeleccionado);
+                listAuto.remove(indice);
+
+                databaseReference.child(PERSONA).child(p.getUid()).setValue(p);
+                Toast.makeText(getActivity().getApplicationContext(), ELIMINADO, Toast.LENGTH_SHORT).show();
+                limpiarCajas();
+                break;
+            }
+            default:
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * Método usado para validar que las cajas de texto no estén vacías.
+     */
+    private void validacion() {
+        String placa = editTextPlaca.getText().toString();
+        String modelo = editTextModelo.getText().toString();
+        String marca = editTextMarca.getText().toString();
+
+        if (placa.equals(CADENA_VACIA)) {
+            editTextPlaca.setError(REQUIRED);
+        }
+
+        if (modelo.equals(CADENA_VACIA)) {
+            editTextModelo.setError(REQUIRED);
+        }
+
+        if (marca.equals(CADENA_VACIA)) {
+            editTextMarca.setError(REQUIRED);
+        }
+    }
+
 
     /**
      * Método usado para cargar datos del auto seleccionado.
      */
     private void cargarAutoSeleccionado() {
-        listViewPersonas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewAutos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                personaSeleccionada = (Persona) parent.getItemAtPosition(position);
-
-                editTextPlaca.setText(personaSeleccionada.getAuto().get(0).getPlaca());
-                editTextModelo.setText(personaSeleccionada.getAuto().get(0).getModelo());
-                editTextMarca.setText(personaSeleccionada.getAuto().get(0).getMarca());
+                autoSeleccionado = (Auto) parent.getItemAtPosition(position);
+                editTextPlaca.setText(autoSeleccionado.getPlaca());
+                editTextModelo.setText(autoSeleccionado.getModelo());
+                editTextMarca.setText(autoSeleccionado.getMarca());
             }
         });
     }
 
     /**
-     * Método usado para cargar datos solo del usuario logeado.
+     * Método usas solo del usuario logeado.do para cargar dato
      */
     private void cargarDatosPersona(String clave) {
         final String usuarioLogeado = clave;
@@ -101,18 +215,18 @@ public class GalleryFragment extends Fragment {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                personas.clear();
+                autos.clear();
 
                 for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()) {
                     Persona p = objDataSnapshot.getValue(Persona.class);
 
                     if (usuarioLogeado.equals(p.getUid())) {
-                        personas.add(p);
+                        persona = p;
                         autos = p.getAuto();
                     }
                 }
                 arrayAdapterAuto = new ArrayAdapter<Auto>(getActivity(), android.R.layout.simple_list_item_1, autos);
-                listViewPersonas.setAdapter(arrayAdapterAuto);
+                listViewAutos.setAdapter(arrayAdapterAuto);
             }
 
             @Override
@@ -132,6 +246,7 @@ public class GalleryFragment extends Fragment {
 
     /**
      * Método usado para cargar una cadena de sesión.
+     *
      * @param valorSesion nombre de la variable de sesión que se quiere recuperar.
      * @return valor de la variable a recuperar de la sesión.
      */
@@ -148,15 +263,15 @@ public class GalleryFragment extends Fragment {
         editTextPlaca = root.findViewById(R.id.editTextGalleryPlaca);
         editTextModelo = root.findViewById(R.id.editTextGalleryModelo);
         editTextMarca = root.findViewById(R.id.editTextGalleryMarca);
-        listViewPersonas = root.findViewById(R.id.listViewGalleryPersonas);
+        listViewAutos = root.findViewById(R.id.listViewGalleryAutos);
     }
 
     /**
      * Método usado para limpiar cajas del formulario.
      */
     private void limpiarCajas() {
-        editTextPlaca.setText("");
-        editTextModelo.setText("");
-        editTextMarca.setText("");
+        editTextPlaca.setText(CADENA_VACIA);
+        editTextModelo.setText(CADENA_VACIA);
+        editTextMarca.setText(CADENA_VACIA);
     }
 }

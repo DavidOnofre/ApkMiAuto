@@ -71,7 +71,8 @@ public class MenuLateralActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_lateral, menu);
+        //getMenuInflater().inflate(R.menu.menu_lateral, menu);  //menu string
+        getMenuInflater().inflate(R.menu.menu_main, menu);       //menu iconos
         return true;
     }
 

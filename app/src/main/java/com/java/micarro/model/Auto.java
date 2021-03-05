@@ -89,6 +89,6 @@ public class Auto {
 
     @Override
     public String toString() {
-        return getPlaca() + " | " + getModelo() ;
+        return getPlaca() + " | " + getMarca() + " | " + getModelo() ;
     }
 }
