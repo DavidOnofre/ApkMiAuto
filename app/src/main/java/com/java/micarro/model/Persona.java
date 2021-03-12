@@ -9,8 +9,8 @@ public class Persona {
     private String Apellido;
     private String Correo;
     private String Telefono;
-    //private Auto auto;
     private List<Auto> auto;
+    private Mantenimiento mantenimiento;
 
     public Persona() {
     }
@@ -61,6 +61,14 @@ public class Persona {
 
     public void setTelefono(String telefono) {
         Telefono = telefono;
+    }
+
+    public Mantenimiento getMantenimiento() {
+        return mantenimiento;
+    }
+
+    public void setMantenimiento(Mantenimiento mantenimiento) {
+        this.mantenimiento = mantenimiento;
     }
 
     @Override

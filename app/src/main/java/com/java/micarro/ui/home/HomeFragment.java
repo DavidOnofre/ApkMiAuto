@@ -33,10 +33,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.java.micarro.R;
 import com.java.micarro.model.Auto;
+import com.java.micarro.model.Mantenimiento;
 import com.java.micarro.model.Persona;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -135,6 +135,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Método usado para cargar una cadena de sesión.
+     *
      * @param valorSesion nombre de la variable de sesión que se quiere recuperar.
      * @return valor de la variable a recuperar de la sesión.
      */
@@ -142,7 +143,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String salida = CADENA_VACIA;
         SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
         salida = prefs.getString(valorSesion, CADENA_VACIA);
-        return  salida;
+        return salida;
     }
 
 
@@ -441,7 +442,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * Método usado para cargar variable global persona.
      */
     private void cargarEntidadGlobalPersona() {
-        final String identificacion =   obtenerValorSesion(IDENTIFICACION_SESION);
+        final String identificacion = obtenerValorSesion(IDENTIFICACION_SESION);
 
         databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
             @Override
@@ -543,6 +544,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
 
         auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
+
+        // mantenimiento kodigo
+        Mantenimiento m = new Mantenimiento();
+        m.setFechaKilometraje("fechaDesdeBack");
+        m.setGastos("gastosDesdeBack");
+        m.setObservaciones("observacionDesdeBack");
+        m.setTipoMantenimiento("tipoMantenimientoDesdeBack");
+        persona.setMantenimiento(m);
+        // mantenimiento kodigo
 
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();
