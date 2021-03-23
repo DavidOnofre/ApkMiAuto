@@ -23,7 +23,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
 
     private ProgressBar progressBar;
     private Button button;
-    private TextView textView;
+    private TextView textViewAceite;
     private Handler handler;
     private Boolean activo;
     private int contador;
@@ -50,7 +50,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
         handler = new Handler();
         progressBar = (ProgressBar) root.findViewById(R.id.progressBar_consumibles_aceite);
         button = (Button) root.findViewById(R.id.button_consumibles_aceite);
-        textView = (TextView) root.findViewById(R.id.textView_consumibles_aceite);
+        textViewAceite = (TextView) root.findViewById(R.id.textView_consumibles_aceite);
         activo = false;
         contador = 0;
     }
@@ -67,7 +67,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    textView.setText("Aceite: " + contador + " %");
+                                    textViewAceite.setText("Aceite: " + contador + " %");
                                     progressBar.setProgress(contador);
                                 }
                             });

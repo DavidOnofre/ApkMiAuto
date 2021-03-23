@@ -26,7 +26,11 @@
     <string name="lista_Autos">Lista de Autos</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="textview_consumibles_aceite">TextView</string>
+    <string name="textview_consumibles_aceite">Aceite</string>
+    <string name="textview_consumibles_gasolina">Gasolina</string>
+    <string name="textview_consumibles_llantas">Llantas</string>
+    <string name="textview_consumibles_bateria">Batería</string>
+    <string name="textview_consumibles_electricidad">Electricidad</string>
     <string name="calcular">Calcular</string>
 
 </resources>

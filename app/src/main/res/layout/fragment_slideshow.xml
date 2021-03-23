@@ -27,13 +27,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/textView_consumibles_gasolina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_consumibles_gasolina" />
+
+    <TextView
+        android:id="@+id/textView_consumibles_llantas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_consumibles_llantas" />
+
+    <TextView
+        android:id="@+id/textView_consumibles_bateria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_consumibles_bateria" />
+
+    <TextView
+        android:id="@+id/textView_consumibles_electricidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_consumibles_electricidad" />
+
     <Button
         android:id="@+id/button_consumibles_aceite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/calcular" />
-
-
 
 </LinearLayout>
 
