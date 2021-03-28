@@ -26,11 +26,24 @@
     <string name="lista_Autos">Lista de Autos</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="textview_consumibles_aceite">Aceite</string>
-    <string name="textview_consumibles_gasolina">Gasolina</string>
-    <string name="textview_consumibles_llantas">Llantas</string>
-    <string name="textview_consumibles_bateria">Batería</string>
-    <string name="textview_consumibles_electricidad">Electricidad</string>
+    <string name="textview_consumibles_5000">5 000 km.</string>
+    <string name="textview_consumibles_aceite">Cambio de aceite :</string>
+    <string name="textview_consumibles_filtro_motor">Filtro de Motor</string>
+    <string name="textview_consumibles_filtro_combustible">Filtro de combustible :</string>
+    <string name="textview_consumibles_bujia_encendido">Bujía de encendido :</string>
+    <string name="textview_consumibles_liquido_frenos">Líquido de frenos :</string>
+    <string name="textview_consumibles_liq_dir_hidraulica">Líquido de dirección hidráulica :</string>
     <string name="calcular">Calcular</string>
+    <string name="textview_consumibles_10000">10 000 km.</string>
+    <string name="textview_consumibles_filtro_aire">Filtro de aire</string>
+    <string name="textview_consumibles_15000">15 000 km.</string>
+    <string name="textview_consumibles_20000">20 000 km.</string>
+    <string name="textview_consumibles_30000">30 000 km.</string>
+    <string name="textview_consumibles_aceite_caja">Aceite de caja de cambios:</string>
+    <string name="textview_consumibles_55000">55 000 km.</string>
+    <string name="textview_consumibles_60000">60 000 km.</string>
+    <string name="textview_consumibles_banda_distribucion">Banda de distribución:</string>
+    <string name="textview_consumibles_refrigerante">Refrigrante</string>
+    <string name="textview_consumibles_termostato">Termostato</string>
 
 </resources>

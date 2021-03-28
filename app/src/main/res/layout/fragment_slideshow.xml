@@ -5,57 +5,242 @@
     android:orientation="vertical"
     android:padding="12dp">
 
-    <TextView
-        android:id="@+id/text_slideshow"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView_consumibles_aceite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/textview_consumibles_aceite" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
-    <ProgressBar
-        android:id="@+id/progressBar_consumibles_aceite"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/text_slideshow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/textView_consumibles_gasolina"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/textview_consumibles_gasolina" />
+            <!-- inicio 5 000 -->
+            <TextView
+                android:id="@+id/textView_consumibles_5000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_5000" />
 
-    <TextView
-        android:id="@+id/textView_consumibles_llantas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/textview_consumibles_llantas" />
+            <TextView
+                android:id="@+id/textView_consumibles_aceite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_aceite" />
 
-    <TextView
-        android:id="@+id/textView_consumibles_bateria"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/textview_consumibles_bateria" />
+            <TextView
+                android:id="@+id/textView_consumibles_fitroMotor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_filtro_motor" />
 
-    <TextView
-        android:id="@+id/textView_consumibles_electricidad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/textview_consumibles_electricidad" />
+            <ProgressBar
+                android:id="@+id/progressBar_consumibles_aceite"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/button_consumibles_aceite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/calcular" />
+            <TextView
+                android:id="@+id/textView_consumibles_espacio_5000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <!-- fin 5 000 -->
+
+            <!-- inicio 10 000 -->
+            <TextView
+                android:id="@+id/textView_consumibles_10000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_10000" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_filtro_combustible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_filtro_combustible" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_filto_aire"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_filtro_aire" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_consumibles_gasolina"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_espacio_10000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <!-- fin 10 000 -->
+
+            <!-- inicio 15 000 -->
+            <TextView
+                android:id="@+id/textView_consumibles_15000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_15000" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_bujia_encendido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_bujia_encendido" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_consumibles_llantas"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_espacio_15000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <!-- fin 15 000 -->
+
+            <!-- inicio 20 000 -->
+            <TextView
+                android:id="@+id/textView_consumibles_20000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_20000" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_liquido_frenos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_liquido_frenos" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_consumibles_bateria"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_espacio_20000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <!-- fin 20 000 -->
+
+
+            <!-- inicio 30 000 -->
+            <TextView
+                android:id="@+id/textView_consumibles_30000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_30000" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_liq_dir_hidraulica"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_liq_dir_hidraulica" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_consumibles_electricidad"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_espacio_30000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <!-- fin 30 000 -->
+
+            <!-- inicio 55 000 -->
+            <TextView
+                android:id="@+id/textView_consumibles_55000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_55000" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_aceite_caja"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_aceite_caja" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_consumibles_55000"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_espacio_55000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <!-- fin 55 000 -->
+
+            <!-- inicio 60 000 -->
+
+            <TextView
+                android:id="@+id/textView_consumibles_60000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_60000" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_banda_distribucion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_banda_distribucion" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_refrigerante"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_refrigerante" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_termostato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textview_consumibles_termostato" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_consumibles_60000"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textView_consumibles_espacio_60000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <!-- fin 60 000 -->
+
+            <Button
+                android:id="@+id/button_consumibles_aceite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/calcular" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
 
 </LinearLayout>
-

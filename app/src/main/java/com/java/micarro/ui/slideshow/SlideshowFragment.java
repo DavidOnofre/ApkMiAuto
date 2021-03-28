@@ -21,9 +21,20 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
 
     private SlideshowViewModel slideshowViewModel;
 
-    private ProgressBar progressBar;
+    private ProgressBar progressBarAceite;
+    private ProgressBar progressBarGasolina;
+    private ProgressBar progressBarLlantas;
+    private ProgressBar progressBarBateria;
+    private ProgressBar progressBarElectricidad;
+
     private Button button;
+
     private TextView textViewAceite;
+    private TextView textViewGasolina;
+    private TextView textViewLlantas;
+    private TextView textViewBateria;
+    private TextView textViewElectricidad;
+
     private Handler handler;
     private Boolean activo;
     private int contador;
@@ -48,9 +59,21 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
 
     private void inicializarVariables(View root) {
         handler = new Handler();
-        progressBar = (ProgressBar) root.findViewById(R.id.progressBar_consumibles_aceite);
+
+        progressBarAceite = (ProgressBar) root.findViewById(R.id.progressBar_consumibles_aceite);
+        progressBarGasolina = (ProgressBar) root.findViewById(R.id.progressBar_consumibles_gasolina);
+        progressBarLlantas = (ProgressBar) root.findViewById(R.id.progressBar_consumibles_llantas);
+        progressBarBateria = (ProgressBar) root.findViewById(R.id.progressBar_consumibles_bateria);
+        progressBarElectricidad = (ProgressBar) root.findViewById(R.id.progressBar_consumibles_electricidad);
+
         button = (Button) root.findViewById(R.id.button_consumibles_aceite);
+
         textViewAceite = (TextView) root.findViewById(R.id.textView_consumibles_aceite);
+        textViewGasolina = (TextView) root.findViewById(R.id.textView_consumibles_filtro_combustible);
+        textViewLlantas = (TextView) root.findViewById(R.id.textView_consumibles_bujia_encendido);
+        textViewBateria = (TextView) root.findViewById(R.id.textView_consumibles_liquido_frenos);
+        textViewElectricidad = (TextView) root.findViewById(R.id.textView_consumibles_liq_dir_hidraulica);
+
         activo = false;
         contador = 0;
     }
@@ -67,8 +90,17 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    textViewAceite.setText("Aceite: " + contador + " %");
-                                    progressBar.setProgress(contador);
+                                    textViewAceite.setText( getString(R.string.textview_consumibles_aceite) + contador + " %");
+                                    textViewGasolina.setText(getString(R.string.textview_consumibles_filtro_combustible) + contador + " %");
+                                    textViewLlantas.setText(getString(R.string.textview_consumibles_bujia_encendido) + contador + " %");
+                                    textViewBateria.setText(getString(R.string.textview_consumibles_liquido_frenos) + contador + " %");
+                                    textViewElectricidad.setText(getString(R.string.textview_consumibles_liq_dir_hidraulica) + contador + " %");
+
+                                    progressBarAceite.setProgress(contador);
+                                    progressBarGasolina.setProgress(contador);
+                                    progressBarLlantas.setProgress(contador);
+                                    progressBarBateria.setProgress(contador);
+                                    progressBarElectricidad.setProgress(contador);
                                 }
                             });
                             try {
