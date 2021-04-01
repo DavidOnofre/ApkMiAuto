@@ -33,6 +33,8 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
     public static final String CADENA_VACIA = "";
     public static final String SHARED_LOGIN_DATA = "shared_login_data";
     public static final String PERSONA = "Persona";
+    public static final String SIGNO_PORCENTAJE = " %";
+    public static final String KM = " km.";
 
     private SlideshowViewModel slideshowViewModel;
 
@@ -58,7 +60,8 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
 
     private Handler handler;
     private Boolean activo;
-    private int contador;
+
+    int contador;
 
     private String identificacion = "";
     private Persona persona;
@@ -93,6 +96,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
 
         final int kilometrajeActual = obtenerKilometraje();
+        textViewKilometrajeActual.setText(kilometrajeActual + KM);
 
         if (v.getId() == R.id.button_consumibles_aceite) {
 
@@ -100,46 +104,89 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
                 Thread hilo = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        while (contador <= 100) {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    textViewKilometrajeActual.setText(kilometrajeActual + " km.");
-
-                                    textViewPorcentaje5000.setText(contador + " %");
-                                    textViewPorcentaje10000.setText(contador + " %");
-                                    textViewPorcentaje15000.setText(contador + " %");
-                                    textViewPorcentaje20000.setText(contador + " %");
-                                    textViewPorcentaje30000.setText(contador + " %");
-                                    textViewPorcentaje55000.setText(contador + " %");
-                                    textViewPorcentaje60000.setText(contador + " %");
-
-
-                                    progressBar5000.setProgress(kilometrajeActual/5000);
-
-                                    progressBar10000.setProgress(contador);
-                                    progressBar15000.setProgress(contador);
-                                    progressBar20000.setProgress(contador);
-                                    progressBar30000.setProgress(contador);
-                                    progressBar55000.setProgress(contador);
-                                    progressBar60000.setProgress(contador);
-                                }
-                            });
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            contador++;
-                            activo = true;
-                        }
+                        graficarProgessBar(kilometrajeActual, 5000);
+                        graficarProgessBar(kilometrajeActual, 10000);
+                        graficarProgessBar(kilometrajeActual, 15000);
+                        graficarProgessBar(kilometrajeActual, 20000);
+                        graficarProgessBar(kilometrajeActual, 30000);
+                        graficarProgessBar(kilometrajeActual, 55000);
+                        graficarProgessBar(kilometrajeActual, 60000);
                     }
                 });
                 hilo.start();
             }
         }
     }
+
+    /**
+     * Método usado para gráficar el progreso de la barra progressBar para cada consumible.
+     * @param kilometraje
+     * @param banderaKilometraje
+     */
+    private void graficarProgessBar(int kilometraje, final int banderaKilometraje) {
+        while (contador <= obtenerLimiteContador(kilometraje, banderaKilometraje)) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    switch (banderaKilometraje) {
+                        case 5000:
+                            textViewPorcentaje5000.setText(contador + SIGNO_PORCENTAJE);
+                            progressBar5000.setProgress(contador);
+                            break;
+                        case 10000:
+                            textViewPorcentaje10000.setText(contador + SIGNO_PORCENTAJE);
+                            progressBar10000.setProgress(contador);
+                            break;
+                        case 15000:
+                            textViewPorcentaje15000.setText(contador + SIGNO_PORCENTAJE);
+                            progressBar15000.setProgress(contador);
+                            break;
+                        case 20000:
+                            textViewPorcentaje20000.setText(contador + SIGNO_PORCENTAJE);
+                            progressBar20000.setProgress(contador);
+                            break;
+                        case 30000:
+                            textViewPorcentaje30000.setText(contador + SIGNO_PORCENTAJE);
+                            progressBar30000.setProgress(contador);
+                            break;
+                        case 55000:
+                            textViewPorcentaje55000.setText(contador + SIGNO_PORCENTAJE);
+                            progressBar55000.setProgress(contador);
+                            break;
+                        case 60000:
+                            textViewPorcentaje60000.setText(contador + SIGNO_PORCENTAJE);
+                            progressBar60000.setProgress(contador);
+                            break;
+                    }
+                }
+            });
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            contador++;
+            activo = true;
+        }
+        contador = 0;
+    }
+
+    /**
+     * Método usado para obtener el kilometraje límite del contador.
+     * @param kilometraje
+     * @param banderaKilometraje
+     * @return
+     */
+    private int obtenerLimiteContador(int kilometraje, int banderaKilometraje) {
+        int salida = 0;
+        salida = (kilometraje * 100) / banderaKilometraje;
+        return salida;
+    }
+
+    /**
+     * Método usado para inicializar variables.
+     * @param root
+     */
 
     private void inicializarVariables(View root) {
         handler = new Handler();
