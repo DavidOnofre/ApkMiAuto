@@ -1,7 +1,15 @@
 package com.java.micarro.ui.slideshow;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,6 +21,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -23,9 +34,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.java.micarro.IngresarPersona;
+import com.java.micarro.MenuLateralActivity;
+import com.java.micarro.NotificacionActivity;
+import com.java.micarro.Principal;
 import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
+import com.java.micarro.ui.tools.ToolsViewModel;
+
+import static androidx.core.content.ContextCompat.getSystemService;
+import static androidx.core.content.ContextCompat.getSystemServiceName;
 
 public class SlideshowFragment extends Fragment implements View.OnClickListener {
 
@@ -57,6 +76,11 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
     private TextView textViewKilometrajeActual;
 
     private Button button;
+
+    //variables necesarias para la notificación.
+    private PendingIntent pendingIntent;
+    private static final String CHANNEL_ID = "NOTIFICACION";
+    public static final int NOTIFICACION_ID = 0;
 
     private Handler handler;
     private Boolean activo;
@@ -116,10 +140,63 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
                 hilo.start();
             }
         }
+
+
+
+    }
+
+    /**
+     * Método usado para orquestar métodos necesarios para notificar en pantalla.
+     */
+    private void ejecutarNotificacion(int banderaKilometraje) {
+        setPendingIntent();
+        crearNotificaionChannel();
+        crearNotificaion(banderaKilometraje);
+    }
+
+    private void setPendingIntent() {
+        Intent intent = new Intent(getActivity().getApplicationContext(), NotificacionActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity().getApplicationContext());
+        stackBuilder.addParentStack(NotificacionActivity.class);
+        stackBuilder.addNextIntent(intent);
+        pendingIntent = stackBuilder.getPendingIntent(1, pendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    /**
+     * Método usado para crear el canal de notificación, necesario por la versión actual de android.
+     */
+    private void crearNotificaionChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Notificacion";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    /**
+     * Método usado para crear notificación con los datos para ver en pantalla.
+     */
+    private void crearNotificaion(int banderaKilometraje) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity().getApplicationContext(), CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.ic_baseline_commute_24);
+        builder.setContentTitle("Mantenimiento necesario: " + banderaKilometraje);
+        builder.setContentText("Usted ya realizó el cambio:  si - no,  El costo del cambio fue:" );
+        builder.setColor(Color.GREEN);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.MAGENTA, 1000, 1000); // luz en el teléfono al notificar.
+        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity().getApplicationContext());
+        notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
     }
 
     /**
      * Método usado para gráficar el progreso de la barra progressBar para cada consumible.
+     *
      * @param kilometraje
      * @param banderaKilometraje
      */
@@ -173,6 +250,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
 
     /**
      * Método usado para obtener el kilometraje límite del contador.
+     *
      * @param kilometraje
      * @param banderaKilometraje
      * @return
@@ -180,11 +258,18 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
     private int obtenerLimiteContador(int kilometraje, int banderaKilometraje) {
         int salida = 0;
         salida = (kilometraje * 100) / banderaKilometraje;
+
+        //mostrar notificación cunado el % sea mayor a 80%
+        if(salida>=40)
+        {
+            ejecutarNotificacion(banderaKilometraje);
+        }
         return salida;
     }
 
     /**
      * Método usado para inicializar variables.
+     *
      * @param root
      */
 

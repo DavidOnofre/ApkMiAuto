@@ -12,7 +12,7 @@
     <string name="menu_gallery">Galería Autos</string>
 
     <string name="menu_slideshow">Consumibles</string>
-    <string name="menu_tools">Sitios Autorizados</string>
+    <string name="menu_tools">Notificación</string>
 
     <string name="menu_send">Historial</string>
     <string name="menu_share">Planificar Mantenimiento</string>
@@ -45,5 +45,9 @@
     <string name="textview_consumibles_banda_distribucion">Banda de distribución:</string>
     <string name="textview_consumibles_refrigerante">Refrigrante</string>
     <string name="textview_consumibles_termostato">Termostato</string>
+    <string name="Enviar">Enviar</string>
+    <string name="textview_not_titulo">Notificación</string>
+    <string name="textview_not_pregunta1">Usted ya realizó el cambio?</string>
+    <string name="textview_not_pregunta2">El costo del cambio fue:</string>
 
 </resources>

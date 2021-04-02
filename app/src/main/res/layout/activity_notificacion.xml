@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    tools:context=".NotificacionActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:text="Notificación"
+        android:textAlignment="center"
+        android:textSize="30dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Usted ya realizó el cambio" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="El costo del cambio fue:">
+
+        <EditText
+            android:id="@+id/editText_notificacion_pregunta2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:inputType="number"
+            android:paddingTop="6dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <Button
+        android:id="@+id/button_notificacion_enviar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Enviar" />
+
+</LinearLayout>

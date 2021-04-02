@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp"
-    >
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/text_tools"
@@ -17,29 +16,6 @@
         android:textAlignment="center"
         android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mantenimiento 5000" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mantenimiento 10 000" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mantenimiento 15 000" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mantenimiento 20 000" />
 
 
 </LinearLayout>

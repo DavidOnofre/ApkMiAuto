@@ -5,22 +5,26 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.java.micarro.model.MyFirebaseApp"
+        android:name=".model.MyFirebaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="miAuto"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".NotificacionActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity">
+            </meta-data>
+        </activity>
         <activity
-            android:name="com.java.micarro.MenuLateralActivity"
+            android:name=".MenuLateralActivity"
             android:label="@string/title_activity_menu_lateral"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name="com.java.micarro.IngresarPersona" />
-        <activity android:name="com.java.micarro.IngresarAuto" />
-        <activity android:name="com.java.micarro.Principal" />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".IngresarPersona" />
+        <activity android:name=".IngresarAuto" />
+        <activity android:name=".Principal" />
         <activity
-            android:name="com.java.micarro.MainActivity"
+            android:name=".MainActivity"
             android:label="miAuto">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
