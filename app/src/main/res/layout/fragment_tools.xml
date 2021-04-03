@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,6 +15,178 @@
         android:textAlignment="center"
         android:textSize="20sp" />
 
+    <TextView
+        android:id="@+id/textView_talleres_taller1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller1"
+        android:textColor="@color/colorAccent" />
 
+    <TextView
+        android:id="@+id/textView_talleres_taller1_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller1_1"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller1_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller1_2" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller1_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller1_3"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller1_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller1_4" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller1_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller1_5" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller1_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller1_6"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller1_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller1_7" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2_espacio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller2"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller2_1"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller2_2" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller2_3"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller2_4" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller2_5" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller2_6"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller2_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller2_7" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3_espacio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller3"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller3_1"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller3_2" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller3_3"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller3_4" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller3_5" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller3_6"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView_talleres_taller3_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_talleres_taller3_7" />
+
+    <Button
+        android:id="@+id/button_talleres_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mapa" />
 
 </LinearLayout>

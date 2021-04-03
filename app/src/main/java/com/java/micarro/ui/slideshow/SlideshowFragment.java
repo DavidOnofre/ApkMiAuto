@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -34,17 +33,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.java.micarro.IngresarPersona;
-import com.java.micarro.MenuLateralActivity;
 import com.java.micarro.NotificacionActivity;
-import com.java.micarro.Principal;
 import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
-import com.java.micarro.ui.tools.ToolsViewModel;
-
-import static androidx.core.content.ContextCompat.getSystemService;
-import static androidx.core.content.ContextCompat.getSystemServiceName;
 
 public class SlideshowFragment extends Fragment implements View.OnClickListener {
 

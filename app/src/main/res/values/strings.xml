@@ -8,15 +8,13 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--Nombres del menu lateral -->
     <string name="menu_home">Auto</string>
     <string name="menu_gallery">Galería Autos</string>
-
     <string name="menu_slideshow">Consumibles</string>
-    <string name="menu_tools">Notificación</string>
-
-    <string name="menu_send">Historial</string>
-    <string name="menu_share">Planificar Mantenimiento</string>
-
+    <string name="menu_tools">Talleres Autorizados</string>
+    <string name="menu_send">Recordatirios</string>
+    <string name="menu_share">Gastos</string>
 
     <string name="identificacion">Identificación</string>
     <string name="nombre">Nombre</string>
@@ -49,5 +47,34 @@
     <string name="textview_not_titulo">Notificación</string>
     <string name="textview_not_pregunta1">Usted ya realizó el cambio?</string>
     <string name="textview_not_pregunta2">El costo del cambio fue:</string>
+
+    <string name="textview_talleres_taller1">Taller Chevrolet Vallejo Araujo</string>
+    <string name="textview_talleres_taller1_1">Dirección:</string>
+    <string name="textview_talleres_taller1_2">Av. 10 de Agosto N29-29 y, Quito 170102</string>
+    <string name="textview_talleres_taller1_3">Horario:</string>
+    <string name="textview_talleres_taller1_4">Lunes a Viernes (07:30 AM–17:00 PM)</string>
+    <string name="textview_talleres_taller1_5">Sábado (07:30 AM–12:30 PM)</string>
+    <string name="textview_talleres_taller1_6">Teléfono</string>
+    <string name="textview_talleres_taller1_7">1800 827 282</string>
+
+    <string name="textview_talleres_taller2">KIA MOTORS - ASIAUTO SAN BARTOLO</string>
+    <string name="textview_talleres_taller2_1">Dirección:</string>
+    <string name="textview_talleres_taller2_2">Av. Maldonado N.11672 y Saraguro, El Comercio, Quito 180205</string>
+    <string name="textview_talleres_taller2_3">Horario:</string>
+    <string name="textview_talleres_taller2_4">Lunes a Viernes (09:30 AM–18:00 PM)</string>
+    <string name="textview_talleres_taller2_5">Sábado (10:00 AM–14:00 PM)</string>
+    <string name="textview_talleres_taller2_6">Teléfono</string>
+    <string name="textview_talleres_taller2_7">(02) 273-5132</string>
+
+    <string name="textview_talleres_taller3">Toyomotors Taller Mecanico Toyota en Quito</string>
+    <string name="textview_talleres_taller3_1">Dirección:</string>
+    <string name="textview_talleres_taller3_2">Av. Moran Valverde OE3-522 y, Quito 170606</string>
+    <string name="textview_talleres_taller3_3">Horario:</string>
+    <string name="textview_talleres_taller3_4">Lunes a Viernes (08:00 AM–17:30 PM)</string>
+    <string name="textview_talleres_taller3_5">Sábado (08:00 AM–13:00 PM)</string>
+    <string name="textview_talleres_taller3_6">Teléfono</string>
+    <string name="textview_talleres_taller3_7">099 829 4261</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="mapa">Mapa</string>
 
 </resources>
