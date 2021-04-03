@@ -4,9 +4,13 @@ import android.graphics.Color;
 
 public class Constantes {
 
+    public static final int AMARILLO = Color.rgb(255, 255, 0);
+    public static final int VERDE = Color.rgb(60, 220, 78);
+    public static final int ROJO = Color.rgb(255, 0, 0);
+
     public static final String SHARED_LOGIN_DATA = "shared_login_data";
     public static final String DATO_01 = "dato01";
-    public static final String ESPACIO_VACIO = ""; //OJO CAMBIAR AL FINAL
+    public static final String ESPACIO_VACIO = "";
     public static final String ESPACIO_BLACO = " ";
     public static final String ESPACIO_VACIO_DOS_PUNTOS = " : ";
     public static final String ESPACIO_VACIO_BARRA_VERTICAL = " | ";
@@ -39,12 +43,16 @@ public class Constantes {
     public static final String BATERIA = "Batería";
     public static final String RECORRIDO = "RECORRIDO";
     public static final String RECORRIDO_FROND = "Recorrido: ";
-    public static final int AMARILLO = Color.rgb(255, 255, 0);
-    public static final int VERDE = Color.rgb(60, 220, 78);
-    public static final int ROJO = Color.rgb(255, 0, 0);
     public static final String SIGNO_PORCENTAJE = " %";
     public static final String KM = " km.";
     public static final String MANTENIMIENTO_NECESARIO = "Mantenimiento necesario: ";
     public static final String USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE = "Usted ya realizó el cambio:  si - no,  El costo del cambio fue:";
+    public static final String ESPECIFICACIONES = "Especificaciones";
+    public static final String AUTO_PRINCIPAL = "Auto Principal";
+    public static final String RECORDATORIOS = "Recordatorios";
+    public static final String GASTOS = "Gastos";
+    public static final String DETALLE_CONSUMOS = "Detalle Consumos";
+    public static final String TALLERES_AUTORIZADOS = "Talleres Autorizados";
+
 
 }
