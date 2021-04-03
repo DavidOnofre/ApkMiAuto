@@ -2,6 +2,8 @@ package com.java.micarro.model;
 
 import java.util.List;
 
+import static com.java.micarro.Constantes.ESPACIO_VACIO_BARRA_VERTICAL;
+
 public class Persona {
 
     private String uid;
@@ -73,6 +75,6 @@ public class Persona {
 
     @Override
     public String toString() {
-        return auto.get(0).getPlaca() + " | " + auto.get(0).getModelo() +" | " + auto.get(0).getKilometraje() + " | " + auto.get(0).getMarca();
+        return auto.get(0).getPlaca() + ESPACIO_VACIO_BARRA_VERTICAL + auto.get(0).getModelo() + ESPACIO_VACIO_BARRA_VERTICAL + auto.get(0).getKilometraje() + ESPACIO_VACIO_BARRA_VERTICAL + auto.get(0).getMarca();
     }
 }

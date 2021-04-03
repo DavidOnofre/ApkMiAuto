@@ -38,14 +38,16 @@ import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
 
-public class SlideshowFragment extends Fragment implements View.OnClickListener {
+import static com.java.micarro.Constantes.ESPACIO_VACIO;
+import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.KM;
+import static com.java.micarro.Constantes.MANTENIMIENTO_NECESARIO;
+import static com.java.micarro.Constantes.PERSONA;
+import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
+import static com.java.micarro.Constantes.SIGNO_PORCENTAJE;
+import static com.java.micarro.Constantes.USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE;
 
-    public static final String IDENTIFICACION_SESION = "identificacionSesion";
-    public static final String CADENA_VACIA = "";
-    public static final String SHARED_LOGIN_DATA = "shared_login_data";
-    public static final String PERSONA = "Persona";
-    public static final String SIGNO_PORCENTAJE = " %";
-    public static final String KM = " km.";
+public class SlideshowFragment extends Fragment implements View.OnClickListener {
 
     private SlideshowViewModel slideshowViewModel;
 
@@ -134,7 +136,6 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
         }
 
 
-
     }
 
     /**
@@ -162,7 +163,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Notificacion";
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
         }
     }
@@ -173,8 +174,8 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
     private void crearNotificaion(int banderaKilometraje) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity().getApplicationContext(), CHANNEL_ID);
         builder.setSmallIcon(R.drawable.ic_baseline_commute_24);
-        builder.setContentTitle("Mantenimiento necesario: " + banderaKilometraje);
-        builder.setContentText("Usted ya realizó el cambio:  si - no,  El costo del cambio fue:" );
+        builder.setContentTitle(MANTENIMIENTO_NECESARIO + banderaKilometraje);
+        builder.setContentText(USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE);
         builder.setColor(Color.GREEN);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setLights(Color.MAGENTA, 1000, 1000); // luz en el teléfono al notificar.
@@ -252,8 +253,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
         salida = (kilometraje * 100) / banderaKilometraje;
 
         //mostrar notificación cunado el % sea mayor a 80%
-        if(salida>=40)
-        {
+        if (salida >= 80) {
             ejecutarNotificacion(banderaKilometraje);
         }
         return salida;
@@ -326,9 +326,9 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
      * @return valor de la variable a recuperar de la sesión.
      */
     private String obtenerValorSesion(String valorSesion) {
-        String salida = CADENA_VACIA;
+        String salida = ESPACIO_VACIO;
         SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(valorSesion, CADENA_VACIA);
+        salida = prefs.getString(valorSesion, ESPACIO_VACIO);
         return salida;
     }
 

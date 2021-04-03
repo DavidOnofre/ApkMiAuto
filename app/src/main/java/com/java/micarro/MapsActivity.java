@@ -43,9 +43,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney2 = new LatLng(-0.2693466688566604, -78.52778290425032);
         LatLng sydney3 = new LatLng(-0.2802190886015348, -78.5475547195924);
 
-        mMap.addMarker(new MarkerOptions().position(sydney1).title("Taller Chevrolet Vallejo Araujo"));
-        mMap.addMarker(new MarkerOptions().position(sydney2).title("KIA MOTORS - ASIAUTO SAN BARTOLO"));
-        mMap.addMarker(new MarkerOptions().position(sydney3).title("Toyomotors Taller Mecanico Toyota en Quito"));
+        //mMap.addMarker(new MarkerOptions().position(sydney1).title("Taller Chevrolet Vallejo Araujo"));
+
+
+        mMap.addMarker(new MarkerOptions().position(sydney1).title(getString(R.string.textview_talleres_taller1)));
+        mMap.addMarker(new MarkerOptions().position(sydney2).title(getString(R.string.textview_talleres_taller2)));
+        mMap.addMarker(new MarkerOptions().position(sydney3).title(getString(R.string.textview_talleres_taller3)));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney1));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney2));

@@ -2,7 +2,6 @@ package com.java.micarro.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,39 +37,35 @@ import com.java.micarro.model.Persona;
 
 import java.util.ArrayList;
 
+import static com.java.micarro.Constantes.ACEITE;
+import static com.java.micarro.Constantes.ACEITE_BANDERA;
+import static com.java.micarro.Constantes.ACTUALIZADO;
+import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
+import static com.java.micarro.Constantes.AMARILLO;
+import static com.java.micarro.Constantes.BATERIA;
+import static com.java.micarro.Constantes.BATERIA_BANDERA;
+import static com.java.micarro.Constantes.ESPACIO_VACIO;
+import static com.java.micarro.Constantes.CONSUMO;
+import static com.java.micarro.Constantes.ELECTRICIDAD;
+import static com.java.micarro.Constantes.ELECTRICIDAD_BANDERA;
+import static com.java.micarro.Constantes.GASOLINA;
+import static com.java.micarro.Constantes.GASOLINA_BANDERA;
+import static com.java.micarro.Constantes.GRAFICO_CONSUMIBLES;
+import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
+import static com.java.micarro.Constantes.LLANTAS;
+import static com.java.micarro.Constantes.LLANTAS_BANDERA;
+import static com.java.micarro.Constantes.MENSAJE_INGRESE_NUMEROS;
+import static com.java.micarro.Constantes.NO;
+import static com.java.micarro.Constantes.PERSONA;
+import static com.java.micarro.Constantes.RECORRIDO;
+import static com.java.micarro.Constantes.RECORRIDO_FROND;
+import static com.java.micarro.Constantes.ROJO;
+import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
+import static com.java.micarro.Constantes.SI;
+import static com.java.micarro.Constantes.VERDE;
+
 public class HomeFragment extends Fragment implements View.OnClickListener {
-
-    public static final String SHARED_LOGIN_DATA = "shared_login_data";
-    public static final String IDENTIFICACION_SESION = "identificacionSesion";
-    public static final String ACTUALIZAR_KILOMETRAJE = "actualizarKilometraje";
-    public static final String NO = "NO";
-    public static final String SI = "SI";
-    public static final String CADENA_VACIA = "";
-    public static final String PERSONA = "Persona";
-    public static final String MODIFICADO = "Modificado";
-    public static final String MENSAJE_INGRESE_NUMEROS = "Por favor ingresar valores numéricos";
-    public static final String CONSUMO = "Consumo";
-
-    public static final String ACEITE_BANDERA = "A";
-    public static final String GASOLINA_BANDERA = "G";
-    public static final String LLANTAS_BANDERA = "L";
-    public static final String BATERIA_BANDERA = "B";
-    public static final String ELECTRICIDAD_BANDERA = "E";
-
-    public static final String KILOMETRAJE_ACTUAL = "KilometrajeActual";
-    public static final String GRAFICO_CONSUMIBLES = "Gráfico Consumibles";
-
-    public static final String ELECTRICIDAD = "Electricidad";
-    public static final String ACEITE = "Aceite";
-    public static final String GASOLINA = "Gasolina";
-    public static final String LLANTAS = "Llantas";
-    public static final String BATERIA = "Batería";
-    public static final String RECORRIDO = "RECORRIDO";
-    public static final String RECORRIDO_FROND = "Recorrido: ";
-
-    private int amarillo = Color.rgb(255, 255, 0);
-    private int verde = Color.rgb(60, 220, 78);
-    private int rojo = Color.rgb(255, 0, 0);
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -140,9 +135,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * @return valor de la variable a recuperar de la sesión.
      */
     private String obtenerValorSesion(String valorSesion) {
-        String salida = CADENA_VACIA;
+        String salida = ESPACIO_VACIO;
         SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(valorSesion, CADENA_VACIA);
+        salida = prefs.getString(valorSesion, ESPACIO_VACIO);
         return salida;
     }
 
@@ -257,13 +252,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int validacion = 5000 - kilometrajeActualizado;
 
         if (validacion <= 4999 && validacion >= 3000) {
-            salida = verde;
+            salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
-            salida = amarillo;
+            salida = AMARILLO;
         }
         if (validacion <= 99) {
-            salida = rojo;
+            salida = ROJO;
         }
         return salida;
     }
@@ -280,13 +275,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int validacion = 5000 - kilometrajeActualizado;
 
         if (validacion <= 4999 && validacion >= 3000) {
-            salida = verde;
+            salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
-            salida = amarillo;
+            salida = AMARILLO;
         }
         if (validacion <= 99) {
-            salida = rojo;
+            salida = ROJO;
         }
         return salida;
     }
@@ -303,13 +298,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int validacion = 10000 - kilometrajeActualizado;
 
         if (validacion <= 9999 && validacion >= 3000) {
-            salida = verde;
+            salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
-            salida = amarillo;
+            salida = AMARILLO;
         }
         if (validacion <= 99) {
-            salida = rojo;
+            salida = ROJO;
         }
         return salida;
     }
@@ -326,13 +321,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int validacion = 15000 - kilometrajeActualizado;
 
         if (validacion <= 14999 && validacion >= 3000) {
-            salida = verde;
+            salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
-            salida = amarillo;
+            salida = AMARILLO;
         }
         if (validacion <= 99) {
-            salida = rojo;
+            salida = ROJO;
         }
         return salida;
     }
@@ -349,13 +344,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int validacion = 10000 - kilometrajeActualizado;
 
         if (validacion <= 9999 && validacion >= 3000) {
-            salida = verde;
+            salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
-            salida = amarillo;
+            salida = AMARILLO;
         }
         if (validacion <= 99) {
-            salida = rojo;
+            salida = ROJO;
         }
         return salida;
     }
@@ -467,7 +462,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * Método usado para limpiar cajas del formulario.
      */
     private void limpiarCajas() {
-        editTextKilometraje.setText(CADENA_VACIA);
+        editTextKilometraje.setText(ESPACIO_VACIO);
     }
 
     /**
@@ -555,7 +550,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // mantenimiento kodigo
 
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
-        Toast.makeText(getActivity().getApplicationContext(), MODIFICADO, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
 
         grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
         actualizarKilometrajeFrond(false);

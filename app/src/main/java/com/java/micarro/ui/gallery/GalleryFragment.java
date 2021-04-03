@@ -35,17 +35,17 @@ import com.java.micarro.model.Persona;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GalleryFragment extends Fragment {
+import static com.java.micarro.Constantes.ACTUALIZADO;
+import static com.java.micarro.Constantes.AGREGADO;
+import static com.java.micarro.Constantes.ESPACIO_VACIO;
+import static com.java.micarro.Constantes.CERO;
+import static com.java.micarro.Constantes.ELIMINADO;
+import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.PERSONA;
+import static com.java.micarro.Constantes.REQUIRED;
+import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 
-    public static final String SHARED_LOGIN_DATA = "shared_login_data";
-    public static final String IDENTIFICACION_SESION = "identificacionSesion";
-    public static final String CADENA_VACIA = "";
-    public static final String PERSONA = "Persona";
-    public static final String REQUIRED = "Required";
-    public static final String AGREGADO = "Agregado";
-    public static final String ACTUALIZADO = "Actualizado";
-    public static final String ELIMINADO = "Eliminado";
-    public static final String CERO = "0";
+public class GalleryFragment extends Fragment {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -95,7 +95,7 @@ public class GalleryFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.icon_add: {
-                if (placa.equals(CADENA_VACIA) || modelo.equals(CADENA_VACIA) || marca.equals(CADENA_VACIA)) {
+                if (placa.equals(ESPACIO_VACIO) || modelo.equals(ESPACIO_VACIO) || marca.equals(ESPACIO_VACIO)) {
                     validacion();
                 } else {
 
@@ -176,15 +176,15 @@ public class GalleryFragment extends Fragment {
         String modelo = editTextModelo.getText().toString();
         String marca = editTextMarca.getText().toString();
 
-        if (placa.equals(CADENA_VACIA)) {
+        if (placa.equals(ESPACIO_VACIO)) {
             editTextPlaca.setError(REQUIRED);
         }
 
-        if (modelo.equals(CADENA_VACIA)) {
+        if (modelo.equals(ESPACIO_VACIO)) {
             editTextModelo.setError(REQUIRED);
         }
 
-        if (marca.equals(CADENA_VACIA)) {
+        if (marca.equals(ESPACIO_VACIO)) {
             editTextMarca.setError(REQUIRED);
         }
     }
@@ -252,7 +252,7 @@ public class GalleryFragment extends Fragment {
      */
     private String obtenerValorSesion(String valorSesion) {
         SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        String salida = prefs.getString(valorSesion, CADENA_VACIA);
+        String salida = prefs.getString(valorSesion, ESPACIO_VACIO);
         return salida;
     }
 
@@ -270,8 +270,8 @@ public class GalleryFragment extends Fragment {
      * Método usado para limpiar cajas del formulario.
      */
     private void limpiarCajas() {
-        editTextPlaca.setText(CADENA_VACIA);
-        editTextModelo.setText(CADENA_VACIA);
-        editTextMarca.setText(CADENA_VACIA);
+        editTextPlaca.setText(ESPACIO_VACIO);
+        editTextModelo.setText(ESPACIO_VACIO);
+        editTextMarca.setText(ESPACIO_VACIO);
     }
 }

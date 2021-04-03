@@ -10,7 +10,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 
-import static com.java.micarro.Constantes.CADENA_VACIA;
+import static com.java.micarro.Constantes.ESPACIO_VACIO;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 import static com.java.micarro.ui.slideshow.SlideshowFragment.NOTIFICACION_ID;
@@ -46,9 +46,9 @@ public class NotificacionActivity extends AppCompatActivity {
      * @return valor de la variable a recuperar de la sesión.
      */
     private String obtenerValorSesion(String valorSesion) {
-        String salida = CADENA_VACIA;
+        String salida = ESPACIO_VACIO;
         SharedPreferences prefs = getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(valorSesion, CADENA_VACIA);
+        salida = prefs.getString(valorSesion, ESPACIO_VACIO);
         return salida;
     }
 }

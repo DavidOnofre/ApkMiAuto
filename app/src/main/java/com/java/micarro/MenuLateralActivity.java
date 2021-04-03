@@ -25,12 +25,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.java.micarro.model.Persona;
 
-public class MenuLateralActivity extends AppCompatActivity {
+import static com.java.micarro.Constantes.BIENVENIDO;
+import static com.java.micarro.Constantes.ESPACIO_VACIO;
+import static com.java.micarro.Constantes.DATO_01;
+import static com.java.micarro.Constantes.ESPACIO_BLACO;
+import static com.java.micarro.Constantes.ESPACIO_VACIO_DOS_PUNTOS;
+import static com.java.micarro.Constantes.PERSONA;
+import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 
-    public static final String SHARED_LOGIN_DATA = "shared_login_data";
-    public static final String DATO_01 = "dato01";
-    public static final String CADENA_VACIA = "";
-    public static final String PERSONA = "Persona";
+public class MenuLateralActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -40,7 +43,6 @@ public class MenuLateralActivity extends AppCompatActivity {
     private TextView textViewUsuarioLogeado;
     private TextView textViewAutoLogeado;
     private String uid = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +73,7 @@ public class MenuLateralActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_lateral, menu);  //menu string
-        getMenuInflater().inflate(R.menu.menu_main, menu);       //menu iconos
+        getMenuInflater().inflate(R.menu.menu_main, menu); //menu iconos
         return true;
     }
 
@@ -88,9 +89,9 @@ public class MenuLateralActivity extends AppCompatActivity {
      * @return uid.
      */
     private String obtenerUid() {
-        String salida = CADENA_VACIA;
+        String salida = ESPACIO_VACIO;
         SharedPreferences prefs = this.getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(DATO_01, CADENA_VACIA);
+        salida = prefs.getString(DATO_01, ESPACIO_VACIO);
         return salida;
     }
 
@@ -115,10 +116,10 @@ public class MenuLateralActivity extends AppCompatActivity {
                     if (usuarioLogeado.equals(persona.getUid())) {
 
                         textViewUsuarioLogeado = view.getHeaderView(0).findViewById(R.id.textViewUsuarioLogeado);
-                        textViewUsuarioLogeado.setText("Bienvenido: " + persona.getNombre() + " " + persona.getApellido());
+                        textViewUsuarioLogeado.setText(BIENVENIDO + persona.getNombre() + ESPACIO_BLACO + persona.getApellido());
 
                         textViewAutoLogeado = findViewById(R.id.textViewAutoLogeado);
-                        textViewAutoLogeado.setText(persona.getAuto().get(0).getMarca() + " : " + persona.getAuto().get(0).getPlaca());
+                        textViewAutoLogeado.setText(persona.getAuto().get(0).getMarca() + ESPACIO_VACIO_DOS_PUNTOS + persona.getAuto().get(0).getPlaca());
                     }
                 }
             }

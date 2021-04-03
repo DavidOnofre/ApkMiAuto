@@ -25,18 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
+import static com.java.micarro.Constantes.CONTRASENA_10_DIGITOS;
+import static com.java.micarro.Constantes.CONTRASENA_INCORRECTA;
+import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
+import static com.java.micarro.Constantes.SI;
+
 public class MainActivity extends AppCompatActivity {
-
-    public static final String SHARED_LOGIN_DATA = "shared_login_data";
-
-    //constantes de sesión.
-    public static final String IDENTIFICACION_SESION = "identificacionSesion";
-    public static final String ACTUALIZAR_KILOMETRAJE = "actualizarKilometraje";
-    public static final String SI = "SI";
-    public static final String CONTRASENA_10_DIGITOS = "Longitud de contraseña 10 dígitos";
-    public static final String CONTRASENA_INCORRECTA = "Usuario o Contraseña Incorrectos.";
-
-
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
