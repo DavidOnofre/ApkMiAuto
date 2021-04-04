@@ -96,8 +96,8 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
         inicializarVariables(root);
         identificacion = comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION);
 
-
         cargarEntidadGlobalPersona();
+
         button.setOnClickListener(this);
 
         return root;
