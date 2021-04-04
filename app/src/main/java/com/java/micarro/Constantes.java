@@ -27,8 +27,7 @@ public class Constantes {
     public static final String ACTUALIZADO = "Actualizado";
     public static final String ELIMINADO = "Eliminado";
     public static final String CERO = "0";
-    public static final String MENSAJE_INGRESE_NUMEROS = "Por favor ingresar valores numéricos";
-    public static final String CONSUMO = "Consumo";
+        public static final String CONSUMO = "Consumo";
     public static final String ACEITE_BANDERA = "A";
     public static final String GASOLINA_BANDERA = "G";
     public static final String LLANTAS_BANDERA = "L";
@@ -53,6 +52,8 @@ public class Constantes {
     public static final String GASTOS = "Gastos";
     public static final String DETALLE_CONSUMOS = "Detalle Consumos";
     public static final String TALLERES_AUTORIZADOS = "Talleres Autorizados";
+    public static final String CHANNEL_ID = "NOTIFICACION";
+    public static final int NOTIFICACION_ID = 0;
 
 
 }

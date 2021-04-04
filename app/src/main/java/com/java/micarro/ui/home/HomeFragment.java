@@ -24,12 +24,11 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.java.micarro.Comun;
 import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Mantenimiento;
@@ -44,10 +43,10 @@ import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
 import static com.java.micarro.Constantes.AMARILLO;
 import static com.java.micarro.Constantes.BATERIA;
 import static com.java.micarro.Constantes.BATERIA_BANDERA;
-import static com.java.micarro.Constantes.ESPACIO_VACIO;
 import static com.java.micarro.Constantes.CONSUMO;
 import static com.java.micarro.Constantes.ELECTRICIDAD;
 import static com.java.micarro.Constantes.ELECTRICIDAD_BANDERA;
+import static com.java.micarro.Constantes.ESPACIO_VACIO;
 import static com.java.micarro.Constantes.GASOLINA;
 import static com.java.micarro.Constantes.GASOLINA_BANDERA;
 import static com.java.micarro.Constantes.GRAFICO_CONSUMIBLES;
@@ -55,7 +54,6 @@ import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
 import static com.java.micarro.Constantes.LLANTAS;
 import static com.java.micarro.Constantes.LLANTAS_BANDERA;
-import static com.java.micarro.Constantes.MENSAJE_INGRESE_NUMEROS;
 import static com.java.micarro.Constantes.NO;
 import static com.java.micarro.Constantes.PERSONA;
 import static com.java.micarro.Constantes.RECORRIDO;
@@ -67,7 +65,7 @@ import static com.java.micarro.Constantes.VERDE;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    private FirebaseDatabase firebaseDatabase;
+    private Comun comun;
     private DatabaseReference databaseReference;
 
     private HomeViewModel homeViewModel;
@@ -100,7 +98,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
 
         identificacion = obtenerValorSesion(IDENTIFICACION_SESION);
-        inicializarFireBase();
+
         inicializarVariables(root);
         cargarEntidadGlobalPersona(); // vuelve a consultar a la bdd
         cargarEtiquetasAuto(identificacion); // consulta a la bdd
@@ -141,7 +139,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return salida;
     }
 
-
     /**
      * Método para dibujar gráfico horizontal.
      */
@@ -154,7 +151,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         cargarEtiquetaPieGrafico();
         cargaColoresBarras(barEntries);
     }
-
 
     /**
      * Cargar colores para cada barra graficada.
@@ -427,7 +423,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         String kilometrajeIngresado = editTextKilometraje.getText().toString();
 
-        if (esNumero(kilometrajeIngresado)) {
+        if (comun.esNumero(kilometrajeIngresado)) {
             actualizarKilometraje(kilometrajeIngresado);
             dibujarGraficoHorizontal();
         }
@@ -466,18 +462,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Método usado para instanciar api firebase.
-     */
-    private void inicializarFireBase() {
-        FirebaseApp.initializeApp(getActivity());
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-    }
-
-    /**
      * Método usado para inicializar variables.
      */
     private void inicializarVariables(View root) {
+        comun = new Comun();
+
         editTextKilometraje = root.findViewById(R.id.txt_kilometraje3);
         persona = new Persona();
         buttonActualizarKilometraje = (Button) root.findViewById(R.id.button_actualizar_kilomtraje);
@@ -488,6 +477,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         textViewModelo = root.findViewById(R.id.txt_modelo2);
         textViewKilometraje = root.findViewById(R.id.txt_kilometraje2);
         textViewRecorrido = root.findViewById(R.id.textViewRecorrido);
+
+        databaseReference = comun.ObtenerDataBaseReference(getActivity());
     }
 
     /**
@@ -579,24 +570,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void actualizarKilometrajeFrond(boolean actualizar) {
         buttonActualizarKilometraje.setEnabled(actualizar);
         editTextKilometraje.setEnabled(actualizar);
-    }
-
-    /**
-     * Método usado para validar que el kilometraje ingresado sea un número.
-     *
-     * @param cadena a validar si es número
-     * @return Bandera que indica que la validación es exitosa.
-     */
-    public boolean esNumero(String cadena) {
-        boolean resultado;
-        try {
-            Integer.parseInt(cadena);
-            resultado = true;
-        } catch (NumberFormatException excepcion) {
-            Toast.makeText(getActivity().getApplicationContext(), MENSAJE_INGRESE_NUMEROS, Toast.LENGTH_SHORT).show();
-            resultado = false;
-            limpiarCajas();
-        }
-        return resultado;
     }
 }

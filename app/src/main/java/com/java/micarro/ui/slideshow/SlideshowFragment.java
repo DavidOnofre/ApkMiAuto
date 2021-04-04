@@ -5,9 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,28 +25,28 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.java.micarro.Comun;
 import com.java.micarro.NotificacionActivity;
 import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
 
-import static com.java.micarro.Constantes.ESPACIO_VACIO;
+import static com.java.micarro.Constantes.CHANNEL_ID;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.KM;
 import static com.java.micarro.Constantes.MANTENIMIENTO_NECESARIO;
+import static com.java.micarro.Constantes.NOTIFICACION_ID;
 import static com.java.micarro.Constantes.PERSONA;
-import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 import static com.java.micarro.Constantes.SIGNO_PORCENTAJE;
 import static com.java.micarro.Constantes.USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE;
 
 public class SlideshowFragment extends Fragment implements View.OnClickListener {
 
+    private Comun comun;
     private SlideshowViewModel slideshowViewModel;
 
     private ProgressBar progressBar5000;
@@ -70,11 +68,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
     private TextView textViewKilometrajeActual;
 
     private Button button;
-
-    //variables necesarias para la notificación.
     private PendingIntent pendingIntent;
-    private static final String CHANNEL_ID = "NOTIFICACION";
-    public static final int NOTIFICACION_ID = 0;
 
     private Handler handler;
     private Boolean activo;
@@ -83,7 +77,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
 
     private String identificacion = "";
     private Persona persona;
-    private FirebaseDatabase firebaseDatabase;
+
     private DatabaseReference databaseReference;
 
 
@@ -99,12 +93,11 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        identificacion = obtenerValorSesion(IDENTIFICACION_SESION);
-        inicializarFireBase();
         inicializarVariables(root);
+        identificacion = comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION);
+
 
         cargarEntidadGlobalPersona();
-
         button.setOnClickListener(this);
 
         return root;
@@ -252,7 +245,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
         int salida = 0;
         salida = (kilometraje * 100) / banderaKilometraje;
 
-        //mostrar notificación cunado el % sea mayor a 80%
+        //mostrar notificación cuanado el % sea mayor a 80%
         if (salida >= 80) {
             ejecutarNotificacion(banderaKilometraje);
         }
@@ -266,6 +259,9 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
      */
 
     private void inicializarVariables(View root) {
+        comun = new Comun();
+        databaseReference = comun.ObtenerDataBaseReference(getActivity());
+
         handler = new Handler();
 
         progressBar5000 = (ProgressBar) root.findViewById(R.id.progressBar_consumibles_5000);
@@ -320,32 +316,10 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
     }
 
     /**
-     * Método usado para cargar una cadena de sesión.
-     *
-     * @param valorSesion nombre de la variable de sesión que se quiere recuperar.
-     * @return valor de la variable a recuperar de la sesión.
-     */
-    private String obtenerValorSesion(String valorSesion) {
-        String salida = ESPACIO_VACIO;
-        SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(valorSesion, ESPACIO_VACIO);
-        return salida;
-    }
-
-    /**
-     * Método usado para instanciar api firebase.
-     */
-    private void inicializarFireBase() {
-        FirebaseApp.initializeApp(getActivity());
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-    }
-
-    /**
      * Método usado para cargar variable global persona.
      */
     private void cargarEntidadGlobalPersona() {
-        final String identificacion = obtenerValorSesion(IDENTIFICACION_SESION);
+        final String identificacion = comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION);
 
         databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
             @Override

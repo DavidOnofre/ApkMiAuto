@@ -12,8 +12,9 @@ import androidx.core.app.NotificationManagerCompat;
 
 import static com.java.micarro.Constantes.ESPACIO_VACIO;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.NOTIFICACION_ID;
 import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
-import static com.java.micarro.ui.slideshow.SlideshowFragment.NOTIFICACION_ID;
+
 
 public class NotificacionActivity extends AppCompatActivity {
 

@@ -1,7 +1,5 @@
 package com.java.micarro.ui.gallery;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,12 +20,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.java.micarro.Comun;
 import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
@@ -37,17 +34,16 @@ import java.util.List;
 
 import static com.java.micarro.Constantes.ACTUALIZADO;
 import static com.java.micarro.Constantes.AGREGADO;
-import static com.java.micarro.Constantes.ESPACIO_VACIO;
 import static com.java.micarro.Constantes.CERO;
 import static com.java.micarro.Constantes.ELIMINADO;
+import static com.java.micarro.Constantes.ESPACIO_VACIO;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.PERSONA;
 import static com.java.micarro.Constantes.REQUIRED;
-import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 
 public class GalleryFragment extends Fragment {
 
-    private FirebaseDatabase firebaseDatabase;
+    private Comun comun;
     private DatabaseReference databaseReference;
     private GalleryViewModel galleryViewModel;
     private ListView listViewAutos;
@@ -74,8 +70,7 @@ public class GalleryFragment extends Fragment {
         });
 
         inicializarVariables(root);
-        inicializarFireBase();
-        cargarDatosPersona(obtenerValorSesion(IDENTIFICACION_SESION));
+        cargarDatosPersona(comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION));
         cargarAutoSeleccionado();
         setHasOptionsMenu(true);
 
@@ -207,7 +202,7 @@ public class GalleryFragment extends Fragment {
     }
 
     /**
-     * Método usas solo del usuario logeado.do para cargar dato
+     * Método usado para cargar datos del usuario logeado.
      */
     private void cargarDatosPersona(String clave) {
         final String usuarioLogeado = clave;
@@ -236,34 +231,16 @@ public class GalleryFragment extends Fragment {
     }
 
     /**
-     * Método usado para instanciar api firebase.
-     */
-    private void inicializarFireBase() {
-        FirebaseApp.initializeApp(getActivity());
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-    }
-
-    /**
-     * Método usado para cargar una cadena de sesión.
-     *
-     * @param valorSesion nombre de la variable de sesión que se quiere recuperar.
-     * @return valor de la variable a recuperar de la sesión.
-     */
-    private String obtenerValorSesion(String valorSesion) {
-        SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        String salida = prefs.getString(valorSesion, ESPACIO_VACIO);
-        return salida;
-    }
-
-    /**
      * Método usado para inicializar variables.
      */
     private void inicializarVariables(View root) {
+        comun = new Comun();
         editTextPlaca = root.findViewById(R.id.editTextGalleryPlaca);
         editTextModelo = root.findViewById(R.id.editTextGalleryModelo);
         editTextMarca = root.findViewById(R.id.editTextGalleryMarca);
         listViewAutos = root.findViewById(R.id.listViewGalleryAutos);
+
+        databaseReference = comun.ObtenerDataBaseReference(getActivity());
     }
 
     /**
