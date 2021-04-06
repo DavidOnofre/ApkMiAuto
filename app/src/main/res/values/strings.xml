@@ -76,5 +76,6 @@
     <string name="textview_talleres_taller3_7">099 829 4261</string>
     <string name="title_activity_maps">Map</string>
     <string name="mapa">Mapa</string>
+    <string name="consumibles">Consumibles</string>
 
 </resources>

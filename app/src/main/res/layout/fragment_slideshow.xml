@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -30,27 +29,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textStyle="bold|italic"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textStyle="bold|italic" />
 
             <!-- inicio 5 000 -->
             <TextView
                 android:id="@+id/textView_consumibles_5000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_5000" />
+                android:text="@string/textview_consumibles_5000"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_aceite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_aceite" />
+                android:text="@string/textview_consumibles_aceite"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_fitroMotor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_filtro_motor" />
+                android:text="@string/textview_consumibles_filtro_motor"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_porcentaje_5000"
@@ -76,25 +78,29 @@
                 android:id="@+id/textView_consumibles_10000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_10000" />
+                android:text="@string/textview_consumibles_10000"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_filtro_combustible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_filtro_combustible" />
+                android:text="@string/textview_consumibles_filtro_combustible"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_filto_aire"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_filtro_aire" />
+                android:text="@string/textview_consumibles_filtro_aire"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_porcentaje_10000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textStyle="bold|italic" />
 
             <ProgressBar
                 android:id="@+id/progressBar_consumibles_10000"
@@ -114,13 +120,15 @@
                 android:id="@+id/textView_consumibles_15000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_15000" />
+                android:text="@string/textview_consumibles_15000"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_bujia_encendido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_bujia_encendido" />
+                android:text="@string/textview_consumibles_bujia_encendido"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_porcentaje_15000"
@@ -146,13 +154,15 @@
                 android:id="@+id/textView_consumibles_20000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_20000" />
+                android:text="@string/textview_consumibles_20000"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_liquido_frenos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_liquido_frenos" />
+                android:text="@string/textview_consumibles_liquido_frenos"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_porcentaje_20000"
@@ -179,13 +189,15 @@
                 android:id="@+id/textView_consumibles_30000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_30000" />
+                android:text="@string/textview_consumibles_30000"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_liq_dir_hidraulica"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_liq_dir_hidraulica" />
+                android:text="@string/textview_consumibles_liq_dir_hidraulica"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_porcentaje_30000"
@@ -211,13 +223,15 @@
                 android:id="@+id/textView_consumibles_55000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_55000" />
+                android:text="@string/textview_consumibles_55000"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_aceite_caja"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_aceite_caja" />
+                android:text="@string/textview_consumibles_aceite_caja"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_porcentaje_55000"
@@ -244,25 +258,29 @@
                 android:id="@+id/textView_consumibles_60000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_60000" />
+                android:text="@string/textview_consumibles_60000"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_banda_distribucion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_banda_distribucion" />
+                android:text="@string/textview_consumibles_banda_distribucion"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_refrigerante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_refrigerante" />
+                android:text="@string/textview_consumibles_refrigerante"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_termostato"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textview_consumibles_termostato" />
+                android:text="@string/textview_consumibles_termostato"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView_consumibles_porcentaje_60000"
@@ -282,12 +300,6 @@
                 android:layout_height="wrap_content"
                 android:text="" />
             <!-- fin 60 000 -->
-
-            <Button
-                android:id="@+id/button_consumibles_aceite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/calcular" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>

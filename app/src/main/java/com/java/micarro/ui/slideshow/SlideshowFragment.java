@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,26 +24,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.java.micarro.Comun;
 import com.java.micarro.NotificacionActivity;
 import com.java.micarro.R;
-import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
 
 import static com.java.micarro.Constantes.CHANNEL_ID;
-import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
 import static com.java.micarro.Constantes.KM;
 import static com.java.micarro.Constantes.MANTENIMIENTO_NECESARIO;
+import static com.java.micarro.Constantes.NOTIFICACION;
 import static com.java.micarro.Constantes.NOTIFICACION_ID;
-import static com.java.micarro.Constantes.PERSONA;
 import static com.java.micarro.Constantes.SIGNO_PORCENTAJE;
 import static com.java.micarro.Constantes.USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE;
 
-public class SlideshowFragment extends Fragment implements View.OnClickListener {
+public class SlideshowFragment extends Fragment {
 
     private Comun comun;
     private SlideshowViewModel slideshowViewModel;
@@ -67,7 +62,6 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
 
     private TextView textViewKilometrajeActual;
 
-    private Button button;
     private PendingIntent pendingIntent;
 
     private Handler handler;
@@ -94,41 +88,31 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
         });
 
         inicializarVariables(root);
-        identificacion = comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION);
 
-        cargarEntidadGlobalPersona();
-
-        button.setOnClickListener(this);
+        calcularConsumibles();
 
         return root;
     }
 
-    @Override
-    public void onClick(View v) {
-
+    private void calcularConsumibles() {
         final int kilometrajeActual = obtenerKilometraje();
         textViewKilometrajeActual.setText(kilometrajeActual + KM);
 
-        if (v.getId() == R.id.button_consumibles_aceite) {
-
-            if (!activo) {
-                Thread hilo = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        graficarProgessBar(kilometrajeActual, 5000);
-                        graficarProgessBar(kilometrajeActual, 10000);
-                        graficarProgessBar(kilometrajeActual, 15000);
-                        graficarProgessBar(kilometrajeActual, 20000);
-                        graficarProgessBar(kilometrajeActual, 30000);
-                        graficarProgessBar(kilometrajeActual, 55000);
-                        graficarProgessBar(kilometrajeActual, 60000);
-                    }
-                });
-                hilo.start();
-            }
+        if (!activo) {
+            Thread hilo = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    graficarProgessBar(kilometrajeActual, 5000);
+                    graficarProgessBar(kilometrajeActual, 10000);
+                    graficarProgessBar(kilometrajeActual, 15000);
+                    graficarProgessBar(kilometrajeActual, 20000);
+                    graficarProgessBar(kilometrajeActual, 30000);
+                    graficarProgessBar(kilometrajeActual, 55000);
+                    graficarProgessBar(kilometrajeActual, 60000);
+                }
+            });
+            hilo.start();
         }
-
-
     }
 
     /**
@@ -154,7 +138,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
      */
     private void crearNotificaionChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Notificacion";
+            CharSequence name = NOTIFICACION;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
@@ -166,10 +150,10 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
      */
     private void crearNotificaion(int banderaKilometraje) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity().getApplicationContext(), CHANNEL_ID);
-        builder.setSmallIcon(R.drawable.ic_baseline_commute_24);
+        builder.setSmallIcon(R.drawable.ic_baseline_directions_car_25);
         builder.setContentTitle(MANTENIMIENTO_NECESARIO + banderaKilometraje);
         builder.setContentText(USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE);
-        builder.setColor(Color.GREEN);
+        builder.setColor(Color.RED);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setLights(Color.MAGENTA, 1000, 1000); // luz en el teléfono al notificar.
         builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
@@ -224,7 +208,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
                 }
             });
             try {
-                Thread.sleep(100);
+                Thread.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -279,10 +263,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
         textViewPorcentaje30000 = (TextView) root.findViewById(R.id.textView_consumibles_porcentaje_30000);
         textViewPorcentaje55000 = (TextView) root.findViewById(R.id.textView_consumibles_porcentaje_55000);
         textViewPorcentaje60000 = (TextView) root.findViewById(R.id.textView_consumibles_porcentaje_60000);
-
         textViewKilometrajeActual = (TextView) root.findViewById(R.id.textView_consumibles_kilometraje_actual);
-
-        button = (Button) root.findViewById(R.id.button_consumibles_aceite);
 
         activo = false;
         contador = 0;
@@ -295,48 +276,7 @@ public class SlideshowFragment extends Fragment implements View.OnClickListener 
      * @return
      */
     private int obtenerKilometraje() {
-        int salida;
-
-        Auto auto = persona.getAuto().get(0);
-        salida = obtenerKilometrajeBaseDatos();
-
-        return salida;
+        String kilometraje = comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACTUAL);
+        return Integer.parseInt(kilometraje);
     }
-
-    /**
-     * Método usado para obener el kilometraje desade la base de datos.
-     *
-     * @return
-     */
-    private int obtenerKilometrajeBaseDatos() {
-        Auto auto = persona.getAuto().get(0);
-        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
-        int kilometrajeActualizado = kilometrajeActual;
-        return kilometrajeActualizado;
-    }
-
-    /**
-     * Método usado para cargar variable global persona.
-     */
-    private void cargarEntidadGlobalPersona() {
-        final String identificacion = comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION);
-
-        databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()) {
-                    Persona p = objDataSnapshot.getValue(Persona.class);
-
-                    if (identificacion.equals(p.getUid())) {
-                        SlideshowFragment.this.persona = p;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
-
 }

@@ -52,15 +52,20 @@ import static com.java.micarro.Constantes.GASOLINA_BANDERA;
 import static com.java.micarro.Constantes.GRAFICO_CONSUMIBLES;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
+import static com.java.micarro.Constantes.KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO;
 import static com.java.micarro.Constantes.LLANTAS;
 import static com.java.micarro.Constantes.LLANTAS_BANDERA;
+import static com.java.micarro.Constantes.MARCA;
+import static com.java.micarro.Constantes.MODELO;
 import static com.java.micarro.Constantes.NO;
 import static com.java.micarro.Constantes.PERSONA;
+import static com.java.micarro.Constantes.PLACA;
 import static com.java.micarro.Constantes.RECORRIDO;
 import static com.java.micarro.Constantes.RECORRIDO_FROND;
 import static com.java.micarro.Constantes.ROJO;
 import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 import static com.java.micarro.Constantes.SI;
+import static com.java.micarro.Constantes.ULTIMO_KILOMETRAJE;
 import static com.java.micarro.Constantes.VERDE;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -422,10 +427,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
 
         String kilometrajeIngresado = editTextKilometraje.getText().toString();
+        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
+        Auto auto = persona.getAuto().get(0);
+        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+
 
         if (comun.esNumero(kilometrajeIngresado)) {
-            actualizarKilometraje(kilometrajeIngresado);
-            dibujarGraficoHorizontal();
+
+            if (validarKilometrajeMayorRegistrado(kilometrajeActual, kilometrajeCajaTexto)) {
+
+                actualizarKilometraje(kilometrajeIngresado);
+                dibujarGraficoHorizontal();
+            }
         }
     }
 
@@ -467,16 +480,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void inicializarVariables(View root) {
         comun = new Comun();
 
-        editTextKilometraje = root.findViewById(R.id.txt_kilometraje3);
+        editTextKilometraje = root.findViewById(R.id.editText_auto_principal_Kilometraje_Ingresado);
         persona = new Persona();
-        buttonActualizarKilometraje = (Button) root.findViewById(R.id.button_actualizar_kilomtraje);
+        buttonActualizarKilometraje = (Button) root.findViewById(R.id.button_auto_principal_actualizar_kilomtraje);
         horizontalBarChart = (HorizontalBarChart) root.findViewById(R.id.graficaHorizontal);
 
-        textViewPlaca = root.findViewById(R.id.txt_placa2);
-        textViewMarca = root.findViewById(R.id.txt_marca2);
-        textViewModelo = root.findViewById(R.id.txt_modelo2);
-        textViewKilometraje = root.findViewById(R.id.txt_kilometraje2);
-        textViewRecorrido = root.findViewById(R.id.textViewRecorrido);
+        textViewPlaca = root.findViewById(R.id.textView_auto_principal_placa);
+        textViewMarca = root.findViewById(R.id.textView_auto_principal_marca);
+        textViewModelo = root.findViewById(R.id.textView_auto_principal_modelo);
+        textViewKilometraje = root.findViewById(R.id.textView_auto_principal_kilometraje);
+        textViewRecorrido = root.findViewById(R.id.textView_auto_principal_recorrido);
 
         databaseReference = comun.ObtenerDataBaseReference(getActivity());
     }
@@ -500,10 +513,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     if (identificacion.equals(per.getUid())) {
 
-                        textViewPlaca.setText(per.getAuto().get(0).getPlaca());
-                        textViewMarca.setText(per.getAuto().get(0).getMarca());
-                        textViewModelo.setText(per.getAuto().get(0).getModelo());
-                        textViewKilometraje.setText(per.getAuto().get(0).getKilometraje());
+                        textViewPlaca.setText(PLACA + per.getAuto().get(0).getPlaca());
+                        textViewMarca.setText(MARCA + per.getAuto().get(0).getMarca());
+                        textViewModelo.setText(MODELO + per.getAuto().get(0).getModelo());
+                        textViewKilometraje.setText(ULTIMO_KILOMETRAJE + per.getAuto().get(0).getKilometraje());
                     }
                 }
             }
@@ -524,28 +537,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
         Auto auto = persona.getAuto().get(0);
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
-        String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
 
-        // mostrar el kilometraje que se a recorrido
-        textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
 
-        auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
+            String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
 
-        // mantenimiento kodigo
-        Mantenimiento m = new Mantenimiento();
-        m.setFechaKilometraje("fechaDesdeBack");
-        m.setGastos("gastosDesdeBack");
-        m.setObservaciones("observacionDesdeBack");
-        m.setTipoMantenimiento("tipoMantenimientoDesdeBack");
-        persona.setMantenimiento(m);
-        // mantenimiento kodigo
+            // mostrar el kilometraje que se a recorrido
+            textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
 
-        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
-        Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
+            auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
 
-        grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
-        actualizarKilometrajeFrond(false);
-        limpiarCajas();
+            // mantenimiento kodigo
+            Mantenimiento m = new Mantenimiento();
+            m.setFechaKilometraje("fechaDesdeBack");
+            m.setGastos("gastosDesdeBack");
+            m.setObservaciones("observacionDesdeBack");
+            m.setTipoMantenimiento("tipoMantenimientoDesdeBack");
+            persona.setMantenimiento(m);
+            // mantenimiento kodigo
+
+            databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
+            Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
+
+            grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
+            actualizarKilometrajeFrond(false);
+            limpiarCajas();
+
+    }
+
+    private boolean validarKilometrajeMayorRegistrado(int kilometrajeActual, int kilometrajeCajaTexto) {
+        boolean resultado = false;
+
+        if (kilometrajeCajaTexto > kilometrajeActual) {
+            resultado = true;
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO, Toast.LENGTH_SHORT).show();
+        }
+
+        return resultado;
     }
 
     /**

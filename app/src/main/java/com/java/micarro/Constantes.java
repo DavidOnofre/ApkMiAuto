@@ -17,6 +17,7 @@ public class Constantes {
     public static final String PERSONA = "Persona";
     public static final String IDENTIFICACION_SESION = "identificacionSesion";
     public static final String ACTUALIZAR_KILOMETRAJE = "actualizarKilometraje";
+    public static final String KILOMETRAJE_ACTUAL = "KilometrajeActual";
     public static final String SI = "SI";
     public static final String NO = "NO";
     public static final String CONTRASENA_10_DIGITOS = "Longitud de contraseña 10 dígitos";
@@ -27,13 +28,12 @@ public class Constantes {
     public static final String ACTUALIZADO = "Actualizado";
     public static final String ELIMINADO = "Eliminado";
     public static final String CERO = "0";
-        public static final String CONSUMO = "Consumo";
+    public static final String CONSUMO = "Consumo";
     public static final String ACEITE_BANDERA = "A";
     public static final String GASOLINA_BANDERA = "G";
     public static final String LLANTAS_BANDERA = "L";
     public static final String BATERIA_BANDERA = "B";
     public static final String ELECTRICIDAD_BANDERA = "E";
-    public static final String KILOMETRAJE_ACTUAL = "KilometrajeActual";
     public static final String GRAFICO_CONSUMIBLES = "Gráfico Consumibles";
     public static final String ELECTRICIDAD = "Electricidad";
     public static final String ACEITE = "Aceite";
@@ -54,6 +54,12 @@ public class Constantes {
     public static final String TALLERES_AUTORIZADOS = "Talleres Autorizados";
     public static final String CHANNEL_ID = "NOTIFICACION";
     public static final int NOTIFICACION_ID = 0;
+    public static final String PLACA = "Placa: ";
+    public static final String MARCA = "Marca: ";
+    public static final String MODELO = "Modelo: ";
+    public static final String ULTIMO_KILOMETRAJE = "Último Kilometraje: ";
+    public static final String KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO = "El kilometraje ingresado debe ser mayor al registrado: ";
+    public static final String NOTIFICACION = "Notificación";
 
 
 }

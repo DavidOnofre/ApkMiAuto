@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.java.micarro.model.Auto;
 import com.java.micarro.model.Persona;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
 import static com.java.micarro.Constantes.CONTRASENA_10_DIGITOS;
 import static com.java.micarro.Constantes.CONTRASENA_INCORRECTA;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
 import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 import static com.java.micarro.Constantes.SI;
 
@@ -72,11 +74,15 @@ public class MainActivity extends AppCompatActivity {
                 if (banderaLongitudContrasena) {
 
                     String identificacion = txtContrasena.getText().toString();
+                    String kilometraje = "";
 
                     Boolean banderaLogin = false;
                     for (Persona persona : listaPersona) {
                         if (identificacion.equals(persona.getUid())) {
                             banderaLogin = true;
+
+                            Auto auto = persona.getAuto().get(0);
+                            kilometraje = auto.getKilometraje();
                         }
                     }
 
@@ -87,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences prefs = getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString(IDENTIFICACION_SESION, identificacion);
+                        editor.putString(KILOMETRAJE_ACTUAL, kilometraje);
                         editor.putString(ACTUALIZAR_KILOMETRAJE, SI);
                         editor.commit();
 
