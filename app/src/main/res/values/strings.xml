@@ -43,7 +43,7 @@
     <string name="textview_consumibles_banda_distribucion">Banda de distribución:</string>
     <string name="textview_consumibles_refrigerante">Refrigrante</string>
     <string name="textview_consumibles_termostato">Termostato</string>
-    <string name="Enviar">Enviar</string>
+    <string name="Aceptar">Aceptar</string>
     <string name="textview_not_titulo">Notificación</string>
     <string name="textview_not_pregunta1">Usted ya realizó el cambio?</string>
     <string name="textview_not_pregunta2">El costo del cambio fue:</string>
@@ -77,5 +77,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="mapa">Mapa</string>
     <string name="consumibles">Consumibles</string>
+    <string name="notificacion">Notificación</string>
+    <string name="textview_notificacion_aviso">Revise sus consumibles</string>
 
 </resources>

@@ -118,7 +118,7 @@ public class GalleryFragment extends Fragment {
                 break;
             }
 
-            case R.id.icon_save: {
+            case R.id.icon_edit: {
 
                 Auto a = new Auto();
                 a.setPlaca(editTextPlaca.getText().toString().trim());

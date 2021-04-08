@@ -1,8 +1,19 @@
 package com.java.micarro.ui.home;
 
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +24,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -29,20 +43,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.java.micarro.Comun;
+import com.java.micarro.MenuLateralActivity;
+import com.java.micarro.NotificacionActivity;
 import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Mantenimiento;
 import com.java.micarro.model.Persona;
+import com.java.micarro.ui.slideshow.SlideshowFragment;
 
 import java.util.ArrayList;
 
 import static com.java.micarro.Constantes.ACEITE;
 import static com.java.micarro.Constantes.ACEITE_BANDERA;
+import static com.java.micarro.Constantes.ACEPTAR;
 import static com.java.micarro.Constantes.ACTUALIZADO;
 import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
 import static com.java.micarro.Constantes.AMARILLO;
 import static com.java.micarro.Constantes.BATERIA;
 import static com.java.micarro.Constantes.BATERIA_BANDERA;
+import static com.java.micarro.Constantes.CHANNEL_ID;
 import static com.java.micarro.Constantes.CONSUMO;
 import static com.java.micarro.Constantes.ELECTRICIDAD;
 import static com.java.micarro.Constantes.ELECTRICIDAD_BANDERA;
@@ -51,21 +70,29 @@ import static com.java.micarro.Constantes.GASOLINA;
 import static com.java.micarro.Constantes.GASOLINA_BANDERA;
 import static com.java.micarro.Constantes.GRAFICO_CONSUMIBLES;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.INGRESE_CONSUMO;
 import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
+import static com.java.micarro.Constantes.KILOMETRAJE_EN_CERO;
 import static com.java.micarro.Constantes.KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO;
 import static com.java.micarro.Constantes.LLANTAS;
 import static com.java.micarro.Constantes.LLANTAS_BANDERA;
+import static com.java.micarro.Constantes.MANTENIMIENTO_NECESARIO;
 import static com.java.micarro.Constantes.MARCA;
 import static com.java.micarro.Constantes.MODELO;
 import static com.java.micarro.Constantes.NO;
+import static com.java.micarro.Constantes.NOTIFICACION;
+import static com.java.micarro.Constantes.NOTIFICACION_ID;
 import static com.java.micarro.Constantes.PERSONA;
 import static com.java.micarro.Constantes.PLACA;
+import static com.java.micarro.Constantes.REALIZO_MANTENIMIENTO_RESPECTIVO;
 import static com.java.micarro.Constantes.RECORRIDO;
 import static com.java.micarro.Constantes.RECORRIDO_FROND;
+import static com.java.micarro.Constantes.REVISAR_CONSUMIBLES;
 import static com.java.micarro.Constantes.ROJO;
 import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 import static com.java.micarro.Constantes.SI;
 import static com.java.micarro.Constantes.ULTIMO_KILOMETRAJE;
+import static com.java.micarro.Constantes.USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE;
 import static com.java.micarro.Constantes.VERDE;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -89,6 +116,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Persona persona;
     private HorizontalBarChart horizontalBarChart;
 
+    private PendingIntent pendingIntent;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -102,13 +131,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        identificacion = obtenerValorSesion(IDENTIFICACION_SESION);
-
         inicializarVariables(root);
+        identificacion = comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION);
         cargarEntidadGlobalPersona(); // vuelve a consultar a la bdd
         cargarEtiquetasAuto(identificacion); // consulta a la bdd
 
-        banderaActualizarKilometraje = obtenerValorSesion(ACTUALIZAR_KILOMETRAJE);
+        banderaActualizarKilometraje = comun.obtenerValorSesion(getActivity(), ACTUALIZAR_KILOMETRAJE);
         habilitarActualizarKilometraje();
 
         return root;
@@ -124,24 +152,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
 
         if (banderaActualizarKilometraje.equals(NO)) {
-            textViewRecorrido.setText("Recorrido: " + obtenerValorSesion(RECORRIDO));
+            textViewRecorrido.setText("Recorrido: " + comun.obtenerValorSesion(getActivity(), RECORRIDO));
 
             //gráfico desde el kilometraje de sesion
             dibujarGraficoHorizontal();
         }
-    }
-
-    /**
-     * Método usado para cargar una cadena de sesión.
-     *
-     * @param valorSesion nombre de la variable de sesión que se quiere recuperar.
-     * @return valor de la variable a recuperar de la sesión.
-     */
-    private String obtenerValorSesion(String valorSesion) {
-        String salida = ESPACIO_VACIO;
-        SharedPreferences prefs = this.getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(valorSesion, ESPACIO_VACIO);
-        return salida;
     }
 
     /**
@@ -187,7 +202,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida;
 
         if (banderaActualizarKilometraje.equals(NO)) {
-            salida = Integer.parseInt(obtenerValorSesion(KILOMETRAJE_ACTUAL));
+            salida = Integer.parseInt(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACTUAL));
         } else {
             Auto auto = persona.getAuto().get(0);
             salida = obtenerKilometrajeBaseDatos();
@@ -260,8 +275,62 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
+            crearVentanaEmergenteConsumibles();
+            ejecutarNotificacion(5000);
         }
         return salida;
+    }
+
+    /**
+     * Método usado para crear ventana emergente con alerta de realizar el mantenimiento.
+     */
+    private void crearVentanaEmergenteConsumibles() {
+
+        AlertDialog.Builder ventana = new AlertDialog.Builder(getActivity());
+        ventana.setMessage(REALIZO_MANTENIMIENTO_RESPECTIVO)
+                .setCancelable(false)
+                .setPositiveButton(SI, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        crearVentanaEmergenteConsumos(dialog);
+                    }
+                })
+                .setNegativeButton(NO, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        ventana.setTitle(REVISAR_CONSUMIBLES);
+        ventana.show();
+    }
+
+    /**
+     * Método usado para crear ventana emergente para ingresar el consumo.
+     *
+     * @param dialog
+     */
+    private void crearVentanaEmergenteConsumos(DialogInterface dialog) {
+        final EditText editTextConsumo = new EditText(getActivity());
+        editTextConsumo.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        AlertDialog.Builder ventanaConsumo = new AlertDialog.Builder(getActivity());
+        ventanaConsumo.setView(editTextConsumo);
+        ventanaConsumo.setTitle(CONSUMO);
+        ventanaConsumo.setMessage(INGRESE_CONSUMO)
+                .setCancelable(false)
+                .setPositiveButton(ACEPTAR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogConsumo, int which) {
+                        dialogConsumo.cancel();
+                        Toast.makeText(getActivity().getApplicationContext(), KILOMETRAJE_EN_CERO, Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        dialog.cancel();
+        ventanaConsumo.show();
     }
 
     /**
@@ -446,7 +515,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * Método usado para cargar variable global persona.
      */
     private void cargarEntidadGlobalPersona() {
-        final String identificacion = obtenerValorSesion(IDENTIFICACION_SESION);
+        final String identificacion = comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION);
 
         databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
             @Override
@@ -539,28 +608,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
 
 
-            String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
+        String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
 
-            // mostrar el kilometraje que se a recorrido
-            textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
+        // mostrar el kilometraje que se a recorrido
+        textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
 
-            auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
+        auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
 
-            // mantenimiento kodigo
-            Mantenimiento m = new Mantenimiento();
-            m.setFechaKilometraje("fechaDesdeBack");
-            m.setGastos("gastosDesdeBack");
-            m.setObservaciones("observacionDesdeBack");
-            m.setTipoMantenimiento("tipoMantenimientoDesdeBack");
-            persona.setMantenimiento(m);
-            // mantenimiento kodigo
+        // mantenimiento kodigo
+        Mantenimiento m = new Mantenimiento();
+        m.setFechaKilometraje("fechaDesdeBack");
+        m.setGastos("gastosDesdeBack");
+        m.setObservaciones("observacionDesdeBack");
+        m.setTipoMantenimiento("tipoMantenimientoDesdeBack");
+        persona.setMantenimiento(m);
+        // mantenimiento kodigo
 
-            databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
-            Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
+        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
+        Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
 
-            grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
-            actualizarKilometrajeFrond(false);
-            limpiarCajas();
+        grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
+        actualizarKilometrajeFrond(false);
+        limpiarCajas();
 
     }
 
@@ -598,5 +667,58 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void actualizarKilometrajeFrond(boolean actualizar) {
         buttonActualizarKilometraje.setEnabled(actualizar);
         editTextKilometraje.setEnabled(actualizar);
+    }
+
+    /**
+     * Método usado para orquestar métodos necesarios para notificar en pantalla.
+     */
+    private void ejecutarNotificacion(int banderaKilometraje) {
+        setPendingIntent();
+        crearNotificaionChannel();
+        crearNotificaion(banderaKilometraje);
+    }
+
+    /**
+     * Método usado para direjirse en la notificación.
+     */
+    private void setPendingIntent() {
+
+        Intent intent = new Intent(getActivity().getApplicationContext(), NotificacionActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity().getApplicationContext());
+        stackBuilder.addParentStack(NotificacionActivity.class);
+        stackBuilder.addNextIntent(intent);
+        pendingIntent = stackBuilder.getPendingIntent(1, pendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    /**
+     * Método usado para crear el canal de notificación, necesario por la versión actual de android.
+     */
+    private void crearNotificaionChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = NOTIFICACION;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    /**
+     * Método usado para crear notificación con los datos para ver en pantalla.
+     */
+    private void crearNotificaion(int banderaKilometraje) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity().getApplicationContext(), CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.ic_baseline_directions_car_25);
+        builder.setContentTitle(MANTENIMIENTO_NECESARIO + banderaKilometraje);
+        builder.setContentText(USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE);
+        builder.setColor(Color.RED);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.MAGENTA, 1000, 1000); // luz en el teléfono al notificar.
+        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity().getApplicationContext());
+        notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
     }
 }

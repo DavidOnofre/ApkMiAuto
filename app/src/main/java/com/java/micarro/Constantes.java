@@ -44,8 +44,8 @@ public class Constantes {
     public static final String RECORRIDO_FROND = "Recorrido: ";
     public static final String SIGNO_PORCENTAJE = " %";
     public static final String KM = " km.";
-    public static final String MANTENIMIENTO_NECESARIO = "Mantenimiento necesario: ";
-    public static final String USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE = "Usted ya realizó el cambio:  si - no,  El costo del cambio fue:";
+    public static final String MANTENIMIENTO_NECESARIO = "Revise sus consumibles: ";
+    public static final String USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE = "Dírijase a la pantalla de CONSUMIBLES";
     public static final String ESPECIFICACIONES = "Especificaciones";
     public static final String AUTO_PRINCIPAL = "Auto Principal";
     public static final String RECORDATORIOS = "Recordatorios";
@@ -60,6 +60,9 @@ public class Constantes {
     public static final String ULTIMO_KILOMETRAJE = "Último Kilometraje: ";
     public static final String KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO = "El kilometraje ingresado debe ser mayor al registrado: ";
     public static final String NOTIFICACION = "Notificación";
-
-
+    public static final String REALIZO_MANTENIMIENTO_RESPECTIVO = "Usted ya realizó el mantenimiento respectivo:";
+    public static final String REVISAR_CONSUMIBLES = "Revise sus consumibles:";
+    public static final String INGRESE_CONSUMO = "Ingrese el consumo:";
+    public static final String ACEPTAR = "Aceptar";
+    public static final String KILOMETRAJE_EN_CERO = "Kilometraje en cero";
 }

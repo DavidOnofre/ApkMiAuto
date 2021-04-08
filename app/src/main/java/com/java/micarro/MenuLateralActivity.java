@@ -1,7 +1,5 @@
 package com.java.micarro;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -17,7 +15,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,23 +23,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.java.micarro.model.Persona;
 
 import static com.java.micarro.Constantes.BIENVENIDO;
-import static com.java.micarro.Constantes.ESPACIO_VACIO;
 import static com.java.micarro.Constantes.DATO_01;
 import static com.java.micarro.Constantes.ESPACIO_BLACO;
 import static com.java.micarro.Constantes.ESPACIO_VACIO_DOS_PUNTOS;
 import static com.java.micarro.Constantes.PERSONA;
-import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 
 public class MenuLateralActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
     private TextView textViewUsuarioLogeado;
     private TextView textViewAutoLogeado;
     private String uid = "";
+
+    private Comun comun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +60,19 @@ public class MenuLateralActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        uid = obtenerUid();
-        inicializarFireBase();
+        inicializarVariables();
+
+        uid = comun.obtenerValorSesion(this, DATO_01);
         cargarCliente(uid, navigationView, navigationView);
 
+    }
+
+    /**
+     * Método usado para inicializar variables
+     */
+    private void inicializarVariables() {
+        comun = new Comun();
+        databaseReference = comun.ObtenerDataBaseReference(this);
     }
 
     @Override
@@ -81,18 +85,6 @@ public class MenuLateralActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
-    }
-
-    /**
-     * Método usado para recuperar el uid del usuario logeado.
-     *
-     * @return uid.
-     */
-    private String obtenerUid() {
-        String salida = ESPACIO_VACIO;
-        SharedPreferences prefs = this.getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(DATO_01, ESPACIO_VACIO);
-        return salida;
     }
 
     /**
@@ -130,12 +122,4 @@ public class MenuLateralActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Método usado para instanciar api firebase.
-     */
-    private void inicializarFireBase() {
-        FirebaseApp.initializeApp(this);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-    }
 }

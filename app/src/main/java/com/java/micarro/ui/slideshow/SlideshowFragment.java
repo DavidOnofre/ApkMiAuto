@@ -62,8 +62,6 @@ public class SlideshowFragment extends Fragment {
 
     private TextView textViewKilometrajeActual;
 
-    private PendingIntent pendingIntent;
-
     private Handler handler;
     private Boolean activo;
 
@@ -115,54 +113,7 @@ public class SlideshowFragment extends Fragment {
         }
     }
 
-    /**
-     * Método usado para orquestar métodos necesarios para notificar en pantalla.
-     */
-    private void ejecutarNotificacion(int banderaKilometraje) {
-        setPendingIntent();
-        crearNotificaionChannel();
-        crearNotificaion(banderaKilometraje);
-    }
 
-    private void setPendingIntent() {
-        Intent intent = new Intent(getActivity().getApplicationContext(), NotificacionActivity.class);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity().getApplicationContext());
-        stackBuilder.addParentStack(NotificacionActivity.class);
-        stackBuilder.addNextIntent(intent);
-        pendingIntent = stackBuilder.getPendingIntent(1, pendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    /**
-     * Método usado para crear el canal de notificación, necesario por la versión actual de android.
-     */
-    private void crearNotificaionChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = NOTIFICACION;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    /**
-     * Método usado para crear notificación con los datos para ver en pantalla.
-     */
-    private void crearNotificaion(int banderaKilometraje) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity().getApplicationContext(), CHANNEL_ID);
-        builder.setSmallIcon(R.drawable.ic_baseline_directions_car_25);
-        builder.setContentTitle(MANTENIMIENTO_NECESARIO + banderaKilometraje);
-        builder.setContentText(USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE);
-        builder.setColor(Color.RED);
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        builder.setLights(Color.MAGENTA, 1000, 1000); // luz en el teléfono al notificar.
-        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
-        builder.setDefaults(Notification.DEFAULT_SOUND);
-        builder.setContentIntent(pendingIntent);
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity().getApplicationContext());
-        notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
-    }
 
     /**
      * Método usado para gráficar el progreso de la barra progressBar para cada consumible.
@@ -231,7 +182,6 @@ public class SlideshowFragment extends Fragment {
 
         //mostrar notificación cuanado el % sea mayor a 80%
         if (salida >= 80) {
-            ejecutarNotificacion(banderaKilometraje);
         }
         return salida;
     }

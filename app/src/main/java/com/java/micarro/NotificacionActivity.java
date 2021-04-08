@@ -1,8 +1,6 @@
 package com.java.micarro;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,10 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 
-import static com.java.micarro.Constantes.ESPACIO_VACIO;
-import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.NOTIFICACION_ID;
-import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 
 
 public class NotificacionActivity extends AppCompatActivity {
@@ -28,7 +23,6 @@ public class NotificacionActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.cancel(NOTIFICACION_ID);
 
-        String identificacion = obtenerValorSesion(IDENTIFICACION_SESION);
 
         button = findViewById(R.id.button_notificacion_enviar);
         button.setOnClickListener(new View.OnClickListener() {
@@ -40,16 +34,4 @@ public class NotificacionActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Método usado para cargar una cadena de sesión.
-     *
-     * @param valorSesion nombre de la variable de sesión que se quiere recuperar.
-     * @return valor de la variable a recuperar de la sesión.
-     */
-    private String obtenerValorSesion(String valorSesion) {
-        String salida = ESPACIO_VACIO;
-        SharedPreferences prefs = getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
-        salida = prefs.getString(valorSesion, ESPACIO_VACIO);
-        return salida;
-    }
 }

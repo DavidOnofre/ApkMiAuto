@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,42 +8,39 @@
     android:padding="12dp"
     tools:context=".NotificacionActivity">
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-        android:text="Notificación"
+        android:text="@string/notificacion"
         android:textAlignment="center"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <TextView
+        android:id="@+id/textView_notificacion_aviso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Usted ya realizó el cambio" />
+        android:text="@string/textview_notificacion_aviso"
+        android:textStyle="bold|italic" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="El costo del cambio fue:">
+        app:srcCompat="@mipmap/menu_lateral"
+        tools:ignore="ContentDescription" />
 
-        <EditText
-            android:id="@+id/editText_notificacion_pregunta2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="6"
-            android:inputType="number"
-            android:paddingTop="6dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
+    <TextView
+        android:id="@+id/textView_notificacion_espacio_vacio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
 
     <Button
         android:id="@+id/button_notificacion_enviar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Enviar" />
+        android:text="@string/Aceptar" />
 
 </LinearLayout>
