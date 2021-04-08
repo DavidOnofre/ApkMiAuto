@@ -27,7 +27,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -43,13 +42,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.java.micarro.Comun;
-import com.java.micarro.MenuLateralActivity;
 import com.java.micarro.NotificacionActivity;
 import com.java.micarro.R;
 import com.java.micarro.model.Auto;
 import com.java.micarro.model.Mantenimiento;
 import com.java.micarro.model.Persona;
-import com.java.micarro.ui.slideshow.SlideshowFragment;
 
 import java.util.ArrayList;
 
@@ -275,63 +272,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearVentanaEmergenteConsumibles();
-            ejecutarNotificacion(5000);
+            crearNotificacion();
         }
         return salida;
     }
 
-    /**
-     * Método usado para crear ventana emergente con alerta de realizar el mantenimiento.
-     */
-    private void crearVentanaEmergenteConsumibles() {
-
-        AlertDialog.Builder ventana = new AlertDialog.Builder(getActivity());
-        ventana.setMessage(REALIZO_MANTENIMIENTO_RESPECTIVO)
-                .setCancelable(false)
-                .setPositiveButton(SI, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        crearVentanaEmergenteConsumos(dialog);
-                    }
-                })
-                .setNegativeButton(NO, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-        ventana.setTitle(REVISAR_CONSUMIBLES);
-        ventana.show();
+    private void crearNotificacion() {
+        crearVentanaEmergenteConsumibles();
+        crearNotificacionBarraSuperior(5000);
     }
 
-    /**
-     * Método usado para crear ventana emergente para ingresar el consumo.
-     *
-     * @param dialog
-     */
-    private void crearVentanaEmergenteConsumos(DialogInterface dialog) {
-        final EditText editTextConsumo = new EditText(getActivity());
-        editTextConsumo.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-        AlertDialog.Builder ventanaConsumo = new AlertDialog.Builder(getActivity());
-        ventanaConsumo.setView(editTextConsumo);
-        ventanaConsumo.setTitle(CONSUMO);
-        ventanaConsumo.setMessage(INGRESE_CONSUMO)
-                .setCancelable(false)
-                .setPositiveButton(ACEPTAR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogConsumo, int which) {
-                        dialogConsumo.cancel();
-                        Toast.makeText(getActivity().getApplicationContext(), KILOMETRAJE_EN_CERO, Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        dialog.cancel();
-        ventanaConsumo.show();
-    }
 
     /**
      * Método usado para cargar color en gráfico de barras de gasolina.
@@ -613,7 +563,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // mostrar el kilometraje que se a recorrido
         textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
 
-        auto.setKilometraje(String.valueOf(kilometrajeCajaTexto));
+        auto.setKilometraje(kilometrajeIngresado);
 
         // mantenimiento kodigo
         Mantenimiento m = new Mantenimiento();
@@ -672,7 +622,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * Método usado para orquestar métodos necesarios para notificar en pantalla.
      */
-    private void ejecutarNotificacion(int banderaKilometraje) {
+    private void crearNotificacionBarraSuperior(int banderaKilometraje) {
         setPendingIntent();
         crearNotificaionChannel();
         crearNotificaion(banderaKilometraje);
@@ -720,5 +670,102 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity().getApplicationContext());
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
+    }
+
+    /**
+     * Método usado para crear ventana emergente con alerta de realizar el mantenimiento.
+     */
+    private void crearVentanaEmergenteConsumibles() {
+
+        AlertDialog.Builder ventana = new AlertDialog.Builder(getActivity());
+        ventana.setMessage(REALIZO_MANTENIMIENTO_RESPECTIVO)
+                .setCancelable(false)
+                .setPositiveButton(SI, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        crearVentanaEmergenteConsumos(dialog);
+                    }
+                })
+                .setNegativeButton(NO, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        ventana.setTitle(REVISAR_CONSUMIBLES);
+        ventana.show();
+    }
+
+    /**
+     * Método usado para crear ventana emergente para ingresar el consumo.
+     *
+     * @param dialog
+     */
+    private void crearVentanaEmergenteConsumos(DialogInterface dialog) {
+        final EditText editTextConsumo = new EditText(getActivity());
+        editTextConsumo.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        AlertDialog.Builder ventanaConsumo = new AlertDialog.Builder(getActivity());
+        ventanaConsumo.setView(editTextConsumo);
+        ventanaConsumo.setTitle(CONSUMO);
+        ventanaConsumo.setMessage(INGRESE_CONSUMO)
+                .setCancelable(false)
+                .setPositiveButton(ACEPTAR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogConsumo, int which) {
+                        String valorConsumo = editTextConsumo.getText().toString().trim();
+                        encerarKilometraje(valorConsumo);
+                        dialogConsumo.cancel();
+
+                        Toast.makeText(getActivity().getApplicationContext(), KILOMETRAJE_EN_CERO, Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        dialog.cancel();
+        ventanaConsumo.show();
+    }
+
+    /**
+     * Método usado para reiniciar el kilometraje del vehículo.
+     */
+    private void encerarKilometraje(String consumo) {
+        actualizarKilometrajeConsumibles("5", consumo);
+        dibujarGraficoHorizontal();
+    }
+
+    /**
+     * Método usado para actualizar kilometraje
+     *
+     * @param kilometrajeIngresado kilometraje a sumar al kilometraje actual.
+     */
+    private void actualizarKilometrajeConsumibles(String kilometrajeIngresado, String consumo) {
+
+        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
+        Auto auto = persona.getAuto().get(0);
+
+        // mostrar el kilometraje que se a recorrido
+        textViewRecorrido.setText(RECORRIDO_FROND + kilometrajeIngresado);
+
+        auto.setKilometraje(kilometrajeIngresado);
+
+        // mantenimiento  para que no se pierda la entidad mantenimiento al actualizar el kilometraje kodigo
+        Mantenimiento m = new Mantenimiento();
+        m.setFechaKilometraje("fechaDesdeBack");
+        m.setGastos(consumo);
+        m.setObservaciones("observacionDesdeBack");
+        m.setTipoMantenimiento("tipoMantenimientoDesdeBack");
+        persona.setMantenimiento(m);
+        // mantenimiento kodigo
+
+        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
+        Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
+
+        //grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
+        grabarKilometrajeActualSesion(kilometrajeCajaTexto, kilometrajeIngresado);
+        actualizarKilometrajeFrond(false);
+        limpiarCajas();
+
     }
 }
