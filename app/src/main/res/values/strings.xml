@@ -79,5 +79,6 @@
     <string name="consumibles">Consumibles</string>
     <string name="notificacion">Notificación</string>
     <string name="textview_notificacion_aviso">Revise sus consumibles</string>
+    <string name="Asignar_Alarma">Asignar Recordatorio</string>
 
 </resources>
