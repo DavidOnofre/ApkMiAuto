@@ -275,14 +275,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearNotificacion();
+            crearNotificacion(5000);
         }
         return salida;
     }
 
-    private void crearNotificacion() {
-        crearVentanaEmergenteConsumibles("5 000 km");
-        crearNotificacionBarraSuperior(5000);
+    private void crearNotificacion(int banderaKilometraje) {
+
+        String stringBanderaKilometraje = String.valueOf(banderaKilometraje);
+        crearVentanaEmergenteConsumibles(stringBanderaKilometraje  + " km.");
+        crearNotificacionBarraSuperior(banderaKilometraje);
     }
 
 
@@ -305,6 +307,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
+            //crearNotificacion(5000); se comenta para que no se lance 2 notificaciones al cumplir 5 000 km.
         }
         return salida;
     }
@@ -328,6 +331,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
+            crearNotificacion(10000);
         }
         return salida;
     }
@@ -351,6 +355,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
+            crearNotificacion(15000);
         }
         return salida;
     }
