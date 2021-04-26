@@ -49,6 +49,8 @@ import com.java.micarro.model.Mantenimiento;
 import com.java.micarro.model.Persona;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static com.java.micarro.Constantes.ACEITE;
 import static com.java.micarro.Constantes.ACEITE_BANDERA;
@@ -62,6 +64,7 @@ import static com.java.micarro.Constantes.CHANNEL_ID;
 import static com.java.micarro.Constantes.CONSUMO;
 import static com.java.micarro.Constantes.ELECTRICIDAD;
 import static com.java.micarro.Constantes.ELECTRICIDAD_BANDERA;
+import static com.java.micarro.Constantes.ESPACIO_BLACO;
 import static com.java.micarro.Constantes.ESPACIO_VACIO;
 import static com.java.micarro.Constantes.GASOLINA;
 import static com.java.micarro.Constantes.GASOLINA_BANDERA;
@@ -278,7 +281,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void crearNotificacion() {
-        crearVentanaEmergenteConsumibles();
+        crearVentanaEmergenteConsumibles("5 000 km");
         crearNotificacionBarraSuperior(5000);
     }
 
@@ -546,43 +549,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    /**
-     * Método usado para actualizar kilometraje
-     *
-     * @param kilometrajeIngresado kilometraje a sumar al kilometraje actual.
-     */
-    private void actualizarKilometraje(String kilometrajeIngresado) {
-
-        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
-        Auto auto = persona.getAuto().get(0);
-        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
-
-
-        String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
-
-        // mostrar el kilometraje que se a recorrido
-        textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
-
-        auto.setKilometraje(kilometrajeIngresado);
-
-        // mantenimiento kodigo
-        Mantenimiento m = new Mantenimiento();
-        m.setFechaKilometraje("fechaDesdeBack");
-        m.setGastos("gastosDesdeBack");
-        m.setObservaciones("observacionDesdeBack");
-        m.setTipoMantenimiento("tipoMantenimientoDesdeBack");
-        persona.setMantenimiento(m);
-        // mantenimiento kodigo
-
-        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
-        Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
-
-        grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
-        actualizarKilometrajeFrond(false);
-        limpiarCajas();
-
-    }
-
     private boolean validarKilometrajeMayorRegistrado(int kilometrajeActual, int kilometrajeCajaTexto) {
         boolean resultado = false;
 
@@ -675,8 +641,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * Método usado para crear ventana emergente con alerta de realizar el mantenimiento.
      */
-    private void crearVentanaEmergenteConsumibles() {
+    private void crearVentanaEmergenteConsumibles(String banderaKilometraje) {
 
+        final String bandera = banderaKilometraje;
         AlertDialog.Builder ventana = new AlertDialog.Builder(getActivity());
         ventana.setMessage(REALIZO_MANTENIMIENTO_RESPECTIVO)
                 .setCancelable(false)
@@ -684,7 +651,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        crearVentanaEmergenteConsumos(dialog);
+                        crearVentanaEmergenteConsumos(dialog, bandera);
                     }
                 })
                 .setNegativeButton(NO, new DialogInterface.OnClickListener() {
@@ -703,8 +670,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      *
      * @param dialog
      */
-    private void crearVentanaEmergenteConsumos(DialogInterface dialog) {
+    private void crearVentanaEmergenteConsumos(DialogInterface dialog, String banderaKilometraje) {
         final EditText editTextConsumo = new EditText(getActivity());
+        final String bandera = banderaKilometraje;
         editTextConsumo.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         AlertDialog.Builder ventanaConsumo = new AlertDialog.Builder(getActivity());
@@ -716,7 +684,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialogConsumo, int which) {
                         String valorConsumo = editTextConsumo.getText().toString().trim();
-                        encerarKilometraje(valorConsumo);
+                        encerarKilometraje(valorConsumo, bandera);
                         dialogConsumo.cancel();
 
                         Toast.makeText(getActivity().getApplicationContext(), KILOMETRAJE_EN_CERO, Toast.LENGTH_LONG).show();
@@ -730,8 +698,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * Método usado para reiniciar el kilometraje del vehículo.
      */
-    private void encerarKilometraje(String consumo) {
-        actualizarKilometrajeConsumibles("5", consumo);
+    private void encerarKilometraje(String consumo, String banderaKilometraje) {
+        actualizarKilometrajeConsumibles("5", consumo, banderaKilometraje);
         dibujarGraficoHorizontal();
     }
 
@@ -740,32 +708,74 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      *
      * @param kilometrajeIngresado kilometraje a sumar al kilometraje actual.
      */
-    private void actualizarKilometrajeConsumibles(String kilometrajeIngresado, String consumo) {
-
-        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
+    private void actualizarKilometraje(String kilometrajeIngresado) {
         Auto auto = persona.getAuto().get(0);
+        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
+        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
 
-        // mostrar el kilometraje que se a recorrido
-        textViewRecorrido.setText(RECORRIDO_FROND + kilometrajeIngresado);
+        String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
+        textViewRecorrido.setText(RECORRIDO_FROND + recorrido);  // mostrar el kilometraje que se a recorrido
 
         auto.setKilometraje(kilometrajeIngresado);
-
-        // mantenimiento  para que no se pierda la entidad mantenimiento al actualizar el kilometraje kodigo
-        Mantenimiento m = new Mantenimiento();
-        m.setFechaKilometraje("fechaDesdeBack");
-        m.setGastos(consumo);
-        m.setObservaciones("observacionDesdeBack");
-        m.setTipoMantenimiento("tipoMantenimientoDesdeBack");
-        persona.setMantenimiento(m);
-        // mantenimiento kodigo
 
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
 
-        //grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
+        grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
+        actualizarKilometrajeFrond(false);
+        limpiarCajas();
+    }
+
+    /**
+     * Método usado para actualizar kilometraje
+     *
+     * @param kilometrajeIngresado kilometraje a sumar al kilometraje actual.
+     */
+    private void actualizarKilometrajeConsumibles(String kilometrajeIngresado, String consumo, String banderaKilometraje) {
+
+        Auto auto = persona.getAuto().get(0);
+        int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
+
+        textViewRecorrido.setText(RECORRIDO_FROND + kilometrajeIngresado); // mostrar el kilometraje que se a recorrido
+
+        auto.setKilometraje(kilometrajeIngresado);
+        grabarMantenimiento(consumo, banderaKilometraje);
+
+        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
+        Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
+
         grabarKilometrajeActualSesion(kilometrajeCajaTexto, kilometrajeIngresado);
         actualizarKilometrajeFrond(false);
         limpiarCajas();
+    }
 
+    /**
+     * Método usado para grabar el mantenimiento realizado.
+     * @param consumo
+     */
+    private void grabarMantenimiento(String consumo, String banderaKilometrake) {
+        Mantenimiento m = new Mantenimiento();
+        m.setFechaKilometraje(recuperarFechaSistema());
+        m.setGastos(consumo);
+        m.setObservaciones("Mantenimiento OK");
+        m.setTipoMantenimiento(banderaKilometrake);
+        persona.setMantenimiento(m);
+    }
+
+    /**
+     * Método usado para recuperar fecha y hora del sistema.
+     * @return
+     */
+    private String recuperarFechaSistema() {
+        Calendar fecha = new GregorianCalendar();
+
+        int año = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+        int minuto = fecha.get(Calendar.MINUTE);
+        int segundo = fecha.get(Calendar.SECOND);
+
+        return dia + "/" + (mes+1) + "/" + año + ESPACIO_BLACO + hora +":"+ minuto +":"+ segundo;
     }
 }
