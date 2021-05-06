@@ -267,7 +267,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 5000 - kilometrajeActualizado;
 
-        if (validacion <= 4999 && validacion >= 3000) {
+        Auto auto = persona.getAuto().get(0);
+        int contador = Integer.parseInt(auto.getKilometrajeAceite());
+        if (contador > 0) {
+            validacion = validacion + (5000 * contador);
+        }
+
+        if (validacion >= 3000) {
             salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
@@ -275,18 +281,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearNotificacion(5000);
+            crearNotificacion(5000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
 
-    private void crearNotificacion(int banderaKilometraje) {
-
+    /**
+     * Método usado para crear de notificación si el consumible necesita cambio.
+     *
+     * @param banderaKilometraje
+     */
+    private void crearNotificacion(int banderaKilometraje, String kilometrajeCajaTexto) {
         String stringBanderaKilometraje = String.valueOf(banderaKilometraje);
-        crearVentanaEmergenteConsumibles(stringBanderaKilometraje  + " km.");
+        crearVentanaEmergenteConsumibles(stringBanderaKilometraje, kilometrajeCajaTexto);
         crearNotificacionBarraSuperior(banderaKilometraje);
     }
-
 
     /**
      * Método usado para cargar color en gráfico de barras de gasolina.
@@ -299,7 +308,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 5000 - kilometrajeActualizado;
 
-        if (validacion <= 4999 && validacion >= 3000) {
+        Auto auto = persona.getAuto().get(0);
+        int contador = Integer.parseInt(auto.getKilometrajeGasolina());
+        if (contador > 0) {
+            validacion = validacion + (5000 * contador);
+        }
+
+        if (validacion >= 3000) {
             salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
@@ -307,7 +322,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            //crearNotificacion(5000); se comenta para que no se lance 2 notificaciones al cumplir 5 000 km.
+            crearNotificacion(5000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
@@ -323,7 +338,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 10000 - kilometrajeActualizado;
 
-        if (validacion <= 9999 && validacion >= 3000) {
+        Auto auto = persona.getAuto().get(0);
+        int contador = Integer.parseInt(auto.getKilometrajeLlantas());
+        if (contador > 0) {
+            validacion = validacion + (10000 * contador);
+        }
+
+        if (validacion >= 3000) {
             salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
@@ -331,7 +352,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearNotificacion(10000);
+            crearNotificacion(10000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
@@ -347,7 +368,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 15000 - kilometrajeActualizado;
 
-        if (validacion <= 14999 && validacion >= 3000) {
+        Auto auto = persona.getAuto().get(0);
+        int contador = Integer.parseInt(auto.getKilometrajeBateria());
+        if (contador > 0) {
+            validacion = validacion + (15000 * contador);
+        }
+
+        if (validacion >= 3000) {
             salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
@@ -355,7 +382,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearNotificacion(15000);
+            crearNotificacion(15000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
@@ -371,7 +398,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 10000 - kilometrajeActualizado;
 
-        if (validacion <= 9999 && validacion >= 3000) {
+        Auto auto = persona.getAuto().get(0);
+        int contador = Integer.parseInt(auto.getKilometrajeElectricidad());
+        if (contador > 0) {
+            validacion = validacion + (10000 * contador);
+        }
+
+        if (validacion >= 3000) {
             salida = VERDE;
         }
         if (validacion <= 2999 && validacion >= 100) {
@@ -379,6 +412,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
+            crearNotificacion(10000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
@@ -434,19 +468,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void CargarValoresBarras(ArrayList<BarEntry> barEntries) {
         int kilometrajeActual = obtenerKilometraje();
 
-        BarEntry barAceite = new BarEntry(4, 5000 - kilometrajeActual);
+        int valorAceiteY = 5000 - kilometrajeActual;
+        if (valorAceiteY <= 99) {
+            valorAceiteY = valorAceiteY + 5000;
+        }
+        BarEntry barAceite = new BarEntry(4, valorAceiteY);
         barEntries.add(barAceite);
 
-        BarEntry barGasolina = new BarEntry(3, 5000 - kilometrajeActual);
+
+        int valorGasolinaY = 5000 - kilometrajeActual;
+        if (valorGasolinaY < 99) {
+            valorGasolinaY = valorGasolinaY + 5000;
+        }
+        BarEntry barGasolina = new BarEntry(3, valorGasolinaY);
         barEntries.add(barGasolina);
 
-        BarEntry barLlantas = new BarEntry(2, 10000 - kilometrajeActual);
+        int valorLlantasY = 10000 - kilometrajeActual;
+        if (valorLlantasY < 99) {
+            valorLlantasY = valorLlantasY + 10000;
+        }
+        BarEntry barLlantas = new BarEntry(2, valorLlantasY);
         barEntries.add(barLlantas);
 
-        BarEntry barBateria = new BarEntry(1, 15000 - kilometrajeActual);
+        int valorBateriaY = 15000 - kilometrajeActual;
+        if (valorBateriaY < 99) {
+            valorBateriaY = valorBateriaY + 15000;
+        }
+        BarEntry barBateria = new BarEntry(1, valorBateriaY);
         barEntries.add(barBateria);
 
-        BarEntry barElectricidad = new BarEntry(0, 10000 - kilometrajeActual);
+        int valorElectricidadY = 10000 - kilometrajeActual;
+        if (valorElectricidadY < 99) {
+            valorElectricidadY = valorElectricidadY + 10000;
+        }
+        BarEntry barElectricidad = new BarEntry(0, valorElectricidadY);
         barEntries.add(barElectricidad);
     }
 
@@ -455,14 +510,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         String kilometrajeIngresado = editTextKilometraje.getText().toString();
         int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
+
         Auto auto = persona.getAuto().get(0);
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
-
 
         if (comun.esNumero(kilometrajeIngresado)) {
 
             if (validarKilometrajeMayorRegistrado(kilometrajeActual, kilometrajeCajaTexto)) {
-
                 actualizarKilometraje(kilometrajeIngresado);
                 dibujarGraficoHorizontal();
             }
@@ -483,7 +537,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     if (identificacion.equals(p.getUid())) {
                         HomeFragment.this.persona = p;
-
                     }
                 }
             }
@@ -646,9 +699,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * Método usado para crear ventana emergente con alerta de realizar el mantenimiento.
      */
-    private void crearVentanaEmergenteConsumibles(String banderaKilometraje) {
+    private void crearVentanaEmergenteConsumibles(String banderaKilometraje, String kilometrajeCajaTexto) {
 
         final String bandera = banderaKilometraje;
+        final String kilometrajeActual = kilometrajeCajaTexto;
         AlertDialog.Builder ventana = new AlertDialog.Builder(getActivity());
         ventana.setMessage(REALIZO_MANTENIMIENTO_RESPECTIVO)
                 .setCancelable(false)
@@ -656,7 +710,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        crearVentanaEmergenteConsumos(dialog, bandera);
+                        crearVentanaEmergenteConsumos(dialog, bandera, kilometrajeActual);
                     }
                 })
                 .setNegativeButton(NO, new DialogInterface.OnClickListener() {
@@ -675,9 +729,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      *
      * @param dialog
      */
-    private void crearVentanaEmergenteConsumos(DialogInterface dialog, String banderaKilometraje) {
+    private void crearVentanaEmergenteConsumos(DialogInterface dialog, String banderaKilometraje, String kilometrajeCajaTexto) {
         final EditText editTextConsumo = new EditText(getActivity());
         final String bandera = banderaKilometraje;
+        final String kilometrajeIngresado = kilometrajeCajaTexto;
         editTextConsumo.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         AlertDialog.Builder ventanaConsumo = new AlertDialog.Builder(getActivity());
@@ -689,7 +744,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialogConsumo, int which) {
                         String valorConsumo = editTextConsumo.getText().toString().trim();
-                        encerarKilometraje(valorConsumo, bandera);
+                        encerarKilometraje(kilometrajeIngresado, valorConsumo, bandera);
                         dialogConsumo.cancel();
 
                         Toast.makeText(getActivity().getApplicationContext(), KILOMETRAJE_EN_CERO, Toast.LENGTH_LONG).show();
@@ -703,8 +758,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * Método usado para reiniciar el kilometraje del vehículo.
      */
-    private void encerarKilometraje(String consumo, String banderaKilometraje) {
-        actualizarKilometrajeConsumibles("5", consumo, banderaKilometraje);
+    private void encerarKilometraje(String kilometrajeCajaTexto, String consumo, String banderaKilometraje) {
+        actualizarKilometrajeConsumibles(kilometrajeCajaTexto, consumo, banderaKilometraje);
         dibujarGraficoHorizontal();
     }
 
@@ -717,18 +772,55 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Auto auto = persona.getAuto().get(0);
         int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+        String recorrido = obtenerKilometrajeRecorrido(kilometrajeCajaTexto, kilometrajeActual);
 
-        String recorrido = String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
-        textViewRecorrido.setText(RECORRIDO_FROND + recorrido);  // mostrar el kilometraje que se a recorrido
-
-        auto.setKilometraje(kilometrajeIngresado);
-
-        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
-        Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
-
+        mostrarRecorridoPantalla(recorrido);
+        grabarKilometrajeBaseDatos(kilometrajeIngresado, auto);
         grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
         actualizarKilometrajeFrond(false);
         limpiarCajas();
+    }
+
+    /**
+     * Método usado para grabar el kilometraje en la base de datos firebase.
+     *
+     * @param kilometrajeIngresado
+     * @param auto
+     */
+    private void grabarKilometrajeBaseDatos(String kilometrajeIngresado, Auto auto) {
+        setearKilometraje(kilometrajeIngresado, auto);
+        databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
+        Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Método usado para setear el kilometraje que se ingreso en la caja de texto.
+     *
+     * @param kilometrajeIngresado
+     * @param auto
+     */
+    private void setearKilometraje(String kilometrajeIngresado, Auto auto) {
+        auto.setKilometraje(kilometrajeIngresado);
+    }
+
+    /**
+     * Método usado para mostrar el kilometraje recorrido.
+     *
+     * @param recorrido
+     */
+    private void mostrarRecorridoPantalla(String recorrido) {
+        textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
+    }
+
+    /**
+     * Método usado para obtener el kilometraje recorrido.
+     *
+     * @param kilometrajeCajaTexto
+     * @param kilometrajeActual
+     * @return
+     */
+    private String obtenerKilometrajeRecorrido(int kilometrajeCajaTexto, int kilometrajeActual) {
+        return String.valueOf(kilometrajeCajaTexto - kilometrajeActual);
     }
 
     /**
@@ -741,21 +833,54 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Auto auto = persona.getAuto().get(0);
         int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
 
-        textViewRecorrido.setText(RECORRIDO_FROND + kilometrajeIngresado); // mostrar el kilometraje que se a recorrido
-
-        auto.setKilometraje(kilometrajeIngresado);
+        cargarContadoresConsumibles(auto, banderaKilometraje);
         grabarMantenimiento(consumo, banderaKilometraje);
 
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
 
         grabarKilometrajeActualSesion(kilometrajeCajaTexto, kilometrajeIngresado);
-        actualizarKilometrajeFrond(false);
-        limpiarCajas();
+    }
+
+    private void cargarContadoresConsumibles(Auto auto, String banderaKilometraje) {
+        int contador;
+        switch (Integer.parseInt(banderaKilometraje)) {
+            case 5000:
+                contador = Integer.parseInt(auto.getKilometrajeAceite());
+                contador = contador + 1;
+                auto.setKilometrajeAceite(String.valueOf(contador));
+
+                int contador2 = Integer.parseInt(auto.getKilometrajeGasolina());
+                contador2 = contador2 + 1;
+                auto.setKilometrajeGasolina(String.valueOf(contador2));
+                break;
+
+            case 10000:
+                contador = Integer.parseInt(auto.getKilometrajeLlantas());
+                contador = contador + 1;
+                auto.setKilometrajeLlantas(String.valueOf(contador));
+
+                int contador3 = Integer.parseInt(auto.getKilometrajeElectricidad());
+                contador3 = contador3 + 1;
+                auto.setKilometrajeElectricidad(String.valueOf(contador3));
+                break;
+            case 15000:
+                contador = Integer.parseInt(auto.getKilometrajeBateria());
+                contador = contador + 1;
+                auto.setKilometrajeBateria(String.valueOf(contador));
+                break;
+            case 20000: //kodigo sin usar
+
+                break;
+            case 30000: // kodigo sin usar
+
+                break;
+        }
     }
 
     /**
      * Método usado para grabar el mantenimiento realizado.
+     *
      * @param consumo
      */
     private void grabarMantenimiento(String consumo, String banderaKilometrake) {
@@ -763,12 +888,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         m.setFechaKilometraje(recuperarFechaSistema());
         m.setGastos(consumo);
         m.setObservaciones("Mantenimiento OK");
-        m.setTipoMantenimiento(banderaKilometrake);
+        m.setTipoMantenimiento(banderaKilometrake + " km.");
         persona.setMantenimiento(m);
     }
 
     /**
      * Método usado para recuperar fecha y hora del sistema.
+     *
      * @return
      */
     private String recuperarFechaSistema() {
@@ -781,6 +907,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int minuto = fecha.get(Calendar.MINUTE);
         int segundo = fecha.get(Calendar.SECOND);
 
-        return dia + "/" + (mes+1) + "/" + año + ESPACIO_BLACO + hora +":"+ minuto +":"+ segundo;
+        return dia + "/" + (mes + 1) + "/" + año + ESPACIO_BLACO + hora + ":" + minuto + ":" + segundo;
     }
 }

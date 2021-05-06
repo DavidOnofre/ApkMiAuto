@@ -114,7 +114,6 @@ public class SlideshowFragment extends Fragment {
     }
 
 
-
     /**
      * Método usado para gráficar el progreso de la barra progressBar para cada consumible.
      *
