@@ -65,4 +65,5 @@ public class Constantes {
     public static final String INGRESE_CONSUMO = "Ingrese el consumo:";
     public static final String ACEPTAR = "Aceptar";
     public static final String KILOMETRAJE_EN_CERO = "Kilometraje en cero";
+    public static final String CONTADOR_ACEITE = "Contador_Aceite";
 }

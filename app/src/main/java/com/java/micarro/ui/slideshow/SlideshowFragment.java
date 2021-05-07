@@ -1,13 +1,5 @@
 package com.java.micarro.ui.slideshow;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -18,26 +10,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.firebase.database.DatabaseReference;
 import com.java.micarro.Comun;
-import com.java.micarro.NotificacionActivity;
 import com.java.micarro.R;
 import com.java.micarro.model.Persona;
 
-import static com.java.micarro.Constantes.CHANNEL_ID;
+import static com.java.micarro.Constantes.CONTADOR_ACEITE;
 import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
 import static com.java.micarro.Constantes.KM;
-import static com.java.micarro.Constantes.MANTENIMIENTO_NECESARIO;
-import static com.java.micarro.Constantes.NOTIFICACION;
-import static com.java.micarro.Constantes.NOTIFICACION_ID;
 import static com.java.micarro.Constantes.SIGNO_PORCENTAJE;
-import static com.java.micarro.Constantes.USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE;
 
 public class SlideshowFragment extends Fragment {
 
@@ -67,11 +52,8 @@ public class SlideshowFragment extends Fragment {
 
     int contador;
 
-    private String identificacion = "";
     private Persona persona;
-
     private DatabaseReference databaseReference;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel = ViewModelProviders.of(this).get(SlideshowViewModel.class);
@@ -86,7 +68,6 @@ public class SlideshowFragment extends Fragment {
         });
 
         inicializarVariables(root);
-
         calcularConsumibles();
 
         return root;
@@ -177,10 +158,16 @@ public class SlideshowFragment extends Fragment {
      */
     private int obtenerLimiteContador(int kilometraje, int banderaKilometraje) {
         int salida = 0;
+
         salida = (kilometraje * 100) / banderaKilometraje;
 
-        //mostrar notificación cuanado el % sea mayor a 80%
-        if (salida >= 80) {
+        if (banderaKilometraje == 5000) {
+            int contador = obtenerContadorKilometraje(); //recupero contador aceite
+
+            if (contador > 0) {
+                salida = salida - (90 * contador);
+            }
+
         }
         return salida;
     }
@@ -227,5 +214,18 @@ public class SlideshowFragment extends Fragment {
     private int obtenerKilometraje() {
         String kilometraje = comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACTUAL);
         return Integer.parseInt(kilometraje);
+    }
+
+    /**
+     * Método usado para cargar kilometraje.
+     *
+     * @return
+     */
+    private int obtenerContadorKilometraje() {
+        String contador = comun.obtenerValorSesion(getActivity(), CONTADOR_ACEITE);
+        if (contador == "") {
+            contador = "0";
+        }
+        return Integer.parseInt(contador);
     }
 }
