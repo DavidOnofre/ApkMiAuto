@@ -12,7 +12,16 @@ public class Persona {
     private String Correo;
     private String Telefono;
     private List<Auto> auto;
-    private Mantenimiento mantenimiento;
+
+    public List<Mantenimiento> getMantenimiento() {
+        return mantenimiento;
+    }
+
+    public void setMantenimiento(List<Mantenimiento> mantenimiento) {
+        this.mantenimiento = mantenimiento;
+    }
+
+    private List<Mantenimiento> mantenimiento;
 
     public Persona() {
     }
@@ -65,13 +74,7 @@ public class Persona {
         Telefono = telefono;
     }
 
-    public Mantenimiento getMantenimiento() {
-        return mantenimiento;
-    }
 
-    public void setMantenimiento(Mantenimiento mantenimiento) {
-        this.mantenimiento = mantenimiento;
-    }
 
     @Override
     public String toString() {

@@ -51,6 +51,7 @@ import com.java.micarro.model.Persona;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static com.java.micarro.Constantes.ACEITE;
 import static com.java.micarro.Constantes.ACEITE_BANDERA;
@@ -911,12 +912,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * @param consumo
      */
     private void grabarMantenimiento(String consumo, String banderaKilometrake) {
+        List<Mantenimiento> mantenimientos = new ArrayList<Mantenimiento>();
+
         Mantenimiento m = new Mantenimiento();
         m.setFechaKilometraje(recuperarFechaSistema());
         m.setGastos(consumo);
         m.setObservaciones("Mantenimiento OK");
         m.setTipoMantenimiento(banderaKilometrake + " km.");
-        persona.setMantenimiento(m);
+
+        mantenimientos.add(m);
+        persona.setMantenimiento(mantenimientos);
     }
 
     /**

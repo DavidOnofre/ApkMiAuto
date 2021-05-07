@@ -80,5 +80,10 @@
     <string name="notificacion">Notificación</string>
     <string name="textview_notificacion_aviso">Revise sus consumibles</string>
     <string name="Asignar_Alarma">Asignar Recordatorio</string>
+    <string name="lista_mantenimientos">Lista de Mantenimientos</string>
+    <string name="lista_autos">Lista de Autos</string>
+    <string name="placa">Placa</string>
+    <string name="marca">Marca</string>
+    <string name="modelo">Modelo</string>
 
 </resources>

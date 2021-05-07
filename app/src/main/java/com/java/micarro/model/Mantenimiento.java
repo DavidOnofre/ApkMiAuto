@@ -9,7 +9,7 @@ public class Mantenimiento {
 
     public Mantenimiento(){
 
-    };
+    }
 
     public String getFechaKilometraje() {
         return FechaKilometraje;
@@ -41,5 +41,10 @@ public class Mantenimiento {
 
     public void setTipoMantenimiento(String tipoMantenimiento) {
         TipoMantenimiento = tipoMantenimiento;
+    }
+
+    @Override
+    public String toString() {
+        return getFechaKilometraje() + " | " + getGastos() + " | " + getObservaciones() + " | " + getTipoMantenimiento() ;
     }
 }

@@ -19,7 +19,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Placa">
+        android:hint="@string/placa">
 
         <EditText
             android:id="@+id/editTextGalleryPlaca"
@@ -33,7 +33,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Modelo">
+        android:hint="@string/modelo">
 
         <EditText
             android:id="@+id/editTextGalleryModelo"
@@ -47,7 +47,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Marca">
+        android:hint="@string/marca">
 
         <EditText
             android:id="@+id/editTextGalleryMarca"
@@ -65,9 +65,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-        android:text="Lista de Autos"
+        android:text="@string/lista_autos"
         android:textAlignment="center"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
     <ListView
         android:id="@+id/listViewGalleryAutos"
