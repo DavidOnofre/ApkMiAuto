@@ -66,4 +66,8 @@ public class Constantes {
     public static final String ACEPTAR = "Aceptar";
     public static final String KILOMETRAJE_EN_CERO = "Kilometraje en cero";
     public static final String CONTADOR_ACEITE = "Contador_Aceite";
+    public static final String INGRESAR_UN_EMAIL = "Se debe ingresar un email";
+    public static final String INGRESAR_UNA_PASSWORD = "Se debe ingresar una contraseña";
+    public static final String REGISTRO_EN_LINEA = "Realizando registro en línea ...";
+    public static final String USUARIO_NO_EXISTE = "Ese usuario no existe: ";
 }

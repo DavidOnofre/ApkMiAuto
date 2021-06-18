@@ -1,5 +1,8 @@
 package com.java.micarro;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,18 +20,16 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 import org.jetbrains.annotations.NotNull;
 
-import static com.java.micarro.Constantes.BIENVENIDO;
 import static com.java.micarro.Constantes.INGRESAR_UNA_PASSWORD;
 import static com.java.micarro.Constantes.INGRESAR_UN_EMAIL;
 import static com.java.micarro.Constantes.REGISTRO_EN_LINEA;
-import static com.java.micarro.Constantes.USUARIO_NO_EXISTE;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegistrarUsuarioActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextEmail;
     private EditText editTextPassword;
-    private Button buttonIngresar;
     private Button buttonRegistrar;
+    private Button buttonRegresar;
 
     private ProgressDialog progressDialog;
 
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logueo);
+        setContentView(R.layout.activity_registrar_usuario);
         inicializarVariables();
     }
 
@@ -50,76 +48,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void inicializarVariables() {
         firebaseAuth = FirebaseAuth.getInstance();
 
-        editTextEmail = findViewById(R.id.txtEmail);
-        editTextPassword = findViewById(R.id.txtContrasena);
-        buttonIngresar = findViewById(R.id.button_Ingresar);
-        buttonRegistrar = findViewById(R.id.button_Registrar);
+        editTextEmail = findViewById(R.id.editText_RegistrarUsuario_email);
+        editTextPassword = findViewById(R.id.editText_RegistrarUsuario_Contrasena);
+        buttonRegistrar = findViewById(R.id.button_RegistrarUsuario_Registrar);
+        buttonRegresar = findViewById(R.id.button_RegistrarUsuario_Regresar);
 
         progressDialog = new ProgressDialog(this);
 
         buttonRegistrar.setOnClickListener(this);
-        buttonIngresar.setOnClickListener(this);
+        buttonRegresar.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.button_Registrar:
-                //registrarUsuario();
-                registrarUsuarioDD();
+            case R.id.button_RegistrarUsuario_Registrar:
+                registrarUsuario();
                 break;
-            case R.id.button_Ingresar:
-                loguearUsuario();
+            case R.id.button_RegistrarUsuario_Regresar:
+                regresar();
                 break;
         }
     }
 
-    private void registrarUsuarioDD() {
-        Intent i = new Intent(getApplicationContext(), RegistrarUsuarioActivity.class);
+    private void regresar() {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
     }
-
-    private void loguearUsuario() {
-
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
-
-        if (validarCadena(email, INGRESAR_UN_EMAIL)) {
-            return;
-        }
-
-        if (validarCadena(password, INGRESAR_UNA_PASSWORD)) {
-            return;
-        }
-
-        mostrarProgresoDialogo();
-        loguearUsuarioFirebase(email, password);
-    }
-
-    /**
-     * Método usado para loguear el usuario.
-     *
-     * @param email    email
-     * @param password password
-     */
-    private void loguearUsuarioFirebase(String email, String password) {
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, BIENVENIDO + editTextEmail.getText(), Toast.LENGTH_LONG).show();
-
-                    Intent i = new Intent(getApplicationContext(), MenuLateralActivity.class);
-                    startActivity(i);
-
-                } else {
-                    Toast.makeText(MainActivity.this, USUARIO_NO_EXISTE + editTextEmail.getText(), Toast.LENGTH_LONG).show();
-                }
-                progressDialog.dismiss();
-            }
-        });
-    }
-
 
     private void registrarUsuario() {
         String email = editTextEmail.getText().toString().trim();
@@ -151,9 +107,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     enviarEmailVerificacion();
                 } else {
                     if (task.getException() instanceof FirebaseAuthUserCollisionException) { // si se presenta una colisión.
-                        Toast.makeText(MainActivity.this, "Ese usuario ya existe.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegistrarUsuarioActivity.this, "Ese usuario ya existe.", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(MainActivity.this, "No se pudo registrar el email.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegistrarUsuarioActivity.this, "No se pudo registrar el email.", Toast.LENGTH_LONG).show();
                     }
                 }
                 progressDialog.dismiss();
@@ -169,21 +125,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onComplete(@NonNull @NotNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Usuario registrado correctamente, verifique su email para activación: " + editTextEmail.getText(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegistrarUsuarioActivity.this, "Usuario registrado correctamente, verifique su email para activación: " + editTextEmail.getText(), Toast.LENGTH_LONG).show();
                     limpiarCajas();
                 } else {
-                    Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegistrarUsuarioActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
-    }
-
-    /**
-     * Método usado para limpiar cajas.
-     */
-    private void limpiarCajas() {
-        editTextEmail.setText("");
-        editTextPassword.setText("");
     }
 
     /**
@@ -206,5 +154,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void mostrarProgresoDialogo() {
         progressDialog.setMessage(REGISTRO_EN_LINEA);
         progressDialog.show();
+    }
+
+    /**
+     * Método usado para limpiar cajas.
+     */
+    private void limpiarCajas() {
+        editTextEmail.setText("");
+        editTextPassword.setText("");
     }
 }

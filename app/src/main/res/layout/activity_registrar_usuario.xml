@@ -2,75 +2,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    tools:context="com.java.micarro.MainActivity">
+    tools:context=".RegistrarUsuarioActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView_RegistrarUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logue_de_usuarios"
+        android:text="@string/registro_usuarios"
         android:textAlignment="center"
         android:textSize="20sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/impEmail"
+        android:id="@+id/imp_RegistrarUsuario_Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/txtEmail"
+            android:id="@+id/editText_RegistrarUsuario_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            tools:ignore="Autofill" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/impContrasena"
+        android:id="@+id/imp_RegistrarUsuario_Contrasena"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/txtContrasena"
+            android:id="@+id/editText_RegistrarUsuario_Contrasena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/contrasena"
-            android:inputType="numberPassword" />
+            android:inputType="numberPassword"
+            tools:ignore="Autofill" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button_Ingresar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/ingresar" />
-
-    <Button
-        android:id="@+id/button_Registrar"
+        android:id="@+id/button_RegistrarUsuario_Registrar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/registrar" />
+
+    <Button
+        android:id="@+id/button_RegistrarUsuario_Regresar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/regresar" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="369dp"
         android:layout_height="375dp"
         android:layout_gravity="center"
-        app:srcCompat="@mipmap/escudo" />
+        app:srcCompat="@mipmap/escudo"
+        android:contentDescription="@string/logo" />
 
 </LinearLayout>
