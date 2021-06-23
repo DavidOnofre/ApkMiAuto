@@ -1,7 +1,9 @@
 package com.java.micarro;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,16 +19,33 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.java.micarro.model.Auto;
+import com.java.micarro.model.Persona;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
 import static com.java.micarro.Constantes.BIENVENIDO;
+import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.INGRESAR_UNA_PASSWORD;
 import static com.java.micarro.Constantes.INGRESAR_UN_EMAIL;
+import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
 import static com.java.micarro.Constantes.REGISTRO_EN_LINEA;
+import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
+import static com.java.micarro.Constantes.SI;
 import static com.java.micarro.Constantes.USUARIO_NO_EXISTE;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Comun comun;
+    private DatabaseReference databaseReference;
 
     private EditText editTextEmail;
     private EditText editTextPassword;
@@ -36,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
+
+    private List<Persona> listaPersona = new ArrayList<Persona>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Método usado para inicializar variables
      */
     private void inicializarVariables() {
+        comun = new Comun();
         firebaseAuth = FirebaseAuth.getInstance();
 
         editTextEmail = findViewById(R.id.txtEmail);
@@ -59,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         buttonRegistrar.setOnClickListener(this);
         buttonIngresar.setOnClickListener(this);
+
+        databaseReference = comun.ObtenerDataBaseReference(this);
+       // listarDatos();
     }
 
     @Override
@@ -102,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param email    email
      * @param password password
      */
-    private void loguearUsuarioFirebase(String email, String password) {
+    private void loguearUsuarioFirebase(final String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
@@ -110,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(MainActivity.this, BIENVENIDO + editTextEmail.getText(), Toast.LENGTH_LONG).show();
 
                     Intent i = new Intent(getApplicationContext(), MenuLateralActivity.class);
+                    grabarSesion(email);
                     startActivity(i);
 
                 } else {
@@ -118,6 +144,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 progressDialog.dismiss();
             }
         });
+    }
+
+    private void grabarSesion(String email) {
+
+
+        Persona p = recuperarCliente(email);
+
+        SharedPreferences prefs = getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(IDENTIFICACION_SESION, p.getUid());
+        editor.putString(KILOMETRAJE_ACTUAL, p.getAuto().get(0).getKilometraje());
+        editor.putString(ACTUALIZAR_KILOMETRAJE, SI);
+        editor.commit();
+
+
+    }
+
+    private Persona recuperarCliente(String email) {
+        listarDatos();  // kodigo
+
+        Persona salida = new Persona();
+        for (Persona persona : listaPersona) {
+            if (email.equals(persona.getCorreo())) {
+
+                salida = persona;
+
+            }
+        }
+
+        return salida;
     }
 
 
@@ -206,5 +262,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void mostrarProgresoDialogo() {
         progressDialog.setMessage(REGISTRO_EN_LINEA);
         progressDialog.show();
+    }
+
+    /**
+     * Método usado para listar datos de la bdd.
+     */
+    private void listarDatos() {
+        databaseReference.child("Persona").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaPersona.clear();
+                for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()) {
+                    Persona p = objDataSnapshot.getValue(Persona.class);
+                    listaPersona.add(p);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

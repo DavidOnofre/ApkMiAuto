@@ -70,4 +70,12 @@ public class Constantes {
     public static final String INGRESAR_UNA_PASSWORD = "Se debe ingresar una contraseña";
     public static final String REGISTRO_EN_LINEA = "Realizando registro en línea ...";
     public static final String USUARIO_NO_EXISTE = "Ese usuario no existe: ";
+    public static final String INGRESAR_UNA_IDENTIFICACION = "Se debe ingresar una identificación.";
+    public static final String INGRESAR_UN_NOMBRE = "Se debe ingresar un nombre.";
+    public static final String INGRESAR_UN_APELLIDO = "Se debe ingresar un apellido.";
+    public static final String INGRESAR_UN_TELEFONO = "Se debe ingresar un número de télefono.";
+    public static final String INGRESAR_UNA_PLACA = "Se debe ingresar una placa.";
+    public static final String INGRESAR_UNA_MARCA = "Se deb ingresar una marca.";
+    public static final String INGRESAR_UN_MODELO = "Se debe ingresar un modelo.";
+    public static final String INGRESAR_UN_KILOMETRAJE = "Se debe ingresar un kilometraje.";
 }

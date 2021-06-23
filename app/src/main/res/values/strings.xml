@@ -20,7 +20,7 @@
     <string name="nombre">Nombre</string>
     <string name="apellido">Apellido</string>
     <string name="correo">Correo</string>
-    <string name="telefono">Telefono</string>
+    <string name="telefono">Teléfono</string>
     <string name="lista_Autos">Lista de Autos</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -87,11 +87,13 @@
     <string name="modelo">Modelo</string>
     <string name="ingresar">Ingresar</string>
     <string name="registrar">Registrar</string>
+    <string name="registrar_bdd">Almacenar BDD</string>
     <string name="logue_de_usuarios">Logue de Usuarios</string>
     <string name="contrasena">Contraseña</string>
-    <string name="email">Email</string>
     <string name="registro_usuarios">Registrar Usuario</string>
     <string name="logo">logo</string>
     <string name="regresar">Regresar</string>
+    <string name="auto">Auto</string>
+    <string name="kilometraje">Kilometraje</string>
 
 </resources>

@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:ems="10"
-            android:hint="@string/email"
+            android:hint="@string/correo"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>

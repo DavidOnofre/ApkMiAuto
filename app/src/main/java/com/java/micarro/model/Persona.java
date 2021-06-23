@@ -12,6 +12,10 @@ public class Persona {
     private String Correo;
     private String Telefono;
     private List<Auto> auto;
+    private List<Mantenimiento> mantenimiento;
+
+    public Persona() {
+    }
 
     public List<Mantenimiento> getMantenimiento() {
         return mantenimiento;
@@ -19,11 +23,6 @@ public class Persona {
 
     public void setMantenimiento(List<Mantenimiento> mantenimiento) {
         this.mantenimiento = mantenimiento;
-    }
-
-    private List<Mantenimiento> mantenimiento;
-
-    public Persona() {
     }
 
     public List<Auto> getAuto() {
