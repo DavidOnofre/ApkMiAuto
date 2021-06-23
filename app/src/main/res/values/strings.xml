@@ -95,5 +95,7 @@
     <string name="regresar">Regresar</string>
     <string name="auto">Auto</string>
     <string name="kilometraje">Kilometraje</string>
+    <string name="tema_tesis">APLICACIÓN WEB PARA MONITOREAR LOS CONSUMIBLES DE UN VEHÍCULO MEDIANTE UNA APK</string>
+    <string name="iniciar">Iniciar</string>
 
 </resources>

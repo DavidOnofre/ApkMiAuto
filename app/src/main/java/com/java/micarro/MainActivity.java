@@ -33,6 +33,7 @@ import java.util.List;
 
 import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
 import static com.java.micarro.Constantes.BIENVENIDO;
+import static com.java.micarro.Constantes.CONSULTA_EN_LINEA;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.INGRESAR_UNA_PASSWORD;
 import static com.java.micarro.Constantes.INGRESAR_UN_EMAIL;
@@ -83,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonIngresar.setOnClickListener(this);
 
         databaseReference = comun.ObtenerDataBaseReference(this);
-       // listarDatos();
+
+        listarDatos();  // kodigo
     }
 
     @Override
@@ -147,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void grabarSesion(String email) {
-
 
         Persona p = recuperarCliente(email);
 
@@ -260,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Método usado para mostrar el progreso de la barra de dialogo.
      */
     private void mostrarProgresoDialogo() {
-        progressDialog.setMessage(REGISTRO_EN_LINEA);
+        progressDialog.setMessage(CONSULTA_EN_LINEA);
         progressDialog.show();
     }
 

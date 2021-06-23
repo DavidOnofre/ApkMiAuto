@@ -69,6 +69,7 @@ public class Constantes {
     public static final String INGRESAR_UN_EMAIL = "Se debe ingresar un email";
     public static final String INGRESAR_UNA_PASSWORD = "Se debe ingresar una contraseña";
     public static final String REGISTRO_EN_LINEA = "Realizando registro en línea ...";
+    public static final String CONSULTA_EN_LINEA = "Realizando consulta en línea ...";
     public static final String USUARIO_NO_EXISTE = "Ese usuario no existe: ";
     public static final String INGRESAR_UNA_IDENTIFICACION = "Se debe ingresar una identificación.";
     public static final String INGRESAR_UN_NOMBRE = "Se debe ingresar un nombre.";
