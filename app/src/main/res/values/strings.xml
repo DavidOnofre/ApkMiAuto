@@ -87,7 +87,7 @@
     <string name="modelo">Modelo</string>
     <string name="ingresar">Ingresar</string>
     <string name="registrar">Registrar</string>
-    <string name="registrar_bdd">Almacenar BDD</string>
+    <string name="registrar_bdd">Guardar</string>
     <string name="logue_de_usuarios">Logue de Usuarios</string>
     <string name="contrasena">Contraseña</string>
     <string name="registro_usuarios">Registrar Usuario</string>

@@ -255,6 +255,7 @@ public class RegistrarUsuarioActivity extends AppCompatActivity implements View.
             @Override
             public void onComplete(@NonNull @NotNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    regresar();
                     Toast.makeText(RegistrarUsuarioActivity.this, "Usuario registrado correctamente, verifique su email para activación: " + editTextEmail.getText(), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(RegistrarUsuarioActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();

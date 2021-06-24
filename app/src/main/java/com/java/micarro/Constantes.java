@@ -79,4 +79,5 @@ public class Constantes {
     public static final String INGRESAR_UNA_MARCA = "Se deb ingresar una marca.";
     public static final String INGRESAR_UN_MODELO = "Se debe ingresar un modelo.";
     public static final String INGRESAR_UN_KILOMETRAJE = "Se debe ingresar un kilometraje.";
+    public static final String VERIFIQUE_CORREO = "Verifique su correo.";
 }

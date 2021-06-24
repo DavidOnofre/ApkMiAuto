@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,11 +49,14 @@ import com.java.micarro.model.Auto;
 import com.java.micarro.model.Mantenimiento;
 import com.java.micarro.model.Persona;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static com.java.micarro.Constantes.ACEITE;
 import static com.java.micarro.Constantes.ACEITE_BANDERA;
 import static com.java.micarro.Constantes.ACEPTAR;
@@ -207,6 +211,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         if (banderaActualizarKilometraje.equals(NO)) {
             salida = Integer.parseInt(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACTUAL));
+            //kodi
+            persona = new Persona();
+            persona.setUid("1719382986");
+            persona.setNombre("David");
+            persona.setApellido("Onofre");
+            persona.setTelefono("0988569896");
+            persona.setCorreo("88davido@gmil.com");
+
+            List<Auto> autos = new ArrayList<>();
+
+            Auto a = new Auto();
+            a.setPlaca("xba-5303");
+            a.setMarca("kia");
+            a.setModelo("picanto");
+            a.setKilometraje("117");
+            a.setKilometrajeAceite("0");
+            a.setKilometrajeBateria("0");
+            a.setKilometrajeElectricidad("0");
+            a.setKilometrajeGasolina("0");
+            a.setKilometrajeLlantas("0");
+
+            autos.add(a);
+
+            persona.setAuto(autos);
+            //kodi
         } else {
             Auto auto = persona.getAuto().get(0);
             salida = obtenerKilometrajeBaseDatos();
@@ -539,21 +568,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         final String identificacion = comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION);
 
         databaseReference.child(PERSONA).addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HomeFragment.this.persona = new Persona();
                 for (DataSnapshot objDataSnapshot : dataSnapshot.getChildren()) {
                     Persona p = objDataSnapshot.getValue(Persona.class);
 
                     if (identificacion.equals(p.getUid())) {
                         HomeFragment.this.persona = p;
                     }
+
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
+
         });
+
+
+        System.out.println(HomeFragment.this.persona.getNombre() + " kodigo");
+
     }
 
     /**
