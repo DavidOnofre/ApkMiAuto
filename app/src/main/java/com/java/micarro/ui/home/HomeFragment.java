@@ -49,8 +49,6 @@ import com.java.micarro.model.Auto;
 import com.java.micarro.model.Mantenimiento;
 import com.java.micarro.model.Persona;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -63,11 +61,13 @@ import static com.java.micarro.Constantes.ACEPTAR;
 import static com.java.micarro.Constantes.ACTUALIZADO;
 import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
 import static com.java.micarro.Constantes.AMARILLO;
+import static com.java.micarro.Constantes.APELLIDO_SESION;
 import static com.java.micarro.Constantes.BATERIA;
 import static com.java.micarro.Constantes.BATERIA_BANDERA;
 import static com.java.micarro.Constantes.CHANNEL_ID;
 import static com.java.micarro.Constantes.CONSUMO;
 import static com.java.micarro.Constantes.CONTADOR_ACEITE;
+import static com.java.micarro.Constantes.CORREO_SESION;
 import static com.java.micarro.Constantes.ELECTRICIDAD;
 import static com.java.micarro.Constantes.ELECTRICIDAD_BANDERA;
 import static com.java.micarro.Constantes.ESPACIO_BLACO;
@@ -77,19 +77,28 @@ import static com.java.micarro.Constantes.GASOLINA_BANDERA;
 import static com.java.micarro.Constantes.GRAFICO_CONSUMIBLES;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.INGRESE_CONSUMO;
-import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
+import static com.java.micarro.Constantes.KILOMETRAJE_ACEITE_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_BATERIA_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_ELECTRICIDAD_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_EN_CERO;
+import static com.java.micarro.Constantes.KILOMETRAJE_GASOLINA_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO;
+import static com.java.micarro.Constantes.KILOMETRAJE_LLANTAS_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_SESION;
 import static com.java.micarro.Constantes.LLANTAS;
 import static com.java.micarro.Constantes.LLANTAS_BANDERA;
 import static com.java.micarro.Constantes.MANTENIMIENTO_NECESARIO;
 import static com.java.micarro.Constantes.MARCA;
+import static com.java.micarro.Constantes.MARCA_SESION;
 import static com.java.micarro.Constantes.MODELO;
+import static com.java.micarro.Constantes.MODELO_SESION;
 import static com.java.micarro.Constantes.NO;
+import static com.java.micarro.Constantes.NOMBRE_SESION;
 import static com.java.micarro.Constantes.NOTIFICACION;
 import static com.java.micarro.Constantes.NOTIFICACION_ID;
 import static com.java.micarro.Constantes.PERSONA;
 import static com.java.micarro.Constantes.PLACA;
+import static com.java.micarro.Constantes.PLACA_SESION;
 import static com.java.micarro.Constantes.REALIZO_MANTENIMIENTO_RESPECTIVO;
 import static com.java.micarro.Constantes.RECORRIDO;
 import static com.java.micarro.Constantes.RECORRIDO_FROND;
@@ -97,6 +106,7 @@ import static com.java.micarro.Constantes.REVISAR_CONSUMIBLES;
 import static com.java.micarro.Constantes.ROJO;
 import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 import static com.java.micarro.Constantes.SI;
+import static com.java.micarro.Constantes.TELEFONO_SESION;
 import static com.java.micarro.Constantes.ULTIMO_KILOMETRAJE;
 import static com.java.micarro.Constantes.USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE;
 import static com.java.micarro.Constantes.VERDE;
@@ -210,32 +220,34 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida;
 
         if (banderaActualizarKilometraje.equals(NO)) {
-            salida = Integer.parseInt(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACTUAL));
+            salida = Integer.parseInt(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_SESION));
+
             //kodi
             persona = new Persona();
-            persona.setUid("1719382986");
-            persona.setNombre("David");
-            persona.setApellido("Onofre");
-            persona.setTelefono("0988569896");
-            persona.setCorreo("88davido@gmil.com");
+            persona.setUid(comun.obtenerValorSesion(getActivity(), IDENTIFICACION_SESION));
+            persona.setNombre(comun.obtenerValorSesion(getActivity(), NOMBRE_SESION));
+            persona.setApellido(comun.obtenerValorSesion(getActivity(), APELLIDO_SESION));
+            persona.setTelefono(comun.obtenerValorSesion(getActivity(), TELEFONO_SESION));
+            persona.setCorreo(comun.obtenerValorSesion(getActivity(), CORREO_SESION));
 
             List<Auto> autos = new ArrayList<>();
 
             Auto a = new Auto();
-            a.setPlaca("xba-5303");
-            a.setMarca("kia");
-            a.setModelo("picanto");
-            a.setKilometraje("117");
-            a.setKilometrajeAceite("0");
-            a.setKilometrajeBateria("0");
-            a.setKilometrajeElectricidad("0");
-            a.setKilometrajeGasolina("0");
-            a.setKilometrajeLlantas("0");
+            a.setPlaca(comun.obtenerValorSesion(getActivity(), PLACA_SESION));
+            a.setMarca(comun.obtenerValorSesion(getActivity(), MARCA_SESION));
+            a.setModelo(comun.obtenerValorSesion(getActivity(), MODELO_SESION));
+            a.setKilometraje(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_SESION));
+            a.setKilometrajeAceite(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACEITE_SESION));
+            a.setKilometrajeBateria(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_BATERIA_SESION));
+            a.setKilometrajeElectricidad(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ELECTRICIDAD_SESION));
+            a.setKilometrajeGasolina(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_GASOLINA_SESION));
+            a.setKilometrajeLlantas(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_LLANTAS_SESION));
 
             autos.add(a);
 
             persona.setAuto(autos);
             //kodi
+
         } else {
             Auto auto = persona.getAuto().get(0);
             salida = obtenerKilometrajeBaseDatos();
@@ -290,6 +302,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
+     * Método usado para crear de notificación si el consumible necesita cambio.
+     *
+     * @param banderaKilometraje
+     */
+    private void crearNotificacion(int banderaKilometraje, String kilometrajeCajaTexto) {
+        String stringBanderaKilometraje = String.valueOf(banderaKilometraje);
+        crearVentanaEmergenteConsumibles(stringBanderaKilometraje, kilometrajeCajaTexto);
+        crearNotificacionBarraSuperior(banderaKilometraje);
+    }
+
+    /**
      * Método usado para cargar color en gráfico de barras de aceite.
      *
      * @param kilometrajeActualizado
@@ -319,17 +342,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             crearNotificacion(5000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
-    }
-
-    /**
-     * Método usado para crear de notificación si el consumible necesita cambio.
-     *
-     * @param banderaKilometraje
-     */
-    private void crearNotificacion(int banderaKilometraje, String kilometrajeCajaTexto) {
-        String stringBanderaKilometraje = String.valueOf(banderaKilometraje);
-        crearVentanaEmergenteConsumibles(stringBanderaKilometraje, kilometrajeCajaTexto);
-        crearNotificacionBarraSuperior(banderaKilometraje);
     }
 
     /**
@@ -674,7 +686,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void grabarKilometrajeActualSesion(int kilometrajeActualizado, String recorrido) {
         SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(KILOMETRAJE_ACTUAL, String.valueOf(kilometrajeActualizado));
+        editor.putString(KILOMETRAJE_SESION, String.valueOf(kilometrajeActualizado));
         editor.putString(ACTUALIZAR_KILOMETRAJE, NO);
         editor.putString(RECORRIDO, recorrido);
         editor.commit();

@@ -31,18 +31,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
+import static com.java.micarro.Constantes.APELLIDO_SESION;
 import static com.java.micarro.Constantes.BIENVENIDO;
 import static com.java.micarro.Constantes.CONSULTA_EN_LINEA;
+import static com.java.micarro.Constantes.CORREO_SESION;
 import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
 import static com.java.micarro.Constantes.INGRESAR_UNA_PASSWORD;
 import static com.java.micarro.Constantes.INGRESAR_UN_EMAIL;
-import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
+import static com.java.micarro.Constantes.KILOMETRAJE_ACEITE_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_BATERIA_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_ELECTRICIDAD_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_GASOLINA_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_LLANTAS_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_SESION;
+import static com.java.micarro.Constantes.MARCA_SESION;
+import static com.java.micarro.Constantes.MODELO_SESION;
+import static com.java.micarro.Constantes.NOMBRE_SESION;
+import static com.java.micarro.Constantes.PLACA_SESION;
 import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
 import static com.java.micarro.Constantes.SI;
+import static com.java.micarro.Constantes.TELEFONO_SESION;
 import static com.java.micarro.Constantes.USUARIO_NO_EXISTE;
 import static com.java.micarro.Constantes.VERIFIQUE_CORREO;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     private Comun comun;
     private DatabaseReference databaseReference;
@@ -63,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logueo);
         inicializarVariables();
+        listarDatos();
     }
 
     /**
@@ -83,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonIngresar.setOnClickListener(this);
 
         databaseReference = comun.ObtenerDataBaseReference(this);
-        listarDatos();
     }
 
     @Override
@@ -159,16 +172,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Método usado para grabar datos en sesión.
+     *
      * @param email email
      */
     private void grabarSesion(String email) {
         Persona p = recuperarCliente(email);
         SharedPreferences prefs = getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+
+        //grabar entidad Persona
         editor.putString(IDENTIFICACION_SESION, p.getUid());
-        editor.putString(KILOMETRAJE_ACTUAL, p.getAuto().get(0).getKilometraje());
+        editor.putString(NOMBRE_SESION, p.getNombre());
+        editor.putString(APELLIDO_SESION, p.getApellido());
+        editor.putString(TELEFONO_SESION, p.getTelefono());
+        editor.putString(CORREO_SESION, p.getCorreo());
+
+        // auto
+        editor.putString(PLACA_SESION, p.getAuto().get(0).getPlaca());
+        editor.putString(MARCA_SESION, p.getAuto().get(0).getMarca());
+        editor.putString(MODELO_SESION, p.getAuto().get(0).getModelo());
+        editor.putString(KILOMETRAJE_SESION, p.getAuto().get(0).getKilometraje());
+        editor.putString(KILOMETRAJE_ACEITE_SESION, p.getAuto().get(0).getKilometrajeAceite());
+        editor.putString(KILOMETRAJE_BATERIA_SESION, p.getAuto().get(0).getKilometrajeBateria());
+        editor.putString(KILOMETRAJE_ELECTRICIDAD_SESION, p.getAuto().get(0).getKilometrajeElectricidad());
+        editor.putString(KILOMETRAJE_GASOLINA_SESION, p.getAuto().get(0).getKilometrajeGasolina());
+        editor.putString(KILOMETRAJE_LLANTAS_SESION, p.getAuto().get(0).getKilometrajeLlantas());
+        //auto
+
+        //grabar entidad Persona
+
         editor.putString(ACTUALIZAR_KILOMETRAJE, SI);
-        editor.putString("kodigo", p.toString());
         editor.commit();
     }
 

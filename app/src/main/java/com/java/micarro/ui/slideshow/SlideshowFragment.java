@@ -20,7 +20,7 @@ import com.java.micarro.R;
 import com.java.micarro.model.Persona;
 
 import static com.java.micarro.Constantes.CONTADOR_ACEITE;
-import static com.java.micarro.Constantes.KILOMETRAJE_ACTUAL;
+import static com.java.micarro.Constantes.KILOMETRAJE_SESION;
 import static com.java.micarro.Constantes.KM;
 import static com.java.micarro.Constantes.SIGNO_PORCENTAJE;
 
@@ -94,7 +94,6 @@ public class SlideshowFragment extends Fragment {
         }
     }
 
-
     /**
      * Método usado para gráficar el progreso de la barra progressBar para cada consumible.
      *
@@ -139,7 +138,7 @@ public class SlideshowFragment extends Fragment {
                 }
             });
             try {
-                Thread.sleep(30);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -161,14 +160,14 @@ public class SlideshowFragment extends Fragment {
 
         salida = (kilometraje * 100) / banderaKilometraje;
 
-        if (banderaKilometraje == 5000) {
-            int contador = obtenerContadorKilometraje(); //recupero contador aceite
+        //if (banderaKilometraje == 5000) {
+        //    int contador = obtenerContadorKilometraje(); //recupero contador aceite
 
-            if (contador > 0) {
-                salida = salida - (90 * contador);
-            }
+        //    if (contador > 0) {
+        //        salida = salida - (90 * contador);
+        //    }
 
-        }
+        //}
         return salida;
     }
 
@@ -212,7 +211,7 @@ public class SlideshowFragment extends Fragment {
      * @return
      */
     private int obtenerKilometraje() {
-        String kilometraje = comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACTUAL);
+        String kilometraje = comun.obtenerValorSesion(getActivity(), KILOMETRAJE_SESION);
         return Integer.parseInt(kilometraje);
     }
 

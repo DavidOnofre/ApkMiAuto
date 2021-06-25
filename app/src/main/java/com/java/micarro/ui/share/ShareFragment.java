@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.java.micarro.Comun;
 import com.java.micarro.R;
-import com.java.micarro.model.Auto;
 import com.java.micarro.model.Mantenimiento;
 import com.java.micarro.model.Persona;
 import com.java.micarro.ui.gallery.GalleryViewModel;
@@ -90,8 +90,15 @@ public class ShareFragment extends Fragment {
                         mantenimientos = p.getMantenimiento();
                     }
                 }
-                arrayAdapterMantenimiento = new ArrayAdapter<Mantenimiento>(getActivity(), android.R.layout.simple_list_item_1, mantenimientos);
-                listViewMantenimientos.setAdapter(arrayAdapterMantenimiento);
+
+                if (mantenimientos != null) {
+                    arrayAdapterMantenimiento = new ArrayAdapter<Mantenimiento>(getActivity(), android.R.layout.simple_list_item_1, mantenimientos);
+                    listViewMantenimientos.setAdapter(arrayAdapterMantenimiento);
+                } else {
+                    mantenimientos = new ArrayList<Mantenimiento>();
+                    Toast.makeText(getActivity().getApplicationContext(), "No existe ningún gasto", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override

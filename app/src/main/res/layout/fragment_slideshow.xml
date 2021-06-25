@@ -60,7 +60,8 @@
                 android:id="@+id/textView_consumibles_porcentaje_5000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textStyle="bold|italic"/>
 
             <ProgressBar
                 android:id="@+id/progressBar_consumibles_5000"
@@ -136,7 +137,8 @@
                 android:id="@+id/textView_consumibles_porcentaje_15000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textStyle="bold|italic"/>
 
             <ProgressBar
                 android:id="@+id/progressBar_consumibles_15000"
@@ -170,7 +172,8 @@
                 android:id="@+id/textView_consumibles_porcentaje_20000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textStyle="bold|italic"/>
 
             <ProgressBar
                 android:id="@+id/progressBar_consumibles_20000"
@@ -205,7 +208,8 @@
                 android:id="@+id/textView_consumibles_porcentaje_30000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textStyle="bold|italic"/>
 
             <ProgressBar
                 android:id="@+id/progressBar_consumibles_30000"
@@ -239,7 +243,8 @@
                 android:id="@+id/textView_consumibles_porcentaje_55000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textStyle="bold|italic"/>
 
             <ProgressBar
                 android:id="@+id/progressBar_consumibles_55000"
@@ -288,7 +293,8 @@
                 android:id="@+id/textView_consumibles_porcentaje_60000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textStyle="bold|italic"/>
 
             <ProgressBar
                 android:id="@+id/progressBar_consumibles_60000"

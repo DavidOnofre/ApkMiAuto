@@ -15,9 +15,7 @@ public class Constantes {
     public static final String ESPACIO_VACIO_DOS_PUNTOS = " : ";
     public static final String ESPACIO_VACIO_BARRA_VERTICAL = " | ";
     public static final String PERSONA = "Persona";
-    public static final String IDENTIFICACION_SESION = "identificacionSesion";
     public static final String ACTUALIZAR_KILOMETRAJE = "actualizarKilometraje";
-    public static final String KILOMETRAJE_ACTUAL = "KilometrajeActual";
     public static final String SI = "SI";
     public static final String NO = "NO";
     public static final String CONTRASENA_10_DIGITOS = "Longitud de contraseña 10 dígitos";
@@ -80,4 +78,19 @@ public class Constantes {
     public static final String INGRESAR_UN_MODELO = "Se debe ingresar un modelo.";
     public static final String INGRESAR_UN_KILOMETRAJE = "Se debe ingresar un kilometraje.";
     public static final String VERIFIQUE_CORREO = "Verifique su correo.";
+
+    public static final String IDENTIFICACION_SESION = "ideSes";
+    public static final String KILOMETRAJE_SESION = "KilSes";
+    public static final String NOMBRE_SESION = "nomSes";
+    public static final String APELLIDO_SESION = "apeSes";
+    public static final String TELEFONO_SESION = "telSes";
+    public static final String CORREO_SESION = "corSes";
+    public static final String PLACA_SESION = "plaSes";
+    public static final String MARCA_SESION = "marSes";
+    public static final String MODELO_SESION = "modSes";
+    public static final String KILOMETRAJE_ACEITE_SESION = "kilAceSes";
+    public static final String KILOMETRAJE_BATERIA_SESION = "kilBatSes";
+    public static final String KILOMETRAJE_ELECTRICIDAD_SESION = "kilEleSes";
+    public static final String KILOMETRAJE_GASOLINA_SESION = "kilGasSes";
+    public static final String KILOMETRAJE_LLANTAS_SESION = "kilLlaSes";
 }
