@@ -35,12 +35,19 @@
         android:textAlignment="center"
         android:textSize="20dp" />
 
-    <ImageView
+    <!-- <ImageView
         android:id="@+id/imageView3"
         android:layout_width="369dp"
         android:layout_height="375dp"
         android:layout_gravity="center"
-        app:srcCompat="@mipmap/escudobk" />
+        app:srcCompat="@mipmap/escudobk" />  -->
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="369dp"
+        android:layout_height="375dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/escudo_uce" />
 
     <TextView
         android:id="@+id/textView_Logo_espacio_vacio3"
@@ -57,5 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/iniciar" />
+
+
 
 </LinearLayout>
