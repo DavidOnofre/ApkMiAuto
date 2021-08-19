@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@string/logue_de_usuarios"
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:textSize="24sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/impEmail"
@@ -33,7 +33,9 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/correo"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,7 +51,9 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/contrasena"
-            android:inputType="numberPassword" />
+            android:inputType="numberPassword"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,14 +62,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/ingresar" />
+        android:text="@string/ingresar"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
 
     <Button
         android:id="@+id/button_Registrar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/registrar" />
+        android:text="@string/registrar"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
 
     <ImageView
         android:id="@+id/imageView3"

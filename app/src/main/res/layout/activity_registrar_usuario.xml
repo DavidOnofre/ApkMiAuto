@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/registro_usuarios"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="24sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/imp_RegistrarUsuario_Identificacion"
@@ -37,7 +37,9 @@
                     android:ems="10"
                     android:hint="@string/identificacion"
                     android:inputType="number"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -53,7 +55,9 @@
                     android:ems="10"
                     android:hint="@string/nombre"
                     android:inputType="text"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -69,7 +73,9 @@
                     android:ems="10"
                     android:hint="@string/apellido"
                     android:inputType="text"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -85,7 +91,9 @@
                     android:ems="10"
                     android:hint="@string/telefono"
                     android:inputType="number"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -101,7 +109,9 @@
                     android:ems="10"
                     android:hint="@string/correo"
                     android:inputType="textEmailAddress"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,7 +128,9 @@
                     android:ems="10"
                     android:hint="@string/contrasena"
                     android:inputType="numberPassword"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,7 +141,7 @@
                 android:layout_margin="10dp"
                 android:text="@string/auto"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/imp_RegistrarUsuario_Placa"
@@ -144,7 +156,9 @@
                     android:ems="10"
                     android:hint="@string/placa"
                     android:inputType="text"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -161,7 +175,9 @@
                     android:ems="10"
                     android:hint="@string/marca"
                     android:inputType="text"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,7 +194,9 @@
                     android:ems="10"
                     android:hint="@string/modelo"
                     android:inputType="text"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -195,7 +213,9 @@
                     android:ems="10"
                     android:hint="@string/kilometraje"
                     android:inputType="number"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -204,14 +224,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/registrar_bdd" />
+                android:text="@string/registrar_bdd"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
 
             <Button
                 android:id="@+id/button_RegistrarUsuario_Regresar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/regresar" />
+                android:text="@string/regresar"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>

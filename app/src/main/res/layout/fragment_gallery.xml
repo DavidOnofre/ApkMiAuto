@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:textSize="24sp" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -27,6 +27,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
+            android:textStyle="bold"
+            android:textSize="18dp"
             android:paddingTop="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,6 +43,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
+            android:textStyle="bold"
+            android:textSize="18dp"
             android:paddingTop="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,6 +59,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
+            android:textStyle="bold"
+            android:textSize="18dp"
             android:paddingTop="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,11 +73,13 @@
         android:layout_margin="10dp"
         android:text="@string/lista_autos"
         android:textAlignment="center"
-        android:textSize="30sp" />
+        android:textSize="36sp" />
 
     <ListView
         android:id="@+id/listViewGalleryAutos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
 
 </LinearLayout>
