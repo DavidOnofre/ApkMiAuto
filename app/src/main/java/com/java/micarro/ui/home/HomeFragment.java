@@ -1,5 +1,66 @@
 package com.java.micarro.ui.home;
 
+import static android.content.ContentValues.TAG;
+import static com.java.micarro.Constantes.ACEITE;
+import static com.java.micarro.Constantes.ACEITE_BANDERA;
+import static com.java.micarro.Constantes.ACEPTAR;
+import static com.java.micarro.Constantes.ACTUALIZADO;
+import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
+import static com.java.micarro.Constantes.AMARILLO;
+import static com.java.micarro.Constantes.APELLIDO_SESION;
+import static com.java.micarro.Constantes.BATERIA;
+import static com.java.micarro.Constantes.BATERIA_BANDERA;
+import static com.java.micarro.Constantes.CHANNEL_ID;
+import static com.java.micarro.Constantes.CONSUMO;
+import static com.java.micarro.Constantes.CONTADOR_ACEITE;
+import static com.java.micarro.Constantes.CONTADOR_BATERIA;
+import static com.java.micarro.Constantes.CONTADOR_ELECTRICIDAD;
+import static com.java.micarro.Constantes.CONTADOR_GASOLINA;
+import static com.java.micarro.Constantes.CONTADOR_LLANTAS;
+import static com.java.micarro.Constantes.CORREO_SESION;
+import static com.java.micarro.Constantes.ELECTRICIDAD;
+import static com.java.micarro.Constantes.ELECTRICIDAD_BANDERA;
+import static com.java.micarro.Constantes.ESPACIO_BLACO;
+import static com.java.micarro.Constantes.ESPACIO_VACIO;
+import static com.java.micarro.Constantes.GASOLINA;
+import static com.java.micarro.Constantes.GASOLINA_BANDERA;
+import static com.java.micarro.Constantes.GRAFICO_CONSUMIBLES;
+import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
+import static com.java.micarro.Constantes.INGRESE_CONSUMO;
+import static com.java.micarro.Constantes.KILOMETRAJE_ACEITE_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_BATERIA_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_ELECTRICIDAD_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_EN_CERO;
+import static com.java.micarro.Constantes.KILOMETRAJE_GASOLINA_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO;
+import static com.java.micarro.Constantes.KILOMETRAJE_LLANTAS_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_SESION;
+import static com.java.micarro.Constantes.LLANTAS;
+import static com.java.micarro.Constantes.LLANTAS_BANDERA;
+import static com.java.micarro.Constantes.MANTENIMIENTO_NECESARIO;
+import static com.java.micarro.Constantes.MARCA;
+import static com.java.micarro.Constantes.MARCA_SESION;
+import static com.java.micarro.Constantes.MODELO;
+import static com.java.micarro.Constantes.MODELO_SESION;
+import static com.java.micarro.Constantes.NO;
+import static com.java.micarro.Constantes.NOMBRE_SESION;
+import static com.java.micarro.Constantes.NOTIFICACION;
+import static com.java.micarro.Constantes.NOTIFICACION_ID;
+import static com.java.micarro.Constantes.PERSONA;
+import static com.java.micarro.Constantes.PLACA;
+import static com.java.micarro.Constantes.PLACA_SESION;
+import static com.java.micarro.Constantes.REALIZO_MANTENIMIENTO_RESPECTIVO;
+import static com.java.micarro.Constantes.RECORRIDO;
+import static com.java.micarro.Constantes.RECORRIDO_FROND;
+import static com.java.micarro.Constantes.REVISAR_CONSUMIBLES;
+import static com.java.micarro.Constantes.ROJO;
+import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
+import static com.java.micarro.Constantes.SI;
+import static com.java.micarro.Constantes.TELEFONO_SESION;
+import static com.java.micarro.Constantes.ULTIMO_KILOMETRAJE;
+import static com.java.micarro.Constantes.USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE;
+import static com.java.micarro.Constantes.VERDE;
+
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -54,63 +115,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
-import static com.java.micarro.Constantes.ACEITE;
-import static com.java.micarro.Constantes.ACEITE_BANDERA;
-import static com.java.micarro.Constantes.ACEPTAR;
-import static com.java.micarro.Constantes.ACTUALIZADO;
-import static com.java.micarro.Constantes.ACTUALIZAR_KILOMETRAJE;
-import static com.java.micarro.Constantes.AMARILLO;
-import static com.java.micarro.Constantes.APELLIDO_SESION;
-import static com.java.micarro.Constantes.BATERIA;
-import static com.java.micarro.Constantes.BATERIA_BANDERA;
-import static com.java.micarro.Constantes.CHANNEL_ID;
-import static com.java.micarro.Constantes.CONSUMO;
-import static com.java.micarro.Constantes.CONTADOR_ACEITE;
-import static com.java.micarro.Constantes.CORREO_SESION;
-import static com.java.micarro.Constantes.ELECTRICIDAD;
-import static com.java.micarro.Constantes.ELECTRICIDAD_BANDERA;
-import static com.java.micarro.Constantes.ESPACIO_BLACO;
-import static com.java.micarro.Constantes.ESPACIO_VACIO;
-import static com.java.micarro.Constantes.GASOLINA;
-import static com.java.micarro.Constantes.GASOLINA_BANDERA;
-import static com.java.micarro.Constantes.GRAFICO_CONSUMIBLES;
-import static com.java.micarro.Constantes.IDENTIFICACION_SESION;
-import static com.java.micarro.Constantes.INGRESE_CONSUMO;
-import static com.java.micarro.Constantes.KILOMETRAJE_ACEITE_SESION;
-import static com.java.micarro.Constantes.KILOMETRAJE_BATERIA_SESION;
-import static com.java.micarro.Constantes.KILOMETRAJE_ELECTRICIDAD_SESION;
-import static com.java.micarro.Constantes.KILOMETRAJE_EN_CERO;
-import static com.java.micarro.Constantes.KILOMETRAJE_GASOLINA_SESION;
-import static com.java.micarro.Constantes.KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO;
-import static com.java.micarro.Constantes.KILOMETRAJE_LLANTAS_SESION;
-import static com.java.micarro.Constantes.KILOMETRAJE_SESION;
-import static com.java.micarro.Constantes.LLANTAS;
-import static com.java.micarro.Constantes.LLANTAS_BANDERA;
-import static com.java.micarro.Constantes.MANTENIMIENTO_NECESARIO;
-import static com.java.micarro.Constantes.MARCA;
-import static com.java.micarro.Constantes.MARCA_SESION;
-import static com.java.micarro.Constantes.MODELO;
-import static com.java.micarro.Constantes.MODELO_SESION;
-import static com.java.micarro.Constantes.NO;
-import static com.java.micarro.Constantes.NOMBRE_SESION;
-import static com.java.micarro.Constantes.NOTIFICACION;
-import static com.java.micarro.Constantes.NOTIFICACION_ID;
-import static com.java.micarro.Constantes.PERSONA;
-import static com.java.micarro.Constantes.PLACA;
-import static com.java.micarro.Constantes.PLACA_SESION;
-import static com.java.micarro.Constantes.REALIZO_MANTENIMIENTO_RESPECTIVO;
-import static com.java.micarro.Constantes.RECORRIDO;
-import static com.java.micarro.Constantes.RECORRIDO_FROND;
-import static com.java.micarro.Constantes.REVISAR_CONSUMIBLES;
-import static com.java.micarro.Constantes.ROJO;
-import static com.java.micarro.Constantes.SHARED_LOGIN_DATA;
-import static com.java.micarro.Constantes.SI;
-import static com.java.micarro.Constantes.TELEFONO_SESION;
-import static com.java.micarro.Constantes.ULTIMO_KILOMETRAJE;
-import static com.java.micarro.Constantes.USTED_YA_REALIZO_EL_CAMBIO_SI_NO_EL_COSTO_DEL_CAMBIO_FUE;
-import static com.java.micarro.Constantes.VERDE;
-
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Comun comun;
@@ -131,6 +135,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Button buttonActualizarKilometraje;
     private Persona persona;
     private HorizontalBarChart horizontalBarChart;
+
+    private int contadorAceite = 0;
+    private int contadorGasolina = 0;
+    private int contadorLlantas = 0;
+    private int contadorElectricidad = 0;
+    private int contadorBateria = 0;
 
     private PendingIntent pendingIntent;
 
@@ -186,7 +196,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         cargarFormatoGraficoBarras(etiquetas);
         cargarEtiquetaPieGrafico();
         cargaColoresBarras(barEntries);
-
     }
 
     /**
@@ -203,11 +212,38 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         BarData data = new BarData(barDataSet);
 
         data.setBarWidth(anchoBarras);
-        barDataSet.setColors(cargarColor(kilometrajeActual, ACEITE_BANDERA), cargarColor(kilometrajeActual, GASOLINA_BANDERA), cargarColor(kilometrajeActual, LLANTAS_BANDERA), cargarColor(kilometrajeActual, BATERIA_BANDERA), cargarColor(kilometrajeActual, ELECTRICIDAD_BANDERA));
+
+        int colorAceite = cargarColor(kilometrajeActual, ACEITE_BANDERA);
+        int colorGasolina = cargarColor(kilometrajeActual, GASOLINA_BANDERA);
+        int colorLlantas = cargarColor(kilometrajeActual, LLANTAS_BANDERA);
+        int colorBateria = cargarColor(kilometrajeActual, BATERIA_BANDERA);
+        int colorElectricidad = cargarColor(kilometrajeActual, ELECTRICIDAD_BANDERA);
+        barDataSet.setColors(colorAceite, colorGasolina, colorLlantas, colorBateria, colorElectricidad);
 
         BarData barData = new BarData(barDataSet);
         horizontalBarChart.setData(barData);
         horizontalBarChart.setData(data);
+
+        if (banderaActualizarKilometraje.equals(SI)) {
+            if (colorAceite == ROJO || colorGasolina == ROJO || colorLlantas == ROJO || colorBateria == ROJO || colorElectricidad == ROJO) {
+
+                int banderaKilometraje = 0;
+
+                if (colorAceite == ROJO) {
+                    banderaKilometraje = 5000;
+                }
+                if (colorLlantas == ROJO) {
+                    banderaKilometraje = 10000;
+                }
+                if (colorBateria == ROJO) {
+                    banderaKilometraje = 15000;
+                }
+
+                crearNotificacion(banderaKilometraje, String.valueOf(kilometrajeActual));
+            }
+
+            banderaActualizarKilometraje = NO;
+        }
 
     }
 
@@ -298,19 +334,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             default:
                 salida = 0;
         }
+
         return salida;
     }
 
-    /**
-     * Método usado para crear de notificación si el consumible necesita cambio.
-     *
-     * @param banderaKilometraje
-     */
-    private void crearNotificacion(int banderaKilometraje, String kilometrajeCajaTexto) {
-        String stringBanderaKilometraje = String.valueOf(banderaKilometraje);
-        crearVentanaEmergenteConsumibles(stringBanderaKilometraje, kilometrajeCajaTexto);
-        crearNotificacionBarraSuperior(banderaKilometraje);
-    }
 
     /**
      * Método usado para cargar color en gráfico de barras de aceite.
@@ -323,8 +350,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 5000 - kilometrajeActualizado;
 
-        Auto auto = persona.getAuto().get(0);
-        int contador = Integer.parseInt(auto.getKilometrajeAceite());
+        int contador = 0;
+        if (contadorAceite > 0) {
+            contador = contadorAceite;
+        } else {
+            Auto auto = persona.getAuto().get(0);
+            contador = Integer.parseInt(auto.getKilometrajeAceite());
+        }
+
         if (contador > 0) {
             validacion = validacion + (5000 * contador);
         }
@@ -337,9 +370,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-
-
-            crearNotificacion(5000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
@@ -355,8 +385,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 5000 - kilometrajeActualizado;
 
-        Auto auto = persona.getAuto().get(0);
-        int contador = Integer.parseInt(auto.getKilometrajeGasolina());
+        int contador = 0;
+        if (contadorGasolina > 0) {
+            contador = contadorGasolina;
+        } else {
+            Auto auto = persona.getAuto().get(0);
+            contador = Integer.parseInt(auto.getKilometrajeGasolina());
+        }
+
         if (contador > 0) {
             validacion = validacion + (5000 * contador);
         }
@@ -369,7 +405,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearNotificacion(5001, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
@@ -385,8 +420,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 10000 - kilometrajeActualizado;
 
-        Auto auto = persona.getAuto().get(0);
-        int contador = Integer.parseInt(auto.getKilometrajeLlantas());
+        int contador = 0;
+        if (contadorLlantas > 0) {
+            contador = contadorLlantas;
+        } else {
+            Auto auto = persona.getAuto().get(0);
+            contador = Integer.parseInt(auto.getKilometrajeLlantas());
+        }
+
         if (contador > 0) {
             validacion = validacion + (10000 * contador);
         }
@@ -399,7 +440,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearNotificacion(10000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
@@ -415,8 +455,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 15000 - kilometrajeActualizado;
 
-        Auto auto = persona.getAuto().get(0);
-        int contador = Integer.parseInt(auto.getKilometrajeBateria());
+        int contador = 0;
+        if (contadorBateria > 0) {
+            contador = contadorBateria;
+        } else {
+            Auto auto = persona.getAuto().get(0);
+            contador = Integer.parseInt(auto.getKilometrajeBateria());
+        }
+
         if (contador > 0) {
             validacion = validacion + (15000 * contador);
         }
@@ -429,7 +475,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearNotificacion(15000, String.valueOf(kilometrajeActualizado));
         }
         return salida;
     }
@@ -445,8 +490,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida = 0;
         int validacion = 10000 - kilometrajeActualizado;
 
-        Auto auto = persona.getAuto().get(0);
-        int contador = Integer.parseInt(auto.getKilometrajeElectricidad());
+        int contador = 0;
+        if (contadorElectricidad > 0) {
+            contador = contadorElectricidad;
+        } else {
+            Auto auto = persona.getAuto().get(0);
+            contador = Integer.parseInt(auto.getKilometrajeElectricidad());
+        }
+
         if (contador > 0) {
             validacion = validacion + (10000 * contador);
         }
@@ -459,9 +510,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (validacion <= 99) {
             salida = ROJO;
-            crearNotificacion(10001, String.valueOf(kilometrajeActualizado));
         }
         return salida;
+    }
+
+    /**
+     * Método usado para crear de notificación si el consumible necesita cambio.
+     *
+     * @param banderaKilometraje
+     */
+    private void crearNotificacion(int banderaKilometraje, String kilometrajeCajaTexto) {
+        String stringBanderaKilometraje = String.valueOf(banderaKilometraje);
+        crearVentanaEmergenteConsumibles(stringBanderaKilometraje, kilometrajeCajaTexto);
+        crearNotificacionBarraSuperior(banderaKilometraje);
     }
 
     /**
@@ -600,9 +661,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
 
         });
-
-
-        System.out.println(HomeFragment.this.persona.getNombre() + " kodigo");
 
     }
 
@@ -822,8 +880,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         actualizarKilometrajeConsumibles(kilometrajeCajaTexto, consumo, banderaKilometraje);
 
         Auto auto = persona.getAuto().get(0);
-        int contador = Integer.parseInt(auto.getKilometrajeAceite());
-        if (contador > 0) {
+        int contadorA = Integer.parseInt(auto.getKilometrajeAceite());
+        if (contadorA > 0) {
+            dibujarGraficoHorizontal();
+        }
+
+        int contadorG = Integer.parseInt(auto.getKilometrajeGasolina());
+        if (contadorG > 0) {
+            dibujarGraficoHorizontal();
+        }
+
+        int contadorL = Integer.parseInt(auto.getKilometrajeLlantas());
+        if (contadorL > 0) {
+            dibujarGraficoHorizontal();
+        }
+
+        int contadorE = Integer.parseInt(auto.getKilometrajeElectricidad());
+        if (contadorE > 0) {
+            dibujarGraficoHorizontal();
+        }
+
+        int contadorB = Integer.parseInt(auto.getKilometrajeBateria());
+        if (contadorB > 0) {
             dibujarGraficoHorizontal();
         }
     }
@@ -908,51 +986,60 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void cargarContadoresConsumibles(Auto auto, String banderaKilometraje) {
-        int contador;
+
         switch (Integer.parseInt(banderaKilometraje)) {
             case 5000:
-                contador = Integer.parseInt(auto.getKilometrajeAceite());
-                contador = contador + 1;
-                auto.setKilometrajeAceite(String.valueOf(contador));
-                grabarContadorSesion(contador);
-                break;
+                int contadorA = 0;
+                int contadorG = 0;
 
-            case 5001:
-                contador = Integer.parseInt(auto.getKilometrajeGasolina());
-                contador = contador + 1;
-                auto.setKilometrajeGasolina(String.valueOf(contador));
+                contadorA = Integer.parseInt(auto.getKilometrajeAceite());
+                contadorA = contadorA + 1;
+                auto.setKilometrajeAceite(String.valueOf(contadorA));
+                grabarContadorSesion(CONTADOR_ACEITE, contadorA);
+
+                contadorG = Integer.parseInt(auto.getKilometrajeGasolina());
+                contadorG = contadorG + 1;
+                auto.setKilometrajeGasolina(String.valueOf(contadorG));
+                grabarContadorSesion(CONTADOR_GASOLINA, contadorG);
+
+                contadorAceite = contadorA;
+                contadorGasolina = contadorG;
                 break;
 
             case 10000:
-                contador = Integer.parseInt(auto.getKilometrajeLlantas());
-                contador = contador + 1;
-                auto.setKilometrajeLlantas(String.valueOf(contador));
-                break;
+                int contadorL = 0;
+                int contadorE = 0;
 
-            case 10001:
-                contador = Integer.parseInt(auto.getKilometrajeElectricidad());
-                contador = contador + 1;
-                auto.setKilometrajeElectricidad(String.valueOf(contador));
+                contadorL = Integer.parseInt(auto.getKilometrajeLlantas());
+                contadorL = contadorL + 1;
+                auto.setKilometrajeLlantas(String.valueOf(contadorL));
+                grabarContadorSesion(CONTADOR_LLANTAS, contadorL);
+
+                contadorE = Integer.parseInt(auto.getKilometrajeElectricidad());
+                contadorE = contadorE + 1;
+                auto.setKilometrajeElectricidad(String.valueOf(contadorE));
+                grabarContadorSesion(CONTADOR_ELECTRICIDAD, contadorE);
+
+                contadorLlantas = contadorL;
+                contadorElectricidad = contadorE;
                 break;
 
             case 15000:
-                contador = Integer.parseInt(auto.getKilometrajeBateria());
-                contador = contador + 1;
-                auto.setKilometrajeBateria(String.valueOf(contador));
-                break;
-            case 20000: //kodigo sin usar
+                int contadorB = 0;
+                contadorB = Integer.parseInt(auto.getKilometrajeBateria());
+                contadorB = contadorB + 1;
+                auto.setKilometrajeBateria(String.valueOf(contadorB));
+                grabarContadorSesion(CONTADOR_BATERIA, contadorB);
 
-                break;
-            case 30000: // kodigo sin usar
-
+                contadorBateria = contadorB;
                 break;
         }
     }
 
-    private void grabarContadorSesion(int contador) {
+    private void grabarContadorSesion(String cadena, int contador) {
         SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(CONTADOR_ACEITE, String.valueOf(contador));
+        editor.putString(cadena, String.valueOf(contador));
         editor.commit();
     }
 
@@ -966,11 +1053,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         Mantenimiento m = new Mantenimiento();
         m.setFechaKilometraje(recuperarFechaSistema());
-        m.setGastos(consumo);
+        m.setGastos(consumo + " $");
         m.setObservaciones("Mantenimiento OK");
         m.setTipoMantenimiento(banderaKilometrake + " km.");
 
-        mantenimientos.add(m);
+        if (persona.getMantenimiento() != null) {
+            mantenimientos = persona.getMantenimiento(); //recuperó los mantenimientos de la bdd
+        }
+
+        mantenimientos.add(m); // se agregan el mantenimiento actual
+
         persona.setMantenimiento(mantenimientos);
     }
 

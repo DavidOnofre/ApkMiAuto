@@ -60,10 +60,16 @@ public class Constantes {
     public static final String NOTIFICACION = "Notificación";
     public static final String REALIZO_MANTENIMIENTO_RESPECTIVO = "Usted ya realizó el mantenimiento respectivo:";
     public static final String REVISAR_CONSUMIBLES = "Revise sus consumibles:";
-    public static final String INGRESE_CONSUMO = "Ingrese el consumo:";
+    public static final String INGRESE_CONSUMO = "Ingrese el consumo $:";
     public static final String ACEPTAR = "Aceptar";
     public static final String KILOMETRAJE_EN_CERO = "Kilometraje en cero";
+
     public static final String CONTADOR_ACEITE = "Contador_Aceite";
+    public static final String CONTADOR_GASOLINA = "Contador_Gasolina";
+    public static final String CONTADOR_LLANTAS = "Contador_Llantas";
+    public static final String CONTADOR_ELECTRICIDAD = "Contador_Electricidad";
+    public static final String CONTADOR_BATERIA = "Contador_Bateria";
+
     public static final String INGRESAR_UN_EMAIL = "Se debe ingresar un email";
     public static final String INGRESAR_UNA_PASSWORD = "Se debe ingresar una contraseña";
     public static final String REGISTRO_EN_LINEA = "Realizando registro en línea ...";
