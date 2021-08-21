@@ -86,6 +86,7 @@ public class Constantes {
     public static final String VERIFIQUE_CORREO = "Verifique su correo.";
 
     public static final String IDENTIFICACION_SESION = "ideSes";
+    public static final String KILOMETRAJE_INICIAL_SESION = "KilIniSes";
     public static final String KILOMETRAJE_SESION = "KilSes";
     public static final String NOMBRE_SESION = "nomSes";
     public static final String APELLIDO_SESION = "apeSes";

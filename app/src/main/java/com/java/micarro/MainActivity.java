@@ -42,6 +42,7 @@ import static com.java.micarro.Constantes.KILOMETRAJE_ACEITE_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_BATERIA_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_ELECTRICIDAD_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_GASOLINA_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_INICIAL_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_LLANTAS_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_SESION;
 import static com.java.micarro.Constantes.MARCA_SESION;
@@ -191,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.putString(PLACA_SESION, p.getAuto().get(0).getPlaca());
         editor.putString(MARCA_SESION, p.getAuto().get(0).getMarca());
         editor.putString(MODELO_SESION, p.getAuto().get(0).getModelo());
+        editor.putString(KILOMETRAJE_INICIAL_SESION, p.getAuto().get(0).getKilometrajeInicial());
         editor.putString(KILOMETRAJE_SESION, p.getAuto().get(0).getKilometraje());
         editor.putString(KILOMETRAJE_ACEITE_SESION, p.getAuto().get(0).getKilometrajeAceite());
         editor.putString(KILOMETRAJE_BATERIA_SESION, p.getAuto().get(0).getKilometrajeBateria());

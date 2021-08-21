@@ -20,6 +20,9 @@ import com.java.micarro.R;
 import com.java.micarro.model.Persona;
 
 import static com.java.micarro.Constantes.CONTADOR_ACEITE;
+import static com.java.micarro.Constantes.KILOMETRAJE_ACEITE_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_BATERIA_SESION;
+import static com.java.micarro.Constantes.KILOMETRAJE_LLANTAS_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_SESION;
 import static com.java.micarro.Constantes.KM;
 import static com.java.micarro.Constantes.SIGNO_PORCENTAJE;
@@ -158,16 +161,77 @@ public class SlideshowFragment extends Fragment {
     private int obtenerLimiteContador(int kilometraje, int banderaKilometraje) {
         int salida = 0;
 
-        salida = (kilometraje * 100) / banderaKilometraje;
 
-        //if (banderaKilometraje == 5000) {
-        //    int contador = obtenerContadorKilometraje(); //recupero contador aceite
 
-        //    if (contador > 0) {
-        //        salida = salida - (90 * contador);
-        //    }
+        if (banderaKilometraje == 5000) {
+            int contador = obtenerContadorKilometrajeAceite();
+            if (contador > 0) {
+                salida =  ((kilometraje-(contador*5000)) * 100) / banderaKilometraje;
+            }else {
+                salida = (kilometraje * 100) / banderaKilometraje;
+            }
+        }
 
-        //}
+        if (banderaKilometraje == 10000) {
+            int contador = obtenerContadorKilometrajeLlantas();
+            if (contador > 0) {
+                salida =  ((kilometraje-(contador*10000)) * 100) / banderaKilometraje;
+            }else {
+                salida = (kilometraje * 100) / banderaKilometraje;
+            }
+        }
+
+        if (banderaKilometraje == 15000) {
+            int contador = obtenerContadorKilometrajeBateria();
+            if (contador > 0) {
+                salida =  ((kilometraje-(contador*15000)) * 100) / banderaKilometraje;
+            }else {
+                salida = (kilometraje * 100) / banderaKilometraje;
+            }
+        }
+
+
+        if (banderaKilometraje == 20000) {
+            int contador = obtenerContadorKilometrajeAceite() - 4;
+            if (contador > 0) {
+                salida =  ((kilometraje-(contador*20000)) * 100) / banderaKilometraje;
+            }else {
+                salida = (kilometraje * 100) / banderaKilometraje;
+            }
+        }
+
+        if (banderaKilometraje == 30000) {
+            int contador = obtenerContadorKilometrajeAceite() - 6;
+            if (contador > 0) {
+                salida =  ((kilometraje-(contador*30000)) * 100) / banderaKilometraje;
+            }else {
+                salida = (kilometraje * 100) / banderaKilometraje;
+            }
+        }
+
+        if (banderaKilometraje == 55000) {
+            int contador = obtenerContadorKilometrajeAceite() - 11;
+            if (contador > 0) {
+                salida =  ((kilometraje-(contador*55000)) * 100) / banderaKilometraje;
+            }else {
+                salida = (kilometraje * 100) / banderaKilometraje;
+            }
+        }
+
+        if (banderaKilometraje == 60000) {
+            int contador = obtenerContadorKilometrajeAceite() - 12;
+            if (contador > 0) {
+            }else {
+                salida = (kilometraje * 100) / banderaKilometraje;
+            }
+        }
+
+
+
+
+
+
+
         return salida;
     }
 
@@ -220,8 +284,24 @@ public class SlideshowFragment extends Fragment {
      *
      * @return
      */
-    private int obtenerContadorKilometraje() {
-        String contador = comun.obtenerValorSesion(getActivity(), CONTADOR_ACEITE);
+    private int obtenerContadorKilometrajeAceite() {
+        String contador = comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACEITE_SESION);
+        if (contador == "") {
+            contador = "0";
+        }
+        return Integer.parseInt(contador);
+    }
+
+    private int obtenerContadorKilometrajeLlantas() {
+        String contador = comun.obtenerValorSesion(getActivity(), KILOMETRAJE_LLANTAS_SESION);
+        if (contador == "") {
+            contador = "0";
+        }
+        return Integer.parseInt(contador);
+    }
+
+    private int obtenerContadorKilometrajeBateria() {
+        String contador = comun.obtenerValorSesion(getActivity(), KILOMETRAJE_BATERIA_SESION);
         if (contador == "") {
             contador = "0";
         }

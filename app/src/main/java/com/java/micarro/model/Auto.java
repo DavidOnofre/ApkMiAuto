@@ -5,6 +5,7 @@ public class Auto {
     private String Placa;
     private String Marca;
     private String Modelo;
+    private String KilometrajeInicial;
     private String Kilometraje;
     private String KilometrajeAceite;
     private String KilometrajeBateria;
@@ -37,6 +38,14 @@ public class Auto {
 
     public void setModelo(String modelo) {
         Modelo = modelo;
+    }
+
+    public String getKilometrajeInicial() {
+        return KilometrajeInicial;
+    }
+
+    public void setKilometrajeInicial(String kilometrajeInicial) {
+        KilometrajeInicial = kilometrajeInicial;
     }
 
     public String getKilometraje() {

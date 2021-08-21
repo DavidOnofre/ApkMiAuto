@@ -16,7 +16,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_send.xml" value="0.2875" />
         <entry key="app/src/main/res/layout/fragment_share.xml" value="0.2875" />
-        <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_tools.xml" value="0.1" />
       </map>
     </option>

@@ -150,7 +150,9 @@ public class RegistrarUsuarioActivity extends AppCompatActivity implements View.
         auto.setPlaca(placa);
         auto.setModelo(modelo);
         auto.setMarca(marca);
-        auto.setKilometraje(kilometraje);
+        //auto.setKilometraje(kilometraje);
+        auto.setKilometrajeInicial(kilometraje);
+        auto.setKilometraje(CERO);
         auto.setKilometrajeAceite(CERO);
         auto.setKilometrajeBateria(CERO);
         auto.setKilometrajeElectricidad(CERO);

@@ -33,6 +33,7 @@ import static com.java.micarro.Constantes.KILOMETRAJE_ELECTRICIDAD_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_EN_CERO;
 import static com.java.micarro.Constantes.KILOMETRAJE_GASOLINA_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_INGRESADO_DEBE_SER_MAYOR_AL_REGISTRADO;
+import static com.java.micarro.Constantes.KILOMETRAJE_INICIAL_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_LLANTAS_SESION;
 import static com.java.micarro.Constantes.KILOMETRAJE_SESION;
 import static com.java.micarro.Constantes.LLANTAS;
@@ -256,6 +257,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int salida;
 
         if (banderaActualizarKilometraje.equals(NO)) {
+            //salida = Integer.parseInt(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_SESION));
             salida = Integer.parseInt(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_SESION));
 
             //kodi
@@ -272,6 +274,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             a.setPlaca(comun.obtenerValorSesion(getActivity(), PLACA_SESION));
             a.setMarca(comun.obtenerValorSesion(getActivity(), MARCA_SESION));
             a.setModelo(comun.obtenerValorSesion(getActivity(), MODELO_SESION));
+            a.setKilometrajeInicial(comun.obtenerValorSesion(getActivity(),KILOMETRAJE_INICIAL_SESION));
             a.setKilometraje(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_SESION));
             a.setKilometrajeAceite(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_ACEITE_SESION));
             a.setKilometrajeBateria(comun.obtenerValorSesion(getActivity(), KILOMETRAJE_BATERIA_SESION));
@@ -300,8 +303,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private int obtenerKilometrajeBaseDatos() {
         Auto auto = persona.getAuto().get(0);
         int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
-        int kilometrajeActualizado = kilometrajeActual;
-        return kilometrajeActualizado;
+        return kilometrajeActual;
     }
 
     /**
@@ -623,7 +625,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
 
         Auto auto = persona.getAuto().get(0);
-        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+        //int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+        int kilometrajeActual = Integer.parseInt(auto.getKilometrajeInicial());
 
         if (comun.esNumero(kilometrajeIngresado)) {
 
@@ -713,7 +716,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         textViewPlaca.setText(PLACA + per.getAuto().get(0).getPlaca());
                         textViewMarca.setText(MARCA + per.getAuto().get(0).getMarca());
                         textViewModelo.setText(MODELO + per.getAuto().get(0).getModelo());
-                        textViewKilometraje.setText(ULTIMO_KILOMETRAJE + per.getAuto().get(0).getKilometraje());
+                        //textViewKilometraje.setText(ULTIMO_KILOMETRAJE + per.getAuto().get(0).getKilometraje());
+                        textViewKilometraje.setText(ULTIMO_KILOMETRAJE + per.getAuto().get(0).getKilometrajeInicial());
                     }
                 }
             }
@@ -741,12 +745,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      *
      * @param kilometrajeActualizado
      */
-    private void grabarKilometrajeActualSesion(int kilometrajeActualizado, String recorrido) {
+    private void grabarKilometrajeActualSesion(int kilometrajeActualizado, String recorrido, Auto auto) {
         SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(KILOMETRAJE_SESION, String.valueOf(kilometrajeActualizado));
+
+        editor.putString(KILOMETRAJE_SESION, auto.getKilometraje());
+
         editor.putString(ACTUALIZAR_KILOMETRAJE, NO);
-        editor.putString(RECORRIDO, recorrido);
+        //editor.putString(RECORRIDO, recorrido);
+        editor.putString(RECORRIDO, auto.getKilometraje());
         editor.commit();
     }
 
@@ -914,12 +921,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void actualizarKilometraje(String kilometrajeIngresado) {
         Auto auto = persona.getAuto().get(0);
         int kilometrajeCajaTexto = Integer.parseInt(kilometrajeIngresado);
-        int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+        //int kilometrajeActual = Integer.parseInt(auto.getKilometraje());
+        int kilometrajeActual = Integer.parseInt(auto.getKilometrajeInicial());
+
         String recorrido = obtenerKilometrajeRecorrido(kilometrajeCajaTexto, kilometrajeActual);
 
-        mostrarRecorridoPantalla(recorrido);
-        grabarKilometrajeBaseDatos(kilometrajeIngresado, auto);
-        grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido);
+        mostrarRecorridoPantalla(recorrido, auto);
+
+
+        grabarKilometrajeBaseDatos(kilometrajeIngresado, auto, recorrido);
+        grabarKilometrajeActualSesion(kilometrajeCajaTexto, recorrido, auto);
         actualizarKilometrajeFrond(false);
         limpiarCajas();
     }
@@ -930,8 +941,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * @param kilometrajeIngresado
      * @param auto
      */
-    private void grabarKilometrajeBaseDatos(String kilometrajeIngresado, Auto auto) {
-        setearKilometraje(kilometrajeIngresado, auto);
+    private void grabarKilometrajeBaseDatos(String kilometrajeIngresado, Auto auto, String recorrido) {
+        setearKilometraje(kilometrajeIngresado, auto, recorrido);
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
     }
@@ -942,8 +953,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * @param kilometrajeIngresado
      * @param auto
      */
-    private void setearKilometraje(String kilometrajeIngresado, Auto auto) {
-        auto.setKilometraje(kilometrajeIngresado);
+    private void setearKilometraje(String kilometrajeIngresado, Auto auto, String recorrido) {
+        //auto.setKilometraje(kilometrajeIngresado);
+        auto.setKilometrajeInicial(kilometrajeIngresado);
+        int a = Integer.parseInt(auto.getKilometraje()) + Integer.parseInt(recorrido);
+        auto.setKilometraje(String.valueOf(a));
     }
 
     /**
@@ -951,8 +965,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      *
      * @param recorrido
      */
-    private void mostrarRecorridoPantalla(String recorrido) {
-        textViewRecorrido.setText(RECORRIDO_FROND + recorrido);
+    private void mostrarRecorridoPantalla(String recorrido, Auto auto) {
+        int a = Integer.parseInt(auto.getKilometraje()) + Integer.parseInt(recorrido);
+        //auto.setKilometraje(String.valueOf(a));
+
+        textViewRecorrido.setText(RECORRIDO_FROND + String.valueOf(a));
     }
 
     /**
@@ -982,10 +999,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         databaseReference.child(PERSONA).child(persona.getUid()).setValue(persona);
         Toast.makeText(getActivity().getApplicationContext(), ACTUALIZADO, Toast.LENGTH_SHORT).show();
 
-        grabarKilometrajeActualSesion(kilometrajeCajaTexto, kilometrajeIngresado);
+        grabarKilometrajeActualSesion(kilometrajeCajaTexto, kilometrajeIngresado, auto);
     }
 
     private void cargarContadoresConsumibles(Auto auto, String banderaKilometraje) {
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_LOGIN_DATA, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
 
         switch (Integer.parseInt(banderaKilometraje)) {
             case 5000:
@@ -995,12 +1015,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 contadorA = Integer.parseInt(auto.getKilometrajeAceite());
                 contadorA = contadorA + 1;
                 auto.setKilometrajeAceite(String.valueOf(contadorA));
-                grabarContadorSesion(CONTADOR_ACEITE, contadorA);
 
                 contadorG = Integer.parseInt(auto.getKilometrajeGasolina());
                 contadorG = contadorG + 1;
                 auto.setKilometrajeGasolina(String.valueOf(contadorG));
-                grabarContadorSesion(CONTADOR_GASOLINA, contadorG);
+
+
+                editor.putString(KILOMETRAJE_ACEITE_SESION, String.valueOf(contadorA));
+                editor.putString(KILOMETRAJE_GASOLINA_SESION, String.valueOf(contadorG));
+                editor.commit();
 
                 contadorAceite = contadorA;
                 contadorGasolina = contadorG;
@@ -1013,12 +1036,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 contadorL = Integer.parseInt(auto.getKilometrajeLlantas());
                 contadorL = contadorL + 1;
                 auto.setKilometrajeLlantas(String.valueOf(contadorL));
-                grabarContadorSesion(CONTADOR_LLANTAS, contadorL);
+
 
                 contadorE = Integer.parseInt(auto.getKilometrajeElectricidad());
                 contadorE = contadorE + 1;
                 auto.setKilometrajeElectricidad(String.valueOf(contadorE));
-                grabarContadorSesion(CONTADOR_ELECTRICIDAD, contadorE);
+
+
+
+                editor.putString(KILOMETRAJE_LLANTAS_SESION, String.valueOf(contadorL));
+                editor.putString(KILOMETRAJE_ELECTRICIDAD_SESION, String.valueOf(contadorE));
+                editor.commit();
 
                 contadorLlantas = contadorL;
                 contadorElectricidad = contadorE;
@@ -1029,7 +1057,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 contadorB = Integer.parseInt(auto.getKilometrajeBateria());
                 contadorB = contadorB + 1;
                 auto.setKilometrajeBateria(String.valueOf(contadorB));
-                grabarContadorSesion(CONTADOR_BATERIA, contadorB);
+
+                editor.putString(KILOMETRAJE_BATERIA_SESION, String.valueOf(contadorB));
+
+                editor.commit();
 
                 contadorBateria = contadorB;
                 break;

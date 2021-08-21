@@ -98,6 +98,7 @@ public class GalleryFragment extends Fragment {
                     a.setPlaca(placa);
                     a.setModelo(modelo);
                     a.setMarca(marca);
+                    a.setKilometrajeInicial(CERO);
                     a.setKilometraje(CERO);
                     a.setKilometrajeAceite(CERO);
                     a.setKilometrajeBateria(CERO);
@@ -124,6 +125,7 @@ public class GalleryFragment extends Fragment {
                 a.setPlaca(editTextPlaca.getText().toString().trim());
                 a.setMarca(editTextMarca.getText().toString().trim());
                 a.setModelo(editTextModelo.getText().toString().trim());
+                a.setKilometrajeInicial(autoSeleccionado.getKilometrajeInicial());
                 a.setKilometraje(autoSeleccionado.getKilometraje());
                 a.setKilometrajeAceite(autoSeleccionado.getKilometrajeAceite());
                 a.setKilometrajeBateria(autoSeleccionado.getKilometrajeBateria());
